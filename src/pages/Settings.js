@@ -1,1 +1,10 @@
-<h1>This is Settings! </h1>
+function Settings() {
+    return (
+      <>
+      Settings!
+      </>
+    );
+  }
+  
+  export default Settings;
+  

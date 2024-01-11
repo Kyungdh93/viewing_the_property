@@ -1,1 +1,9 @@
-<h1>This is Details! </h1>
+function Details() {
+  return (
+    <>
+    Details!
+    </>
+  );
+}
+
+export default Details;

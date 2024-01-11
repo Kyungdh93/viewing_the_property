@@ -123,14 +123,16 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem key='Settings' disablePadding onClick={test}>
-            <ListItemButton>
-              <ListItemIcon>
-                <SettingsIcon></SettingsIcon>
-              </ListItemIcon>
-              <ListItemText primary='Settings'/>
-            </ListItemButton>
-          </ListItem>
+          <Link to='/settings'>
+            <ListItem key='Settings' disablePadding onClick={test}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <SettingsIcon></SettingsIcon>
+                </ListItemIcon>
+                <ListItemText primary='Settings'/>
+              </ListItemButton>
+            </ListItem>
+          </Link>
         </List>
         <Divider />
         <List>
