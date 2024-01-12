@@ -98,9 +98,11 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography>
+          <Link to='/' style={{ textDecoration: "none", color: "white" }}>
+            <Typography variant="h6" noWrap component="div">
+              Persistent drawer
+            </Typography>
+          </Link>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -122,18 +124,18 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          <Link to='/settings'>
-            <ListItem key='Settings' disablePadding onClick={test}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <SettingsIcon></SettingsIcon>
-                </ListItemIcon>
-                <ListItemText primary='Settings'/>
-              </ListItemButton>
-            </ListItem>
-          </Link>
-        </List>
+        <Link to='/settings' style={{ textDecoration: "none", color: "black" }} onClick={handleDrawerClose}>
+          <List>
+              <ListItem key='Settings' disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <SettingsIcon></SettingsIcon>
+                  </ListItemIcon>
+                  <ListItemText primary='Settings'/>
+                </ListItemButton>
+              </ListItem>
+          </List>
+        </Link>
         <Divider />
         <List>
           {['Logout'].map((text, index) => (
