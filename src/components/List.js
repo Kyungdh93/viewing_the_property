@@ -13,13 +13,12 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 
-function generate(element) {
-  return [0, 1, 2].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
+const lists = [
+  {title : "테스트1", sub_title : 1, id : 0}, 
+  {title : "테스트2", sub_title : 2, id : 1},
+  {title : "테스트3", sub_title : 3, id : 2},
+  {title : "테스트4", sub_title : 4, id : 3}
+]
 
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -36,8 +35,8 @@ export default function InteractiveList() {
             Avatar with text and icon
           </Typography>
           <Demo>
-            {generate(
-              <Link to='/details'>
+            {lists.map((it)=>(
+              <Link to={`/details/${it.title}`} key={`${it.id}`}>
                 <ListItem
                   secondaryAction={
                     <IconButton edge="end" aria-label="delete" onClick={deleteItem}>
@@ -45,20 +44,43 @@ export default function InteractiveList() {
                     </IconButton>
                   }
                 >
-                    <ListItemButton>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <FolderIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Single-line item"
-                      secondary='Secondary text'
-                    />
-                    </ListItemButton>
+                  <ListItemButton>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary="Single-line item"
+                    secondary='Secondary text'
+                  />
+                  </ListItemButton>
                 </ListItem>,
               </Link>
-            )}
+            ))}
+            {/* {generate(
+              <Link to={`/details/${2}`}>
+                <ListItem
+                  secondaryAction={
+                    <IconButton edge="end" aria-label="delete" onClick={deleteItem}>
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                >
+                  <ListItemButton>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary="Single-line item"
+                    secondary='Secondary text'
+                  />
+                  </ListItemButton>
+                </ListItem>,
+              </Link>
+            )} */}
           </Demo>
     </Box>
   );

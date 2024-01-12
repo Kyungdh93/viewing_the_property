@@ -13,9 +13,8 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home></Home>} />
         <Route path="/settings" element={<Settings></Settings>} />
-        <Route path="/details" element={<Details></Details>} />
+        <Route path="/details/:item" element={<Details></Details>} />
       </Routes>
-      {/* <Home></Home> */}
     </>
   );
 }
