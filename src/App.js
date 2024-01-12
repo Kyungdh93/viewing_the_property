@@ -8,13 +8,13 @@ import Navbar from './components/Navbar';
 function App() {
   return (
     <>
+      <Navbar>
+      </Navbar>
       <Routes>
-        <Route exact path="/" element={Home} />
+        <Route exact path="/" element={<Home></Home>} />
         <Route path="/settings" element={<Settings></Settings>} />
         <Route path="/details" element={<Details></Details>} />
       </Routes>
-      <Navbar>
-      </Navbar>
       {/* <Home></Home> */}
     </>
   );
