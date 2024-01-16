@@ -1,13 +1,7 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
-import ListItemButton from '@mui/material/ListItemButton';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import BorderAllIcon from '@mui/icons-material/BorderAll';
@@ -27,10 +21,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import List from '../components/List';
 import Card from '../components/Card';
-
-const StyledLink = styled(Link)`
-	width: 1000px;
-`;
 
 const style = {
   position: 'absolute',
@@ -73,19 +63,23 @@ export default function Home() {
   const lists = useSelector((state) => state.datas);
   const search_data = useSelector((state) => state.search_data);
   const dispatch = useDispatch();
+  const [data_type, setType] = React.useState("list");
   const [open, setOpen] = React.useState(false);
   const [open_dialog, setOpenDialog] = React.useState([false, ""]);
   const [title, setTitle] = React.useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);  
   const handleOpenDialog = (id) => setOpenDialog([true, id]);
-  const handleCloseDialog = () => setOpenDialog(false);  
+  const handleCloseDialog = () => setOpenDialog([false, ""]);  
   const Test = () => {
     if (title === "") {
       document.getElementById('title').focus();
       return;
     }
-    dispatch(todoInsert(nextId.current, title, sub_title));
+
+    const nowDate = new Date();
+    const time = nowDate.YYYYMMDDHHMMSS();
+    dispatch(todoInsert(nextId.current, title, time));
     nextId.current += 1;
     handleClose();
   }
@@ -113,7 +107,7 @@ export default function Home() {
                   if (data_type === "list") {
                     return <List item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></List>
                   } else {
-                  return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>
+                    return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>
                   }
                 }
               })

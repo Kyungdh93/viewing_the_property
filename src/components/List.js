@@ -7,13 +7,13 @@ import IconButton from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
 import HomeIcon from '@mui/icons-material/Home';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Link } from 'react-router-dom';
-
-const StyledLink = styled(Link)`
-	width: 1000px;
-`;
+import { useNavigate } from 'react-router-dom';
 
 const List = ({ item, handleOpenDialog }) => {
+  const navigate = useNavigate();
+  const selectItem = () => {
+    navigate('/details/'+item.id);
+  }
 
   return (
     <ListItem
@@ -24,13 +24,12 @@ const List = ({ item, handleOpenDialog }) => {
       }
       style={{ border: "1px outset", borderRadius: "20px" }}
     >
-      <StyledLink to={`/details/${item.title}`}>
-        <ListItemButton>
-          <ListItemAvatar>
-            <HomeIcon color="primary" />
-          </ListItemAvatar>
+      <ListItemButton onClick={selectItem}>
+        <ListItemAvatar>
+          <HomeIcon color="primary" />
+        </ListItemAvatar>
         <ListItemText primary={item.title} secondary={item.time} />
-        </ListItemButton>
+      </ListItemButton>
     </ListItem>
   );
 }

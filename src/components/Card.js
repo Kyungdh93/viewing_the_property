@@ -6,20 +6,25 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Grid from '@mui/material/Grid';
-
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { CardActionArea, CardActions } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function MultiActionAreaCard({ item, handleOpenDialog }) {
+  const navigate = useNavigate();
+  const selectItem = () => {
+    navigate('/details/'+item.id);
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
         <Card sx={{ maxWidth: 345 }}>
-          <CardActionArea>
+          <CardActionArea onClick={selectItem}>
             <CardMedia
               component="img"
               height="140"
               image={require("../home.jpg")}
-              alt="green iguana"
+              alt="home"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
