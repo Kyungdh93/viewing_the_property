@@ -26,7 +26,7 @@ export default function MultiActionAreaCard({ item, handleOpenDialog }) {
                 {item.title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {item.sub_title}
+                {item.time}
               </Typography>
             </CardContent>
           </CardActionArea>

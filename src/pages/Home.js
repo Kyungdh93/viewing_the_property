@@ -49,6 +49,25 @@ const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
+Date.prototype.YYYYMMDDHHMMSS = function () {
+  var yyyy = this.getFullYear().toString();
+  var MM = pad(this.getMonth() + 1,2);
+  var dd = pad(this.getDate(), 2);
+  var hh = pad(this.getHours(), 2);
+  var mm = pad(this.getMinutes(), 2)
+  var ss = pad(this.getSeconds(), 2)
+
+  return yyyy + "-" + MM + "-" + dd + " " + hh + ":" + mm + ":" + ss;
+};
+
+function pad(number, length) {
+  var str = '' + number;
+  while (str.length < length) {
+    str = '0' + str;
+  }
+  return str;
+}
+
 export default function Home() {
   let nextId = React.useRef(100);
   const inputRef = React.useRef(null);
@@ -58,7 +77,6 @@ export default function Home() {
   const [open, setOpen] = React.useState(false);
   const [open_dialog, setOpenDialog] = React.useState([false, ""]);
   const [title, setTitle] = React.useState("");
-  const [sub_title, setSubTitle] = React.useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);  
   const handleOpenDialog = (id) => setOpenDialog([true, id]);
@@ -110,8 +128,6 @@ export default function Home() {
               </Typography>
               <br></br>
               <TextField autoFocus required ref={inputRef} id="title" label="title" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
-              <br></br>
-              <TextField id="sub_title" label="sub_title" variant="standard" onBlur={(e) => setSubTitle(e.target.value)} />
               <br></br>
               <br></br>
               <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="contained" onClick={Test}>

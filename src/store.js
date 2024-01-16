@@ -16,13 +16,13 @@ export const todoTest = (text) => {
   };
 };
 
-export const todoInsert = (id, title, sub_title) => {
+export const todoInsert = (id, title, time) => {
   return {
     type: TODO_INSERT,
     payload: {
       id: id,
       title: title,
-      sub_title: sub_title,
+      time: time,
     },
   };
 };
@@ -68,7 +68,7 @@ export default createStore(function(state = initState, { type, payload }){
         datas: state.datas.concat({
           id: payload.id,
           title: payload.title,
-          sub_title: payload.sub_title
+          time: payload.time
         }),
       };
     case TODO_REMOVE:

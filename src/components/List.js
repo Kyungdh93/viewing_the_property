@@ -29,9 +29,8 @@ const List = ({ item, handleOpenDialog }) => {
           <ListItemAvatar>
             <HomeIcon color="primary" />
           </ListItemAvatar>
-          <ListItemText primary={item.title} secondary={item.sub_title} />
+        <ListItemText primary={item.title} secondary={item.time} />
         </ListItemButton>
-      </StyledLink>
     </ListItem>
   );
 }
