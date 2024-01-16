@@ -24,6 +24,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { Link } from 'react-router-dom';
 
+import { todoTest } from '../store';
+import { useDispatch } from 'react-redux';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -97,8 +100,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+  const test = (e) => {
+    dispatch(todoTest(e.target.value));
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -139,6 +147,7 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onKeyUp={test}
             />
           </Search>
         </Toolbar>
@@ -190,7 +199,7 @@ export default function SearchAppBar() {
         </List>
       </Drawer>
       <Main open={open}>
-        <DrawerHeader />
+        {/* <DrawerHeader /> */}
       </Main>
     </Box>
   );

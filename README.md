@@ -3,6 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 npm install @mui/material @emotion/react @emotion/styled
+npm install --save react-redux
 
 # How to start
 ```

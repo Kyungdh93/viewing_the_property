@@ -15,10 +15,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import Modal from '@mui/material/Modal';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+
+import { todoInsert } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
 
 const style = {
   position: 'absolute',
@@ -32,22 +32,33 @@ const style = {
   p: 4,
 };
 
-const lists = [
-  {title : "테스트1", sub_title : 1, id : 0}, 
-  {title : "테스트2", sub_title : 2, id : 1},
-  {title : "테스트3", sub_title : 3, id : 2},
-  {title : "테스트4", sub_title : 4, id : 3}
-]
-// const lists = []
-
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
 export default function InteractiveList() {
+  let nextId = React.useRef(100);
+  const inputRef = React.useRef(null);
+  const lists = useSelector((state) => state.datas);
+  const search_data = useSelector((state) => state.search_data);
+  console.log("lists = ", lists)
+  console.log("search_data = ", search_data)
+
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const [sub_title, setSubTitle] = React.useState("");
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false);  
+  const Test = () => {
+    if (title === "") {
+      document.getElementById('title').focus();
+      return;
+    }
+    dispatch(todoInsert(nextId.current, title, sub_title));
+    nextId.current += 1;
+    handleClose();
+  }
 
   const deleteItem = () => {
     console.log("Delete!");
@@ -55,62 +66,40 @@ export default function InteractiveList() {
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-      <Button fullWidth="true" size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<AddIcon />} onClick={handleOpen}>
+      <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<AddIcon />} onClick={handleOpen}>
         추가하기
       </Button>
       <Demo>
         { lists.length !== 0 ? (
-          lists.map((it)=>(
-            <Link to={`/details/${it.title}`} key={`${it.id}`}>
-              <ListItem
-                secondaryAction={
-                  <IconButton edge="end" aria-label="delete" onClick={deleteItem}>
-                    <DeleteIcon />
-                  </IconButton>
-                }
-              >
-                <ListItemButton>
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={it.title}
-                  secondary={it.sub_title}
-                />
-                </ListItemButton>
-              </ListItem>,
-            </Link>
-          ))
+          lists.map((item)=>{
+            if (item.title.includes(search_data))
+              return <Link to={`/details/${item.title}`} key={`${item.id}`}>
+                <ListItem
+                  secondaryAction={
+                    <IconButton edge="end" aria-label="delete" onClick={deleteItem}>
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                >
+                  <ListItemButton>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={item.title}
+                    secondary={item.sub_title}
+                  />
+                  </ListItemButton>
+                </ListItem>,
+              </Link>
+          })
         ) : (
           <h2>텅</h2>
         )}
-        {/* {generate(
-          <Link to={`/details/${2}`}>
-            <ListItem
-              secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={deleteItem}>
-                  <DeleteIcon />
-                </IconButton>
-              }
-            >
-              <ListItemButton>
-              <ListItemAvatar>
-                <Avatar>
-                  <FolderIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Single-line item"
-                secondary='Secondary text'
-              />
-              </ListItemButton>
-            </ListItem>,
-          </Link>
-        )} */}
       </Demo>
-        <Modal
+      <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -120,18 +109,18 @@ export default function InteractiveList() {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             제목!
           </Typography>
-          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-            <FormLabel id="demo-form-control-label-placement">세대수</FormLabel>
-            <OutlinedInput
-              id="outlined-adornment-weight"
-              endAdornment={<InputAdornment position="end">세대</InputAdornment>}
-              aria-describedby="outlined-weight-helper-text"
-              inputProps={{
-                'aria-label': 'weight',
-              }}
-              placeholder="ex) 500"
-            />
-          </FormControl>
+          <br></br>
+          <TextField autoFocus required ref={inputRef} id="title" label="title" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
+          <br></br>
+          <TextField id="sub_title" label="sub_title" variant="standard" onBlur={(e) => setSubTitle(e.target.value)} />
+          <br></br>
+          <br></br>
+          <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="outlined" onClick={Test}>
+            확인
+          </Button>
+          <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="error" variant="outlined" onClick={handleClose}>
+            취소
+          </Button>
         </Box>
       </Modal>
     </Box>
