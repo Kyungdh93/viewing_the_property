@@ -9,11 +9,10 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import ListItemButton from '@mui/material/ListItemButton';
 import Typography from '@mui/material/Typography';
-import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
+import BorderAllIcon from '@mui/icons-material/BorderAll';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 
@@ -105,12 +104,18 @@ export default function Home() {
           <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
             추가하기
           </Button>
+          <ListAltIcon style={{ cursor: "pointer", fontSize: "40px" }} onClick={()=>setType("list")}></ListAltIcon>
+          <BorderAllIcon style={{ cursor: "pointer", fontSize: "40px" }} onClick={()=>setType("card")}></BorderAllIcon>
           <Demo>
             { lists.length !== 0 ? (
               lists.map((item)=>{
-                if (item.title.includes(search_data))
-                  // return <List item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></List>
+                if (item.title.includes(search_data)) {
+                  if (data_type === "list") {
+                    return <List item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></List>
+                  } else {
                   return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>
+                  }
+                }
               })
             ) : (
               <h2>텅</h2>
