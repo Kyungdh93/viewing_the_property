@@ -16,11 +16,18 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 function Details() {
   const { item } = useParams();
   const [expanded, setExpanded] = React.useState('panel1');
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
+  };
+  const lists = useSelector((state) => state.datas);
+  for(const key in lists){
+    console.log(key);
+    console.log(lists[key]["sub_title"]);
   };
 
   return (
