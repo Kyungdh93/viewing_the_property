@@ -19,7 +19,7 @@ const List = ({ item, handleOpenDialog }) => {
     <ListItem
       secondaryAction={
         <IconButton edge="end" aria-label="delete" onClick={()=>handleOpenDialog(item.id)}>
-          <DeleteIcon />
+          <DeleteIcon color="primary" />
         </IconButton>
       }
       style={{ border: "1px outset", borderRadius: "20px" }}
