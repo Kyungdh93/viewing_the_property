@@ -63,6 +63,7 @@ export default function Home() {
   const lists = useSelector((state) => state.datas);
   const search_data = useSelector((state) => state.search_data);
   const dispatch = useDispatch();
+  const [count, setCount] = React.useState({current: 1, total: 5});
   const [data_type, setType] = React.useState("list");
   const [open, setOpen] = React.useState(false);
   const [open_dialog, setOpenDialog] = React.useState([false, ""]);
@@ -89,6 +90,20 @@ export default function Home() {
     handleCloseDialog();
   }
 
+  const showMore = () => {
+    setCount({
+      ...count,
+      total: count.total+5,
+    });
+  }
+
+  const foldList = () => {
+    setCount({
+      ...count,
+      total: 5,
+    });
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
@@ -102,12 +117,20 @@ export default function Home() {
           <BorderAllIcon style={{ cursor: "pointer", fontSize: "40px" }} onClick={()=>setType("card")}></BorderAllIcon>
           <Demo>
             { lists.length !== 0 ? (
-              lists.map((item)=>{
+              lists.map((item, index)=>{
                 if (item.title.includes(search_data)) {
                   if (data_type === "list") {
+                    if (index >= count.total) {
+                      return;
+                    } else {
                     return <List item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></List>
+                    }
+                  } else {
+                    if (index >= Math.ceil(count.total/2)) {
+                      return;
                   } else {
                     return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>
+                    }
                   }
                 }
               })
@@ -115,6 +138,16 @@ export default function Home() {
               <h2>텅</h2>
             )}
           </Demo>
+          <br></br>
+          { lists.length > count.total ? (
+            <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" onClick={showMore}>
+              더보기
+            </Button>
+          ) : (
+            <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" onClick={foldList}>
+              접기
+            </Button>
+          )}
           <Modal
             open={open}
             onClose={handleClose}
