@@ -24,11 +24,9 @@ function Details() {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
-const lists = useSelector((state) => state.datas);
-  for(const key in lists){
-    console.log(key);
-    console.log(lists[key]["sub_title"]);
-  };
+
+  const lists = useSelector((state) => state.datas);
+  const json_data = lists[item];
 
   return (
     <>
@@ -36,7 +34,7 @@ const lists = useSelector((state) => state.datas);
       <Grid item xs></Grid>
       <Grid item xs={6}>
         <Typography sx={{ mt: 4, mb: 2 }} variant="h3" component="div">
-          {item}
+          {json_data["title"]}
         </Typography>
         
         <Accordion defaultExpanded>

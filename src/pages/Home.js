@@ -63,13 +63,13 @@ export default function Home() {
   const lists = useSelector((state) => state.datas);
   const search_data = useSelector((state) => state.search_data);
   const dispatch = useDispatch();
+  const [title, setTitle] = React.useState("");
   const [count, setCount] = React.useState({current: 1, total: 5});
   const [data_type, setType] = React.useState("list");
-  const [open, setOpen] = React.useState(false);
+  const [open_modal, setOpenModal] = React.useState(false);
   const [open_dialog, setOpenDialog] = React.useState([false, ""]);
-  const [title, setTitle] = React.useState("");
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);  
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);  
   const handleOpenDialog = (id) => setOpenDialog([true, id]);
   const handleCloseDialog = () => setOpenDialog([false, ""]);  
   const Test = () => {
@@ -123,13 +123,13 @@ export default function Home() {
                     if (index >= count.total) {
                       return;
                     } else {
-                    return <List item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></List>
+                      return <List item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></List>
                     }
                   } else {
                     if (index >= Math.ceil(count.total/2)) {
                       return;
-                  } else {
-                    return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>
+                    } else {
+                      return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>
                     }
                   }
                 }
@@ -149,7 +149,7 @@ export default function Home() {
             </Button>
           )}
           <Modal
-            open={open}
+            open={open_modal}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
