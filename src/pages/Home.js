@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import BorderAllIcon from '@mui/icons-material/BorderAll';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
@@ -58,13 +60,17 @@ function pad(number, length) {
 }
 
 export default function Home() {
+  let showCount = 0;
+  let totalCount = 0;
+  const maxCount = 5;
+
   let nextId = React.useRef(100);
   const inputRef = React.useRef(null);
   const lists = useSelector((state) => state.datas);
   const search_data = useSelector((state) => state.search_data);
   const dispatch = useDispatch();
   const [title, setTitle] = React.useState("");
-  const [count, setCount] = React.useState({current: 1, total: 5});
+  const [count, setCount] = React.useState({current: 1, total: maxCount});
   const [data_type, setType] = React.useState("list");
   const [open_modal, setOpenModal] = React.useState(false);
   const [open_dialog, setOpenDialog] = React.useState([false, ""]);
@@ -93,14 +99,14 @@ export default function Home() {
   const showMore = () => {
     setCount({
       ...count,
-      total: count.total+5,
+      total: count.total + maxCount,
     });
   }
 
   const foldList = () => {
     setCount({
       ...count,
-      total: 5,
+      total: maxCount,
     });
   }
 
@@ -117,20 +123,15 @@ export default function Home() {
           <BorderAllIcon style={{ cursor: "pointer", fontSize: "40px" }} onClick={()=>setType("card")}></BorderAllIcon>
           <Demo>
             { lists.length !== 0 ? (
-              lists.map((item, index)=>{
+              lists.map((item)=>{
                 if (item.title.includes(search_data)) {
+                  showCount += 1;
+                  if (showCount > count.total) return;
+                  totalCount += 1;
                   if (data_type === "list") {
-                    if (index >= count.total) {
-                      return;
-                    } else {
-                      return <List item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></List>
-                    }
+                    return <List item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></List>
                   } else {
-                    if (index >= Math.ceil(count.total/2)) {
-                      return;
-                    } else {
-                      return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>
-                    }
+                    return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>
                   }
                 }
               })
@@ -139,41 +140,45 @@ export default function Home() {
             )}
           </Demo>
           <br></br>
-          { lists.length > count.total ? (
-            <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" onClick={showMore}>
-              더보기
+          { showCount > count.total ? (
+            <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>
+              더보기 ({totalCount}/{showCount})
+            </Button>
+          ) : lists.length > maxCount ? (
+            <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandLessIcon />} onClick={foldList}>
+              접기 ({totalCount}/{totalCount})
             </Button>
           ) : (
-            <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" onClick={foldList}>
-              접기
-            </Button>
+            <></>
           )}
-          <Modal
-            open={open_modal}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                제목!
-              </Typography>
-              <br></br>
-              <TextField autoFocus required ref={inputRef} id="title" label="title" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
-              <br></br>
-              <br></br>
-              <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="contained" onClick={Test}>
-                확인
-              </Button>
-              <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="outlined" onClick={handleClose}>
-                취소
-              </Button>
-            </Box>
-          </Modal>
         </Grid>
         <Grid item xs>
         </Grid>
       </Grid>
+
+      <Modal
+        open={open_modal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            제목!
+          </Typography>
+          <br></br>
+          <TextField autoFocus required ref={inputRef} id="title" label="title" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
+          <br></br>
+          <br></br>
+          <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="contained" onClick={Test}>
+            확인
+          </Button>
+          <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="outlined" onClick={handleClose}>
+            취소
+          </Button>
+        </Box>
+      </Modal>
+
       <Dialog
         open={open_dialog[0]}
         onClose={handleCloseDialog}
