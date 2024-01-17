@@ -121,7 +121,7 @@ export default function Home() {
           </Button>
           <ListAltIcon style={{ cursor: "pointer", fontSize: "40px" }} onClick={()=>setType("list")}></ListAltIcon>
           <BorderAllIcon style={{ cursor: "pointer", fontSize: "40px" }} onClick={()=>setType("card")}></BorderAllIcon>
-          <Demo>
+          <Demo className='abc' style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", overflow: "hidden" }}>
             { lists.length !== 0 ? (
               lists.map((item)=>{
                 if (item.title.includes(search_data)) {

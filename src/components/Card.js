@@ -16,35 +16,28 @@ export default function MultiActionAreaCard({ item, handleOpenDialog }) {
   }
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={6}>
-        <Card sx={{ maxWidth: 345 }}>
-          <CardActionArea onClick={selectItem}>
-            <CardMedia
-              component="img"
-              height="140"
-              image={require("../home.jpg")}
-              alt="home"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {item.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {item.time}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <IconButton edge="end" aria-label="delete" onClick={()=>handleOpenDialog(item.id)}>
-              <DeleteIcon />
-            </IconButton>
-          </CardActions>
-        </Card>
-      </Grid>
-      <Grid item xs={6}>
-        kdh
-      </Grid>
-    </Grid>
+    <Card style={{ width: "33%" }} sx={{ maxWidth: 500 }}>
+      <CardActionArea onClick={selectItem}>
+        <CardMedia
+          component="img"
+          height="140"
+          image={require("../home.jpg")}
+          alt="home"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {item.title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {item.time}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions style={{ display: "grid" }}>
+        <IconButton edge="end" aria-label="delete" onClick={()=>handleOpenDialog(item.id)}>
+          <DeleteIcon color="primary"/>
+        </IconButton>
+      </CardActions>
+    </Card>
   );
 }
