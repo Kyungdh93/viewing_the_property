@@ -62,15 +62,15 @@ function pad(number, length) {
 export default function Home() {
   let showCount = 0;
   let totalCount = 0;
-  const maxCount = 5;
 
   let nextId = React.useRef(100);
   const inputRef = React.useRef(null);
   const lists = useSelector((state) => state.datas);
+  const max_count = useSelector((state) => state.maxCount);
   const search_data = useSelector((state) => state.search_data);
   const dispatch = useDispatch();
   const [title, setTitle] = React.useState("");
-  const [count, setCount] = React.useState({current: 1, total: maxCount});
+  const [count, setCount] = React.useState({current: 1, total: max_count});
   const [data_type, setType] = React.useState("list");
   const [open_modal, setOpenModal] = React.useState(false);
   const [open_dialog, setOpenDialog] = React.useState([false, ""]);
@@ -99,14 +99,14 @@ export default function Home() {
   const showMore = () => {
     setCount({
       ...count,
-      total: count.total + maxCount,
+      total: count.total + max_count,
     });
   }
 
   const foldList = () => {
     setCount({
       ...count,
-      total: maxCount,
+      total: max_count,
     });
   }
 
@@ -133,6 +133,8 @@ export default function Home() {
                   } else {
                     return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>
                   }
+                } else {
+                  console.log("ELSE");
                 }
               })
             ) : (
@@ -144,7 +146,7 @@ export default function Home() {
             <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>
               더보기 ({totalCount}/{showCount})
             </Button>
-          ) : lists.length > maxCount ? (
+          ) : lists.length > max_count ? (
             <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandLessIcon />} onClick={foldList}>
               접기 ({totalCount}/{totalCount})
             </Button>

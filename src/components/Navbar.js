@@ -25,8 +25,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { Link } from 'react-router-dom';
 
-import { todoTest } from '../store';
-import { useDispatch } from 'react-redux';
+import { todoTest, login } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAuth, signOut } from 'firebase/auth';
+import { auth } from '../firebase-config';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -101,9 +104,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  let navigate = useNavigate();
+  const user_data = useSelector((state) => state.user_data);
   const dispatch = useDispatch();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+  const onLogOutClick = () => {
+    signOut(auth);
+    dispatch(login(null));
+    navigate('/');
+  };
 
   const test = (e) => {
     dispatch(todoTest(e.target.value));
@@ -168,7 +179,7 @@ export default function SearchAppBar() {
       >
         <DrawerHeader>
           <Avatar></Avatar>
-          <Typography>Hello {}! </Typography>
+          <Typography>Hello {user_data.displayName}! </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
@@ -187,7 +198,7 @@ export default function SearchAppBar() {
           </List>
         </Link>
         <Divider />
-        <List>
+        <List onClick={onLogOutClick}>
           {['Logout'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>

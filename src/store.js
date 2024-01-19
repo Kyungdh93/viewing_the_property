@@ -2,16 +2,36 @@ import { legacy_createStore as createStore } from 'redux';
 import jsonData from './data.json';
 
 const TEST = "SEARCH/TEST";
+const LOGIN = "LOGIN/ACCOUNT";
+const MAX_COUNT = "SET/MAXCOUNT";
 const TODO_INSERT = "TODO/INSERT";
 const TODO_REMOVE = "TODO/REMOVE";
 const TODO_UPDATE = "TODO/UPDATE";
 const TODO_TOGGLE = "TODO/TOGGLE";
+
+export const login = (user_data) => {
+  return {
+    type: LOGIN,
+    payload: {
+      user_data: user_data
+    }
+  };
+};
 
 export const todoTest = (text) => {
   return {
     type: TEST,
     payload: {
       text: text
+    }
+  };
+};
+
+export const setMaxCount = (maxCount) => {
+  return {
+    type: MAX_COUNT,
+    payload: {
+      maxCount: maxCount
     }
   };
 };
@@ -48,15 +68,27 @@ export const todoToggle = (id) => {
   };
 };
 
-jsonData.search_data = ""
-const initState = jsonData
+jsonData.user_data = null;
+jsonData.maxCount = 5;
+jsonData.search_data = "";
+const initState = jsonData;
 
 export default createStore(function(state = initState, { type, payload }){
-  console.log('state = ', state)
-  console.log('type = ', type)
-  console.log('payload = ', payload)
+  // console.log('state = ', state)
+  // console.log('type = ', type)
+  // console.log('payload = ', payload)
 
   switch (type) {
+    case LOGIN:
+      return {
+        ...state,
+        user_data:payload.user_data
+      };
+    case MAX_COUNT:
+      return {
+        ...state,
+        maxCount:payload.maxCount
+      };
     case TEST:
       return {
         ...state,
