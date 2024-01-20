@@ -40,7 +40,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { WindowSharp } from '@mui/icons-material';
 
 import Table1 from '../components/Table';
-import Dialog from '../components/Dialog';
 
 function Details() {
   const [age, setAge] = React.useState('');
@@ -326,7 +325,6 @@ function Details() {
           네이버 부동산 열기
         </Button>
 
-        <Dialog></Dialog>
       </Grid>
         <Grid item xs></Grid>
     </Grid>
