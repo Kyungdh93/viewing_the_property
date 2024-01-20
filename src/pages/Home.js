@@ -4,8 +4,17 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
+
 import BorderAllIcon from '@mui/icons-material/BorderAll';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import ListAltTwoToneIcon from '@mui/icons-material/ListAltTwoTone';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Button from '@mui/material/Button';
@@ -67,11 +76,12 @@ export default function Home() {
   const inputRef = React.useRef(null);
   const lists = useSelector((state) => state.datas);
   const max_count = useSelector((state) => state.maxCount);
-  const search_data = useSelector((state) => state.search_data);
+  // const search_data = useSelector((state) => state.search_data);
   const dispatch = useDispatch();
   const [title, setTitle] = React.useState("");
+  const [searchData, setSearchData] = React.useState("");
   const [count, setCount] = React.useState({current: 1, total: max_count});
-  const [data_type, setType] = React.useState("list");
+  const [dataType, setType] = React.useState("list");
   const [open_modal, setOpenModal] = React.useState(false);
   const [open_dialog, setOpenDialog] = React.useState([false, ""]);
   const handleOpen = () => setOpenModal(true);
@@ -119,16 +129,37 @@ export default function Home() {
           <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
             추가하기
           </Button>
-          <ListAltIcon style={{ cursor: "pointer", fontSize: "40px" }} onClick={()=>setType("list")}></ListAltIcon>
-          <BorderAllIcon style={{ cursor: "pointer", fontSize: "40px" }} onClick={()=>setType("card")}></BorderAllIcon>
+          <br></br>
+          <Paper
+            component="form"
+            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 450, borderRadius: "20px" }}
+          >
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Search..."
+              inputProps={{ 'aria-label': 'search google maps' }}
+              onKeyUp={(e) => setSearchData(e.target.value)}
+            />
+            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+            <IconButton sx={{ p: '10px' }} aria-label="menu">
+              {
+                dataType === "list" ? (
+                  <BorderAllIcon style={{ cursor: "pointer" }} onClick={()=>setType("card")}></BorderAllIcon>
+                  ) : (
+                  <ListAltIcon style={{ cursor: "pointer" }} onClick={()=>setType("list")}></ListAltIcon>
+                )
+              }
+            </IconButton>
+          </Paper>
+          <br></br>
           <Demo className='abc' style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", overflow: "hidden" }}>
             { lists.length !== 0 ? (
               lists.map((item)=>{
-                if (item.title.includes(search_data)) {
+                if (item.title.includes(searchData)) {
                   showCount += 1;
                   if (showCount > count.total) return;
                   totalCount += 1;
-                  if (data_type === "list") {
+                  if (dataType === "list") {
                     return <List item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></List>
                   } else {
                     return <Card item={item} handleOpenDialog={handleOpenDialog} key={`${item.id}`}></Card>

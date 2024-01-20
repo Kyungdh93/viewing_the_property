@@ -152,16 +152,6 @@ export default function SearchAppBar() {
             BDS
           </Link>
             </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              onKeyUp={test}
-            />
-          </Search>
         </Toolbar>
       </AppBar>
       <Drawer
