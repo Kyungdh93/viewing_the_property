@@ -17,6 +17,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
 
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
@@ -39,15 +40,13 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
 import { WindowSharp } from '@mui/icons-material';
 
-import Table1 from '../components/Table';
+// import Table1 from '../components/Table';
 
 function Details() {
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
+  const [address, setAddress] = React.useState("");
+  const [parking, setParking] = React.useState(0);
+  const [households, setHouseholds] = React.useState(0);
+  
   const { item } = useParams();
   const [expanded, setExpanded] = React.useState('panel1');
   // const handleChange = (panel) => (event, newExpanded) => {
@@ -56,7 +55,7 @@ function Details() {
 
   const lists = useSelector((state) => state.datas);
   const json_data = lists.find(e => e.id === Number(item));
-
+  console.log(json_data)
   return (
     // <>
     //   <Table1></Table1>
@@ -106,10 +105,14 @@ function Details() {
             key={0}
             disableGutters
             secondaryAction={
-              <OutlinedInput
-                style={{ borderRadius: "20px" }}
-                size='small'
-              />              
+              <Tooltip title={address} placement="top">
+                  <OutlinedInput
+                    value={address}
+                    style={{ borderRadius: "20px" }}
+                    size='small'
+                    onChange={(e)=>setAddress(e.target.value)}
+                  />              
+                </Tooltip>
               }
           >
             <ListItemText primary={`주소`} />
@@ -134,10 +137,12 @@ function Details() {
             disableGutters
             secondaryAction={
               <OutlinedInput
+                value={households}
                 inputProps={{ style: { textAlign: "right" } }}
                 style={{ borderRadius: "20px", width: "200px" }}
                 size='small'
                 endAdornment={<InputAdornment position="end">세대</InputAdornment>}
+                onChange={(e)=>setHouseholds(e.target.value)}
               />              
               }
           >
@@ -148,11 +153,13 @@ function Details() {
             disableGutters
             secondaryAction={
               <OutlinedInput
+                value={parking}
                 inputProps={{ style: { textAlign: "right" } }}
                 style={{ borderRadius: "20px", width: "200px" }}
                 size='small'
-                startAdornment={<InputAdornment position="start">세대당 1.02대</InputAdornment>}
+                startAdornment={<InputAdornment position="start">세대당 {parking/households}대</InputAdornment>}
                 endAdornment={<InputAdornment position="end">대</InputAdornment>}
+                onChange={(e) => setParking(e.target.value)}
               />              
               }
           >
