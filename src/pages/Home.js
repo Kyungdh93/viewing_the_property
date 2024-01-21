@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
+import Tooltip from '@mui/material/Tooltip';
 
 import BorderAllIcon from '@mui/icons-material/BorderAll';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -144,9 +145,13 @@ export default function Home() {
             <IconButton sx={{ p: '10px' }} aria-label="menu">
               {
                 dataType === "list" ? (
-                  <BorderAllIcon style={{ cursor: "pointer" }} onClick={()=>setType("card")}></BorderAllIcon>
+                  <Tooltip title="카드형 목록 보기" placement="bottom">
+                    <BorderAllIcon style={{ cursor: "pointer" }} onClick={()=>setType("card")}></BorderAllIcon>
+                  </Tooltip>
                   ) : (
-                  <ListAltIcon style={{ cursor: "pointer" }} onClick={()=>setType("list")}></ListAltIcon>
+                  <Tooltip title="리스트형 목록 보기" placement="bottom">
+                    <ListAltIcon style={{ cursor: "pointer" }} onClick={()=>setType("list")}></ListAltIcon>
+                  </Tooltip>
                 )
               }
             </IconButton>
