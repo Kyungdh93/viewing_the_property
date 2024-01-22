@@ -21,11 +21,10 @@ const firebaseCreate = (id, title, time, info) => {
   });
 };
 
-const firebaseUpdate = (id, content) => {
-  let info = {'info': content};
-  update(ref(db, (FIREBASE_DB_PATH + id)),
+const firebaseUpdate = (id, info) => {
+  update(ref(db, (FIREBASE_DB_PATH + id)), {
     info
-  );
+  });
 };
 
 const firebaseDelete = (id) => {
@@ -116,9 +115,9 @@ export const todoToggle = (id) => {
 const initState = {"user_data":"", "datas":{}};
 
 export default createStore(function(state = initState, { type, payload }){
-  console.log('state = ', state)
-  console.log('type = ', type)
-  console.log('payload = ', payload)
+  // console.log('state = ', state);
+  // console.log('type = ', type);
+  // console.log('payload = ', payload);
 
   switch (type) {
     case DATA_GET:
@@ -151,13 +150,14 @@ export default createStore(function(state = initState, { type, payload }){
       };
     case TODO_UPDATE:
       const payload_id = payload.id;
-      const key = Object.keys(payload.info)[0];
-      const value = payload.info[Object.keys(payload.info)[0]];
-      let origin_info = {...state.datas[payload_id].info, [key]:value};
-      let origin_info2 = {...state.datas[payload_id], info:origin_info};
+      let infoData = {...state.datas[payload_id].info};
+      Object.keys(payload.info).map((key) =>
+        infoData = {...infoData, [key]:payload.info[key]}
+      );
+      let itemData = {...state.datas[payload_id], info:infoData};
       return {
         ...state,
-        datas: {...state.datas, [payload_id]:origin_info2}
+        datas: {...state.datas, [payload_id]:itemData}
       };
       // return {
       //   ...state,
