@@ -1,8 +1,10 @@
 import { legacy_createStore as createStore } from 'redux';
-import jsonData from './data.json';
+// import jsonData from './data.json';
+import { ref, child, get } from "firebase/database";
+import { db } from "./firebase-config";
 
-const TEST = "SEARCH/TEST";
 const LOGIN = "LOGIN/ACCOUNT";
+const DATA_GET = "DATA/GET";
 const MAX_COUNT = "SET/MAXCOUNT";
 const TODO_INSERT = "TODO/INSERT";
 const TODO_REMOVE = "TODO/REMOVE";
@@ -18,11 +20,11 @@ export const login = (user_data) => {
   };
 };
 
-export const todoTest = (text) => {
+export const getAllData = (datas) => {
   return {
-    type: TEST,
+    type: DATA_GET,
     payload: {
-      text: text
+      datas: datas
     }
   };
 };
@@ -68,17 +70,24 @@ export const todoToggle = (id) => {
   };
 };
 
-jsonData.user_data = null;
-jsonData.maxCount = 5;
-jsonData.search_data = "";
-const initState = jsonData;
+// jsonData["user_data"] = null;
 
-export default createStore(function(state = initState, { type, payload }){
-  // console.log('state = ', state)
-  // console.log('type = ', type)
-  // console.log('payload = ', payload)
+// jsonData.maxCount = 5;
+// const initState = jsonData;
+
+// export default createStore(function(state = initState, { type, payload }){
+export default createStore(function(state = {}, { type, payload }){
+
+  console.log('state = ', state)
+  console.log('type = ', type)
+  console.log('payload = ', payload)
 
   switch (type) {
+    case DATA_GET:
+      return {
+        ...state,
+        datas:payload.datas
+      };
     case LOGIN:
       return {
         ...state,
@@ -88,11 +97,6 @@ export default createStore(function(state = initState, { type, payload }){
       return {
         ...state,
         maxCount:payload.maxCount
-      };
-    case TEST:
-      return {
-        ...state,
-        search_data:payload.text
       };
     case TODO_INSERT:
       return {

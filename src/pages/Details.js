@@ -54,8 +54,9 @@ function Details() {
   // };
 
   const lists = useSelector((state) => state.datas);
-  const json_data = lists.find(e => e.id === Number(item));
-  console.log(json_data)
+  const json_data = lists[item];
+  console.log(json_data);
+
   return (
     // <>
     //   <Table1></Table1>

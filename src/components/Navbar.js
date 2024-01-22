@@ -25,7 +25,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { Link } from 'react-router-dom';
 
-import { todoTest, login } from '../store';
+import {  login } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth, signOut } from 'firebase/auth';
 import { auth } from '../firebase-config';
@@ -115,10 +115,6 @@ export default function SearchAppBar() {
     dispatch(login(null));
     navigate('/');
   };
-
-  const test = (e) => {
-    dispatch(todoTest(e.target.value));
-  }
 
   const handleDrawerOpen = () => {
     setOpen(true);

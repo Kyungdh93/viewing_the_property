@@ -73,3 +73,7 @@ or 항목 엄청 넣어놓고 추가 삭제 가능하도록! 이게 가장 현�
 (추가) 처음 접속 시 도움말 기능
 
 (추가) Skeleton
+
+
+# Firebase 참고
+https://velog.io/@harimad/Firebase-RealtimeDB-CRUD

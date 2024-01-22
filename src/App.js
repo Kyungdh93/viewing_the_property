@@ -9,8 +9,10 @@ import { auth } from "./firebase-config";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 
-import { login } from './store';
+import { login, getAllData } from './store';
 import { useDispatch, useSelector } from 'react-redux';
+import { ref, child, get } from "firebase/database";
+import { db } from "./firebase-config";
 
 function App() {
   // const [userData, setUserData] = useState(null);
@@ -24,6 +26,19 @@ function App() {
         // setUserData(data.user); // user data 설정
         dispatch(login(data.user));
         console.log(data); // console에 UserCredentialImpl 출력
+        const dbRef = ref(db);
+          get(child(dbRef, "/datas"))
+            .then(snapshot => {
+            if (snapshot.exists()) {
+              dispatch(getAllData(snapshot.val()));
+              console.log(snapshot.val());
+            } else {
+              console.log("No data available");
+            }
+          })
+            .catch(error => {
+            console.error(error);
+          });
       })
       .catch((err) => {
         console.log(err);
