@@ -40,9 +40,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
 import { WindowSharp } from '@mui/icons-material';
 
+import { todoUpdate } from '../store';
+
 // import Table1 from '../components/Table';
 
 function Details() {
+  const dispatch = useDispatch();
   const { item } = useParams();
   const [expanded, setExpanded] = React.useState('panel1');
   // const handleChange = (panel) => (event, newExpanded) => {
@@ -51,19 +54,21 @@ function Details() {
 
   const lists = useSelector((state) => state.datas);
   const itemData = lists[item];
-  console.log(itemData);
+  console.log('itemData = ', itemData);
 
-  const [title, setTitle] = React.useState(itemData.title);
-  const [address, setAddress] = React.useState(itemData.info.address);
-  const [year, setYear] = React.useState(itemData.info.year_of_construction);
-  const [households, setHouseholds] = React.useState(itemData.info.number_of_households);
-  const [parking, setParking] = React.useState(itemData.info.parking);
-  const [subway, setSbway] = React.useState(itemData.info.subway);
-  const [bus, setBus] = React.useState(itemData.info.bus);
-  const [school, setSchool] = React.useState(itemData.info.school);
-  const [heating, setHeating] = React.useState(itemData.info.heating);
-  const [managementStatus, setManagementStatus] = React.useState(itemData.info.management_status);
-  const [naverBdsUrl, setNaverBdsUrl] = React.useState(itemData.info.naver_bds_url);
+  // const [title, setTitle] = React.useState(itemData.title);
+  // const [address, setAddress] = React.useState(itemData.info.address);
+  // const [year, setYear] = React.useState(itemData.info.year_of_construction);
+  // const [households, setHouseholds] = React.useState(itemData.info.number_of_households);
+  // const [parking, setParking] = React.useState(itemData.info.parking);
+  // const [subway, setSbway] = React.useState(itemData.info.subway);
+  // const [bus, setBus] = React.useState(itemData.info.bus);
+  // const [school, setSchool] = React.useState(itemData.info.school);
+  // const [heating, setHeating] = React.useState(itemData.info.heating);
+  // const [managementStatus, setManagementStatus] = React.useState(itemData.info.management_status);
+  // const [naverBdsUrl, setNaverBdsUrl] = React.useState(itemData.info.naver_bds_url);
+
+  // const [jsonData, setJsonData] = React.useState(itemData);
 
   return (
     // <>
@@ -76,9 +81,8 @@ function Details() {
       <Grid item xs></Grid>
       <Grid item xs={6}>
         <Typography sx={{ mt: 4, mb: 2 }} variant="h3" component="div">
-          {title}
+          {itemData.title}
         </Typography>
-        
         
         <List sx={{ width: '100%', maxWidth: 500 }}>
           <ListItem
@@ -114,12 +118,15 @@ function Details() {
             key={0}
             disableGutters
             secondaryAction={
-              <Tooltip title={address} placement="top">
+              <Tooltip title={itemData.info.address} placement="top">
                   <OutlinedInput
-                    value={address}
+                    value={itemData.info.address}
                     style={{ borderRadius: "20px" }}
                     size='small'
-                    onChange={(e)=>setAddress(e.target.value)}
+                    onChange={(e)=>{
+                      const info = {'address': e.target.value};
+                      dispatch(todoUpdate(itemData.id, info));
+                    }}
                   />              
                 </Tooltip>
               }
@@ -146,12 +153,12 @@ function Details() {
             disableGutters
             secondaryAction={
               <OutlinedInput
-                value={households}
+                value={itemData.info.households}
                 inputProps={{ style: { textAlign: "right" } }}
                 style={{ borderRadius: "20px", width: "200px" }}
                 size='small'
                 endAdornment={<InputAdornment position="end">세대</InputAdornment>}
-                onChange={(e)=>setHouseholds(e.target.value)}
+                // onChange={(e)=>setHouseholds(e.target.value)}
               />              
               }
           >
@@ -162,14 +169,14 @@ function Details() {
             disableGutters
             secondaryAction={
               <OutlinedInput
-                value={parking}
+                value={itemData.info.parking}
                 inputProps={{ style: { textAlign: "right" } }}
                 style={{ borderRadius: "20px", width: "200px" }}
                 size='small'
                 // startAdornment={<InputAdornment position="start">세대당 {parking/households}대</InputAdornment>}
-                startAdornment={<InputAdornment position="start">세대당 {isFinite(parking/households) ? (Math.round((parking/households)*100)/100):0}대</InputAdornment>}
+                startAdornment={<InputAdornment position="start">세대당 {isFinite(itemData.info.parking/itemData.info.households) ? (Math.round((itemData.info.parking/itemData.info.households)*100)/100):0}대</InputAdornment>}
                 endAdornment={<InputAdornment position="end">대</InputAdornment>}
-                onChange={(e) => setParking(e.target.value)}
+                // onChange={(e) => setParking(e.target.value)}
               />              
               }
           >

@@ -1,6 +1,6 @@
 import { legacy_createStore as createStore } from 'redux';
 // import jsonData from './data.json';
-import { ref, child, get ,set, remove } from "firebase/database";
+import { ref, child, get ,set, remove, update } from "firebase/database";
 import { db } from "./firebase-config";
 
 const FIREBASE_DB_PATH = "datas/";
@@ -13,7 +13,7 @@ const TODO_UPDATE = "TODO/UPDATE";
 const TODO_TOGGLE = "TODO/TOGGLE";
 
 const firebaseCreate = (id, title, time, info) => {
-  set(ref(db, FIREBASE_DB_PATH + id), {
+  set(ref(db, (FIREBASE_DB_PATH + id)), {
     id,
     title,
     time,
@@ -21,8 +21,15 @@ const firebaseCreate = (id, title, time, info) => {
   });
 };
 
+const firebaseUpdate = (id, content) => {
+  let info = {'info': content};
+  update(ref(db, (FIREBASE_DB_PATH + id)),
+    info
+  );
+};
+
 const firebaseDelete = (id) => {
-  remove(ref(db, FIREBASE_DB_PATH + id));
+  remove(ref(db, (FIREBASE_DB_PATH + id)));
 };
 
 export const login = (user_data) => {
@@ -87,10 +94,11 @@ export const todoRemove = (id) => {
   };
 };
 
-export const todoUpdate = (id, text) => {
+export const todoUpdate = (id, info) => {
+  firebaseUpdate(id, info);
   return {
     type: TODO_UPDATE,
-    payload: { id: id, text: text },
+    payload: { id: id, info: info },
   };
 };
 
@@ -142,12 +150,21 @@ export default createStore(function(state = initState, { type, payload }){
         ...state
       };
     case TODO_UPDATE:
+      const payload_id = payload.id;
+      const key = Object.keys(payload.info)[0];
+      const value = payload.info[Object.keys(payload.info)[0]];
+      let origin_info = {...state.datas[payload_id].info, [key]:value};
+      let origin_info2 = {...state.datas[payload_id], info:origin_info};
       return {
         ...state,
-        datas: state.datas.map((todo) =>
-          todo.id === payload.id ? { ...todo, text: payload.text } : todo
-        ),
+        datas: {...state.datas, [payload_id]:origin_info2}
       };
+      // return {
+      //   ...state,
+      //   datas: state.datas.map((todo) =>
+      //     todo.id === payload.id ? { ...todo, text: payload.text } : todo
+      //   ),
+      // };
     case TODO_TOGGLE:
       return {
         ...state,
