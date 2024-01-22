@@ -82,34 +82,7 @@ export default function Home() {
   let nextId = React.useRef(100);
   const inputRef = React.useRef(null);
   const [loading, setLoading] = React.useState(false);
-  const [lists, setLists] = React.useState("");
-  const kdh = useSelector((state) => state);
-  console.log('kdh = ', kdh);
-  const user_data = useSelector((state) => state.user_data);
-  console.log('user_data = ', user_data);
-  React.useEffect(()=>{
-    console.log('useEffect!');
-    const readOne = () => {
-      const dbRef = ref(db);
-      get(child(dbRef, "/datas"))
-        .then(snapshot => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-          let jsonData = snapshot.val();
-          // dispatch({type: 'TEST', payload: jsonData})
-          setLists(jsonData);
-        } else {
-          console.log("No data available");
-        }
-      })
-        .catch(error => {
-        console.error(error);
-      });
-    };
-    readOne();
-  },[]);
-
-  console.log('lists = ', lists);
+  const lists = useSelector((state) => state.datas);
   const max_count = useSelector((state) => state.max_count);
   const [title, setTitle] = React.useState("");
   const [searchData, setSearchData] = React.useState("");
@@ -129,8 +102,9 @@ export default function Home() {
 
     const nowDate = new Date();
     const time = nowDate.YYYYMMDDHHMMSS();
-    dispatch(todoInsert(nextId.current, title, time));
-    nextId.current += 1;
+    // TODO: id, title 중복 체크 필요
+    const id = uid();
+    dispatch(todoInsert(id, title, time));
     handleClose();
   }
 
@@ -190,9 +164,9 @@ export default function Home() {
             <Grid item xs>
             </Grid>
             <Grid item xs={6}>
-              <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="contained" startIcon={<AddIcon />} onClick={writeData}>
+              {/* <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="contained" startIcon={<AddIcon />} onClick={writeData}>
                 테스트
-              </Button>
+              </Button> */}
               <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
                 추가하기
               </Button>

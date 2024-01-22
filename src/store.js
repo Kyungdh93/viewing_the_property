@@ -1,8 +1,9 @@
 import { legacy_createStore as createStore } from 'redux';
 // import jsonData from './data.json';
-import { ref, child, get } from "firebase/database";
+import { ref, child, get ,set, remove } from "firebase/database";
 import { db } from "./firebase-config";
 
+const FIREBASE_DB_PATH = "datas/";
 const LOGIN = "LOGIN/ACCOUNT";
 const DATA_GET = "DATA/GET";
 const MAX_COUNT = "SET/MAXCOUNT";
@@ -10,6 +11,19 @@ const TODO_INSERT = "TODO/INSERT";
 const TODO_REMOVE = "TODO/REMOVE";
 const TODO_UPDATE = "TODO/UPDATE";
 const TODO_TOGGLE = "TODO/TOGGLE";
+
+const firebaseCreate = (id, title, time, info) => {
+  set(ref(db, FIREBASE_DB_PATH + id), {
+    id,
+    title,
+    time,
+    info
+  });
+};
+
+const firebaseDelete = (id) => {
+  remove(ref(db, FIREBASE_DB_PATH + id));
+};
 
 export const login = (user_data) => {
   return {
@@ -39,17 +53,34 @@ export const setMaxCount = (maxCount) => {
 };
 
 export const todoInsert = (id, title, time) => {
+  const info = {
+    "expected_price": "",
+    "expected_rent_price": "",
+    "address": "",
+    "year_of_construction": "",
+    "number_of_households": "",
+    "parking": "",
+    "subway": "",
+    "bus": "",
+    "school": "",
+    "heating": "",
+    "management_status": "",
+    "naver_bds_url": ""
+  };
+  firebaseCreate(id, title, time, info);
   return {
     type: TODO_INSERT,
     payload: {
       id: id,
       title: title,
       time: time,
+      info: info
     },
   };
 };
 
 export const todoRemove = (id) => {
+  firebaseDelete(id);
   return {
     type: TODO_REMOVE,
     payload: { id: id },
@@ -74,10 +105,9 @@ export const todoToggle = (id) => {
 
 // jsonData.maxCount = 5;
 // const initState = jsonData;
+const initState = {"user_data":"", "datas":{}};
 
-// export default createStore(function(state = initState, { type, payload }){
-export default createStore(function(state = {}, { type, payload }){
-
+export default createStore(function(state = initState, { type, payload }){
   console.log('state = ', state)
   console.log('type = ', type)
   console.log('payload = ', payload)
@@ -99,18 +129,17 @@ export default createStore(function(state = {}, { type, payload }){
         maxCount:payload.maxCount
       };
     case TODO_INSERT:
+      let data = {};
+      data[payload.id] = payload;
+      let new_data = Object.assign(state.datas, data);
       return {
         ...state,
-        datas: state.datas.concat({
-          id: payload.id,
-          title: payload.title,
-          time: payload.time
-        }),
+        datas:new_data
       };
     case TODO_REMOVE:
+      delete state.datas[payload.id];
       return {
-        ...state,
-        datas: state.datas.filter((todo) => todo.id !== payload.id),
+        ...state
       };
     case TODO_UPDATE:
       return {

@@ -43,10 +43,6 @@ import { WindowSharp } from '@mui/icons-material';
 // import Table1 from '../components/Table';
 
 function Details() {
-  const [address, setAddress] = React.useState("");
-  const [parking, setParking] = React.useState(0);
-  const [households, setHouseholds] = React.useState(0);
-  
   const { item } = useParams();
   const [expanded, setExpanded] = React.useState('panel1');
   // const handleChange = (panel) => (event, newExpanded) => {
@@ -54,8 +50,20 @@ function Details() {
   // };
 
   const lists = useSelector((state) => state.datas);
-  const json_data = lists[item];
-  console.log(json_data);
+  const itemData = lists[item];
+  console.log(itemData);
+
+  const [title, setTitle] = React.useState(itemData.title);
+  const [address, setAddress] = React.useState(itemData.info.address);
+  const [year, setYear] = React.useState(itemData.info.year_of_construction);
+  const [households, setHouseholds] = React.useState(itemData.info.number_of_households);
+  const [parking, setParking] = React.useState(itemData.info.parking);
+  const [subway, setSbway] = React.useState(itemData.info.subway);
+  const [bus, setBus] = React.useState(itemData.info.bus);
+  const [school, setSchool] = React.useState(itemData.info.school);
+  const [heating, setHeating] = React.useState(itemData.info.heating);
+  const [managementStatus, setManagementStatus] = React.useState(itemData.info.management_status);
+  const [naverBdsUrl, setNaverBdsUrl] = React.useState(itemData.info.naver_bds_url);
 
   return (
     // <>
@@ -68,7 +76,7 @@ function Details() {
       <Grid item xs></Grid>
       <Grid item xs={6}>
         <Typography sx={{ mt: 4, mb: 2 }} variant="h3" component="div">
-          {json_data["title"]}
+          {title}
         </Typography>
         
         
@@ -158,7 +166,8 @@ function Details() {
                 inputProps={{ style: { textAlign: "right" } }}
                 style={{ borderRadius: "20px", width: "200px" }}
                 size='small'
-                startAdornment={<InputAdornment position="start">세대당 {parking/households}대</InputAdornment>}
+                // startAdornment={<InputAdornment position="start">세대당 {parking/households}대</InputAdornment>}
+                startAdornment={<InputAdornment position="start">세대당 {isFinite(parking/households) ? (Math.round((parking/households)*100)/100):0}대</InputAdornment>}
                 endAdornment={<InputAdornment position="end">대</InputAdornment>}
                 onChange={(e) => setParking(e.target.value)}
               />              
