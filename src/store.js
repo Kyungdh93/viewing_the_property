@@ -69,6 +69,7 @@ export const todoInsert = (id, title, time) => {
     "subway": "",
     "bus": "",
     "school": "",
+    "entrance_structure": "",
     "heating": "",
     "management_status": "",
     "naver_bds_url": ""
