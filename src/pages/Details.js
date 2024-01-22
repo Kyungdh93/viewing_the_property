@@ -69,6 +69,9 @@ function Details() {
   // const [naverBdsUrl, setNaverBdsUrl] = React.useState(itemData.info.naver_bds_url);
 
   // const [jsonData, setJsonData] = React.useState(itemData);
+  const handleBlur = (e, info) => {
+    dispatch(todoUpdate(itemData.id, info));
+  };
 
   return (
     // <>
@@ -115,17 +118,17 @@ function Details() {
             <ListItemText primary={`예상 전세가`} />
           </ListItem>
           <ListItem
-            key={0}
+            key={110}
             disableGutters
             secondaryAction={
-              <Tooltip title={itemData.info.address} placement="top">
+                <Tooltip title={itemData.info['address']} placement="top">
                   <OutlinedInput
-                    value={itemData.info.address}
+                    defaultValue={itemData.info['address']}
                     style={{ borderRadius: "20px" }}
                     size='small'
-                    onChange={(e)=>{
-                      const info = {'address': e.target.value};
-                      dispatch(todoUpdate(itemData.id, info));
+                    onBlur={(e)=>{
+                      const info = {...itemData.info, ['address']:e.target.value};
+                      handleBlur(e, info);
                     }}
                   />              
                 </Tooltip>
@@ -143,7 +146,7 @@ function Details() {
                 size='small'
                 startAdornment={<InputAdornment position="start">00년차</InputAdornment>}
                 endAdornment={<InputAdornment position="end">년</InputAdornment>}
-              />              
+              />
               }
           >
             <ListItemText primary={`시공년도`} />
@@ -153,12 +156,15 @@ function Details() {
             disableGutters
             secondaryAction={
               <OutlinedInput
-                value={itemData.info.households}
+                defaultValue={itemData.info['number_of_households']}
                 inputProps={{ style: { textAlign: "right" } }}
                 style={{ borderRadius: "20px", width: "200px" }}
                 size='small'
                 endAdornment={<InputAdornment position="end">세대</InputAdornment>}
-                // onChange={(e)=>setHouseholds(e.target.value)}
+                onBlur={(e)=>{
+                  const info = {...itemData.info, ['number_of_households']:e.target.value};
+                  handleBlur(e, info);
+                }}
               />              
               }
           >
@@ -169,14 +175,16 @@ function Details() {
             disableGutters
             secondaryAction={
               <OutlinedInput
-                value={itemData.info.parking}
+                defaultValue={itemData.info['parking']}
                 inputProps={{ style: { textAlign: "right" } }}
                 style={{ borderRadius: "20px", width: "200px" }}
                 size='small'
-                // startAdornment={<InputAdornment position="start">세대당 {parking/households}대</InputAdornment>}
-                startAdornment={<InputAdornment position="start">세대당 {isFinite(itemData.info.parking/itemData.info.households) ? (Math.round((itemData.info.parking/itemData.info.households)*100)/100):0}대</InputAdornment>}
+                startAdornment={<InputAdornment position="start">세대당 {isFinite(itemData.info['parking']/itemData.info['number_of_households']) ? (Math.round((itemData.info['parking']/itemData.info['number_of_households'])*100)/100):0}대</InputAdornment>}
                 endAdornment={<InputAdornment position="end">대</InputAdornment>}
-                // onChange={(e) => setParking(e.target.value)}
+                onBlur={(e)=>{
+                  const info = {...itemData.info, ['parking']:e.target.value};
+                  handleBlur(e, info);
+                }}
               />              
               }
           >
