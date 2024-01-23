@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { styled, alpha, rgbToHex } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,6 +9,8 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 
 import { useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
@@ -22,6 +24,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 import { Link } from 'react-router-dom';
 
@@ -144,9 +148,9 @@ export default function SearchAppBar() {
               component="div"
               sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
             >
-          <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
-            BDS
-          </Link>
+            <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
+              BDS
+            </Link>
             </Typography>
         </Toolbar>
       </AppBar>
@@ -171,6 +175,32 @@ export default function SearchAppBar() {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        <Link to='/' style={{ textDecoration: "none", color: "black" }} onClick={handleDrawerClose}>
+          <List>
+              <ListItem key='Home' disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <HomeIcon></HomeIcon>
+                  </ListItemIcon>
+                  <ListItemText primary='Home'/>
+                </ListItemButton>
+              </ListItem>
+          </List>
+        </Link>
+        {/* <Divider /> */}
+        <Link to='/' style={{ textDecoration: "none", color: "black" }} onClick={handleDrawerClose}>
+          <List>
+              <ListItem key='Statics' disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <BarChartIcon></BarChartIcon>
+                  </ListItemIcon>
+                  <ListItemText primary='Statics'/>
+                </ListItemButton>
+              </ListItem>
+          </List>
+        </Link>
+        {/* <Divider /> */}
         <Link to='/settings' style={{ textDecoration: "none", color: "black" }} onClick={handleDrawerClose}>
           <List>
               <ListItem key='Settings' disablePadding>
@@ -197,8 +227,9 @@ export default function SearchAppBar() {
           ))}
         </List>
       </Drawer>
-      <Main open={open}>
-        {/* <DrawerHeader /> */}
+      <Main hidden={!open}>
+        {/* <div style={{ width: "100%", height: "100vh", backgroundColor: "black" }} onClick={()=>setOpen(false)}></div> */}
+        <div style={{ width: "100%", height: "100vh" }} onClick={()=>setOpen(false)}></div>
       </Main>
     </Box>
   );
