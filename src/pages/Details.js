@@ -25,8 +25,6 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { todoUpdate } from '../store';
 import Box from '@mui/material/Box';
 
-import { isBrowser, isMobile } from 'react-device-detect';
-
 // import Table1 from '../components/Table';
 
 function Details() {
@@ -41,6 +39,8 @@ function Details() {
   const itemData = lists[item];
   console.log('itemData = ', itemData);
 
+  const [expectedPrice, setExpectedPrice] = React.useState(Number(itemData.info['expected_price']));
+  const [expectedRentPrice, setExpectedRentPrice] = React.useState(Number(itemData.info['expected_rent_price']));
   const nowYear = new Date().getFullYear();
   const naverLandUrl = 'https://land.naver.com';
   // const [title, setTitle] = React.useState(itemData.title);
@@ -60,9 +60,6 @@ function Details() {
     dispatch(todoUpdate(itemData.id, info));
   };
 
-  console.log('is browser = ', isBrowser);
-  console.log('is mobile = ', isMobile);
-
   return (
     // <>
     //   <Table1></Table1>
@@ -79,21 +76,26 @@ function Details() {
           </Typography>
           
           {/* <List sx={{ width: '100%', maxWidth: 1000 }}> */}
-          <List sx={{ width: '100vw', maxWidth: 500 }}>
+          <List sx={{ width: '100vw', maxWidth: 320 }}>
             <ListItem
               key={8}
               disableGutters
               secondaryAction={
                 <OutlinedInput
-                  defaultValue={itemData.info['expected_price']}
+                  value={expectedPrice.toLocaleString('ko-KR')}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "200px" }}
+                  style={{ borderRadius: "20px", width: "230px" }}
                   // style={{ borderRadius: "20px", width: "20vw" }}
                   size='small'
                   endAdornment={<InputAdornment position="end">원</InputAdornment>}
+                  onChange={(e)=>{
+                    const result = Number((e.target.value).replaceAll(',','')).toLocaleString('ko-KR');
+                    setExpectedPrice(result);
+                  }}
                   onBlur={(e)=>{
-                    const info = {...itemData.info, ['expected_price']:e.target.value};
-                    updateValue(e, info);
+                    const result = (e.target.value).replaceAll(',','');
+                    const info = {...itemData.info, ['expected_price']:result};
+                    // updateValue(e, info);
                   }}
                 />              
                 }
@@ -106,15 +108,20 @@ function Details() {
               disableGutters
               secondaryAction={
                 <OutlinedInput
-                  defaultValue={itemData.info['expected_rent_price']}
+                  value={expectedRentPrice.toLocaleString('ko-KR')}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "200px" }}
+                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
-                  startAdornment={<InputAdornment position="start">82%</InputAdornment>}
+                  startAdornment={<InputAdornment position="start">{(Number((expectedRentPrice).toString().replaceAll(',',''))/Number((expectedPrice).toString().replaceAll(',','')))*100}%</InputAdornment>}
                   endAdornment={<InputAdornment position="end">원</InputAdornment>}
+                  onChange={(e)=>{
+                    const result = Number((e.target.value).replaceAll(',','')).toLocaleString('ko-KR');
+                    setExpectedRentPrice(result);
+                  }}
                   onBlur={(e)=>{
-                    const info = {...itemData.info, ['expected_rent_price']:e.target.value};
-                    updateValue(e, info);
+                    const result = (e.target.value).replaceAll(',','');
+                    const info = {...itemData.info, ['expected_rent_price']:result};
+                    // updateValue(e, info);
                   }}
                 />              
                 }
@@ -128,7 +135,7 @@ function Details() {
                   <Tooltip title={itemData.info['address']} placement="top">
                     <OutlinedInput
                       defaultValue={itemData.info['address']}
-                      style={{ borderRadius: "20px", width: "250px" }}
+                      style={{ borderRadius: "20px", width: "230px" }}
                       size='small'
                       onBlur={(e)=>{
                         const info = {...itemData.info, ['address']:e.target.value};
@@ -147,7 +154,7 @@ function Details() {
                 <OutlinedInput
                   defaultValue={itemData.info['year_of_construction']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "200px" }}
+                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
                   startAdornment={<InputAdornment position="start">{itemData.info['year_of_construction'] === '' ? 0 : (nowYear-itemData.info['year_of_construction'])+1}년차</InputAdornment>}
                   endAdornment={<InputAdornment position="end">년</InputAdornment>}
@@ -167,7 +174,7 @@ function Details() {
                 <OutlinedInput
                   defaultValue={itemData.info['number_of_households']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "200px" }}
+                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
                   endAdornment={<InputAdornment position="end">세대</InputAdornment>}
                   onBlur={(e)=>{
@@ -186,7 +193,7 @@ function Details() {
                 <OutlinedInput
                   defaultValue={itemData.info['parking']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "200px" }}
+                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
                   startAdornment={<InputAdornment position="start">세대당 {isFinite(itemData.info['parking']/itemData.info['number_of_households']) ? (Math.round((itemData.info['parking']/itemData.info['number_of_households'])*100)/100):0}대</InputAdornment>}
                   endAdornment={<InputAdornment position="end">대</InputAdornment>}
@@ -206,7 +213,7 @@ function Details() {
                 <OutlinedInput
                   defaultValue={itemData.info['subway']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "250px" }}
+                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
                   placeholder='4호선 사당역 도보 5분'
                   startAdornment={<InputAdornment position="start">지하철</InputAdornment>}
@@ -232,7 +239,7 @@ function Details() {
                 <OutlinedInput
                   defaultValue={itemData.info['bus']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "250px" }}
+                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
                   placeholder='도보 5분'
                   startAdornment={<InputAdornment position="start">버스</InputAdornment>}
@@ -405,13 +412,8 @@ function Details() {
                     defaultValue={itemData.info['naver_bds_url']}
                     placeholder={naverLandUrl}
                     inputProps={{ style: { textAlign: "left" } }}
-                    style={{ borderRadius: "20px", width: "250px" }}
+                    style={{ borderRadius: "20px", width: "230px" }}
                     size='small'
-                    endAdornment={
-                      <Tooltip title='네이버 부동산으로 이동' placement="top">
-                        <ExitToAppIcon style={{ cursor: "pointer" }} color="success" onClick={()=>window.open(itemData.info['naver_bds_url'])}></ExitToAppIcon>
-                      </Tooltip>  
-                      }
                     onBlur={(e)=>{
                       let result;
                       e.target.value === '' ? result = naverLandUrl : e.target.value.includes('land.naver.com') ? result = e.target.value : result = naverLandUrl;
@@ -421,7 +423,7 @@ function Details() {
                   />
                 }
             >
-              <ListItemText primary={`네이버 부동산 URL`} />
+              <ListItemText primary={`URL`} />
             </ListItem>
             <br></br>
             <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
