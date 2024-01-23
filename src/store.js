@@ -113,7 +113,7 @@ export const todoToggle = (id) => {
 
 // jsonData.maxCount = 5;
 // const initState = jsonData;
-const initState = {"user_data":"", "datas":{}};
+const initState = {"user_data":"", "datas":{}, "maxCount":5};
 
 export default createStore(function(state = initState, { type, payload }){
   // console.log('state = ', state);
