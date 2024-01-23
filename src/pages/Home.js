@@ -10,6 +10,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
+import ClearIcon from '@mui/icons-material/Clear';
 import BorderAllIcon from '@mui/icons-material/BorderAll';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -33,6 +34,7 @@ import { uid } from "uid";
 
 import List from '../components/List';
 import Card from '../components/Card';
+import Skeleton from '../components/Skeleton';
 
 const style = {
   position: 'absolute',
@@ -79,10 +81,10 @@ export default function Home() {
   const inputRef = React.useRef(null);
   const [loading, setLoading] = React.useState(false);
   const lists = useSelector((state) => state.datas);
-  const max_count = useSelector((state) => state.max_count);
+  const maxCount = useSelector((state) => state.maxCount);
   const [title, setTitle] = React.useState("");
   const [searchData, setSearchData] = React.useState("");
-  const [count, setCount] = React.useState({current: 1, total: max_count});
+  const [count, setCount] = React.useState({current: 1, total: maxCount});
   const [dataType, setType] = React.useState("list");
   const [open_modal, setOpenModal] = React.useState(false);
   const [open_dialog, setOpenDialog] = React.useState([false, ""]);
@@ -112,14 +114,14 @@ export default function Home() {
   const showMore = () => {
     setCount({
       ...count,
-      total: count.total + max_count,
+      total: count.total + maxCount,
     });
   }
 
   const foldList = () => {
     setCount({
       ...count,
-      total: max_count,
+      total: maxCount,
     });
   }
 
@@ -155,12 +157,12 @@ export default function Home() {
       loading ? (
         <div>Loading...</div>
       ) : (
-        <Box sx={{ flexGrow: 1, maxWidth: 1000 }}>
+        <Box sx={{ flexGrow: 1, maxWidth: 1000, marginTop: "10px" }}>
           <Grid container spacing={3}>
             <Grid item xs></Grid>
             {/* <Grid item xs={6}> */}
             <Grid item xs={10}>
-              <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
+              <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<AddIcon />} onClick={handleOpen}>
                 추가하기
               </Button>
               <br></br>
@@ -170,10 +172,22 @@ export default function Home() {
               >
                 <InputBase
                   sx={{ ml: 1, flex: 1 }}
-                  placeholder="Search..."
-                  onKeyUp={(e) => setSearchData(e.target.value)}
+                  value={searchData}
+                  placeholder="검색어를 입력해 주세요."
+                  onChange={(e) => setSearchData(e.target.value)}
                 />
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                {
+                  searchData === "" ? (
+                    <></>                    
+                    ) : (
+                    <>
+                      <Tooltip title="지우기" placement="bottom">
+                        <ClearIcon style={{ cursor: "pointer" }} onClick={() => setSearchData("")}></ClearIcon>
+                      </Tooltip>
+                      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                    </>
+                  )
+                }
                 <Tooltip title={dataType === "list" ? "카드형 목록 보기" : "리스트형 목록 보기" } placement="bottom">
                   <IconButton sx={{ p: '10px' }} aria-label="menu">
                     {
@@ -204,7 +218,8 @@ export default function Home() {
                     }
                   })
                 ) : (
-                  <h2>텅</h2>
+                  // <h2>텅</h2>
+                  <Skeleton></Skeleton>
                 )}
               </Demo>
               <br></br>
@@ -212,7 +227,7 @@ export default function Home() {
                 <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>
                   더보기 ({totalCount}/{showCount})
                 </Button>
-              ) : lists.length > max_count ? (
+              ) : Object.keys(lists).length > maxCount ? (
                 <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandLessIcon />} onClick={foldList}>
                   접기 ({totalCount}/{totalCount})
                 </Button>
