@@ -8,14 +8,10 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
 import Tooltip from '@mui/material/Tooltip';
 
 import BorderAllIcon from '@mui/icons-material/BorderAll';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import ListAltTwoToneIcon from '@mui/icons-material/ListAltTwoTone';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Button from '@mui/material/Button';
@@ -31,7 +27,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { todoInsert, todoRemove } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ref, set, child, get } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { db } from '../firebase-config';
 import { uid } from "uid";
 
@@ -43,7 +39,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  // width: 400,
+  width: '50vw',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -79,7 +76,6 @@ export default function Home() {
   let showCount = 0;
   let totalCount = 0;
 
-  let nextId = React.useRef(100);
   const inputRef = React.useRef(null);
   const [loading, setLoading] = React.useState(false);
   const lists = useSelector((state) => state.datas);
@@ -159,42 +155,36 @@ export default function Home() {
       loading ? (
         <div>Loading...</div>
       ) : (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, maxWidth: 1000 }}>
           <Grid container spacing={3}>
-            <Grid item xs>
-            </Grid>
-            <Grid item xs={6}>
-              {/* <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="contained" startIcon={<AddIcon />} onClick={writeData}>
-                테스트
-              </Button> */}
+            <Grid item xs></Grid>
+            {/* <Grid item xs={6}> */}
+            <Grid item xs={10}>
               <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
                 추가하기
               </Button>
               <br></br>
               <Paper
                 component="form"
-                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 450, borderRadius: "20px" }}
+                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', borderRadius: "20px", marginTop: "10px" }}
               >
                 <InputBase
                   sx={{ ml: 1, flex: 1 }}
                   placeholder="Search..."
-                  inputProps={{ 'aria-label': 'search google maps' }}
                   onKeyUp={(e) => setSearchData(e.target.value)}
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton sx={{ p: '10px' }} aria-label="menu">
-                  {
-                    dataType === "list" ? (
-                      <Tooltip title="카드형 목록 보기" placement="bottom">
-                        <BorderAllIcon style={{ cursor: "pointer" }} onClick={()=>setType("card")}></BorderAllIcon>
-                      </Tooltip>
-                      ) : (
-                      <Tooltip title="리스트형 목록 보기" placement="bottom">
-                        <ListAltIcon style={{ cursor: "pointer" }} onClick={()=>setType("list")}></ListAltIcon>
-                      </Tooltip>
-                    )
-                  }
-                </IconButton>
+                <Tooltip title={dataType === "list" ? "카드형 목록 보기" : "리스트형 목록 보기" } placement="bottom">
+                  <IconButton sx={{ p: '10px' }} aria-label="menu">
+                    {
+                      dataType === "list" ? (
+                          <BorderAllIcon style={{ cursor: "pointer" }} onClick={()=>setType("card")}></BorderAllIcon>
+                        ) : (
+                          <ListAltIcon style={{ cursor: "pointer" }} onClick={()=>setType("list")}></ListAltIcon>
+                      )
+                    }
+                  </IconButton>
+                </Tooltip>
               </Paper>
               <br></br>
               <Demo className='abc' style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", overflow: "hidden" }}>
@@ -230,10 +220,8 @@ export default function Home() {
                 <></>
               )}
             </Grid>
-            <Grid item xs>
-            </Grid>
+            <Grid item xs></Grid>
           </Grid>
-
           <Modal
             open={open_modal}
             onClose={handleClose}
@@ -245,18 +233,19 @@ export default function Home() {
                 제목!
               </Typography>
               <br></br>
-              <TextField autoFocus required ref={inputRef} id="title" label="title" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
+              <TextField autoFocus required ref={inputRef} fullWidth={true} id="title" label="title" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
               <br></br>
               <br></br>
-              <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="contained" onClick={Test}>
+              {/* <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="contained" onClick={Test}> */}
+              <Button size="large" style={{ width: "25vw", borderRadius: "20px" }} variant="contained" onClick={Test}>
                 확인
               </Button>
-              <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="outlined" onClick={handleClose}>
+              {/* <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="outlined" onClick={handleClose}> */}
+              <Button size="large" style={{ width: "25vw", borderRadius: "20px" }} variant="outlined" onClick={handleClose}>
                 취소
               </Button>
             </Box>
           </Modal>
-
           <Dialog
             open={open_dialog[0]}
             onClose={handleCloseDialog}

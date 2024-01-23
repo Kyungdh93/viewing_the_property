@@ -22,7 +22,7 @@ const List = ({ item, handleOpenDialog }) => {
           <DeleteIcon color="primary" />
         </IconButton>
       }
-      style={{ border: "1px outset", borderRadius: "20px" }}
+      style={{ border: "1px outset", borderRadius: "20px", height: "10vh" }}
     >
       <ListItemButton onClick={selectItem}>
         <ListItemAvatar>
