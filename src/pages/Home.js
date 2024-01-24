@@ -52,12 +52,55 @@ const style = {
 
 const MyButton = styled(Button)(
   ({ theme }) => ({
-    backgroundColor: theme.backgroundColor,
-    color: theme.buttonColor,
+    backgroundColor: theme.colors.colorMain,
+    color: theme.colors.colorWhite,
+    borderColor: theme.colors.colorGray,
     borderRadius: "20px", 
     "&:hover": {
-      background: theme.buttonHoverColor,
+      background: theme.colors.colorDarkShadow,
+      borderColor: theme.colors.colorWhite,
     }
+  })
+);
+
+const MyDivider = styled(Divider)(
+  ({ theme }) => ({
+    backgroundColor: theme.colors.colorWhite,
+    height: 28, 
+    margin: 0.5, 
+  })
+);
+
+const SearchBar = styled(InputBase)(
+  ({ theme }) => ({
+    color: theme.colors.colorWhite,
+    borderRadius: "20px", 
+  })
+);
+
+const SearchPaper = styled(Paper)(
+  ({ theme }) => ({
+    backgroundColor: theme.colors.colorMain,
+    color: theme.colors.colorWhite,
+    borderColor: theme.colors.colorGray,
+    borderRadius: "20px",
+    height: "7vh",
+    p: '2px 4px', 
+    display: 'flex', 
+    alignItems: 'center', 
+    marginTop: "10px"
+  })
+);
+
+const MyBorderAllIcon = styled(BorderAllIcon)(
+  ({ theme }) => ({
+    color: theme.colors.colorGray,
+  })
+);
+
+const MyListAltIcon = styled(ListAltIcon)(
+  ({ theme }) => ({
+    color: theme.colors.colorGray,
   })
 );
 
@@ -144,15 +187,14 @@ export default function Home() {
             <Grid item xs></Grid>
             {/* <Grid item xs={6}> */}
             <Grid item xs={10}>
-              <MyButton fullWidth={true} size="large" variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
+              <MyButton fullWidth={true} size="large" variant="outlined" startIcon={<AddIcon />} onClick={handleOpen}>
                 추가하기
               </MyButton>
               <br></br>
-              <Paper
+              <SearchPaper
                 component="form"
-                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', borderRadius: "20px", marginTop: "10px" }}
               >
-                <InputBase
+                <SearchBar
                   sx={{ ml: 1, flex: 1 }}
                   value={searchData}
                   placeholder="검색어를 입력해 주세요."
@@ -166,7 +208,7 @@ export default function Home() {
                       <Tooltip title="지우기" placement="bottom">
                         <ClearIcon style={{ cursor: "pointer" }} onClick={() => setSearchData("")}></ClearIcon>
                       </Tooltip>
-                      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                      <MyDivider orientation="vertical" />
                     </>
                   )
                 }
@@ -174,14 +216,14 @@ export default function Home() {
                   <IconButton sx={{ p: '10px' }} aria-label="menu">
                     {
                       dataType === "list" ? (
-                          <BorderAllIcon style={{ cursor: "pointer" }} onClick={()=>setType("card")}></BorderAllIcon>
+                          <MyBorderAllIcon onClick={()=>setType("card")}></MyBorderAllIcon>
                         ) : (
-                          <ListAltIcon style={{ cursor: "pointer" }} onClick={()=>setType("list")}></ListAltIcon>
+                          <MyListAltIcon onClick={()=>setType("list")}></MyListAltIcon>
                       )
                     }
                   </IconButton>
                 </Tooltip>
-              </Paper>
+              </SearchPaper>
               <br></br>
               <Box style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", overflow: "hidden" }}>
                 { Object.keys(lists).length !== 0 ? (

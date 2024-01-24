@@ -15,10 +15,11 @@ import { styled } from "styled-components";
 
 const MyListItem = styled(ListItem)(
   ({ theme }) => ({
-    backgroundColor: theme.listColor,
-    color: theme.textColor,
+    backgroundColor: theme.colors.colorMain,
+    color: theme.colors.colorGray,
     border: "1px outset",
     borderRadius: "20px", 
+    borderColor: theme.colors.colorDarkGray, 
     height: "10%",
     // height: "10vh",
   })
@@ -26,7 +27,13 @@ const MyListItem = styled(ListItem)(
 
 const MyOpenInNewIcon = styled(OpenInNewIcon)(
   ({ theme }) => ({
-    color: "green"
+    color: theme.colors.colorGreen
+  })
+);
+
+const MyDeleteIcon = styled(DeleteIcon)(
+  ({ theme }) => ({
+    color: theme.colors.colorGray
   })
 );
 
@@ -51,7 +58,7 @@ const List = ({ item, handleOpenDialog }) => {
           </IconButton>
           <IconButton edge="end" aria-label="delete" onClick={()=>handleOpenDialog(item.id)}>
             <Tooltip title='삭제' placement="top">
-              <DeleteIcon/>
+              <MyDeleteIcon/>
             </Tooltip>
           </IconButton>
         </>
@@ -62,6 +69,7 @@ const List = ({ item, handleOpenDialog }) => {
           <HomeIcon />
         </ListItemAvatar>
         <ListItemText primary={item.title} secondary={item.time} secondaryTypographyProps={{ style: test }}/>
+        {/* <MyListItemText primary={item.title} secondary={item.time} /> */}
       </ListItemButton>
     </MyListItem>
   );
