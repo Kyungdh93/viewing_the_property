@@ -15,8 +15,14 @@ import { ref, child, get } from "firebase/database";
 import { db } from "./firebase-config";
 import { isBrowser, isMobile } from 'react-device-detect';
 
+import { GlobalStyle } from "./theme/global";
+import { darkTheme, lightTheme } from "./theme/theme";
+import {ThemeProvider as StyledThemeProvider} from "styled-components";
+import {CssBaseline, ThemeProvider as MuiThemeProvider} from "@material-ui/core";
+
 function App() {
-  // const [userData, setUserData] = useState(null);
+  const [theme, setTheme] = useState("dark");
+
   const user_data = useSelector((state) => state.user_data);
   const dispatch = useDispatch();
 
@@ -66,7 +72,9 @@ function App() {
   return (
     <>
       { user_data ? (
-        <>
+        <MuiThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+        <StyledThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+        <GlobalStyle />
           <Navbar>
           </Navbar>
           <Routes>
@@ -74,7 +82,8 @@ function App() {
             <Route path="/settings" element={<Settings></Settings>} />
             <Route path="/details/:item" element={<Details></Details>} />
           </Routes>
-        </>
+        </StyledThemeProvider>
+        </MuiThemeProvider>
       ) : (
         <>
           <h3>구글 로그인 테스트</h3>

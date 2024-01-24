@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import ListItem from '@mui/material/ListItem';
 import Tooltip from '@mui/material/Tooltip';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -12,6 +11,29 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 import { useNavigate } from 'react-router-dom';
 
+import { styled } from "styled-components";
+
+const MyListItem = styled(ListItem)(
+  ({ theme }) => ({
+    backgroundColor: theme.listColor,
+    color: theme.textColor,
+    border: "1px outset",
+    borderRadius: "20px", 
+    height: "10%",
+    // height: "10vh",
+  })
+);
+
+const MyOpenInNewIcon = styled(OpenInNewIcon)(
+  ({ theme }) => ({
+    color: "green"
+  })
+);
+
+const test = {
+  color: "white"
+}
+
 const List = ({ item, handleOpenDialog }) => {
   const navigate = useNavigate();
   const selectItem = () => {
@@ -19,30 +41,29 @@ const List = ({ item, handleOpenDialog }) => {
   }
 
   return (
-    <ListItem
+    <MyListItem
       secondaryAction={
         <>
           <IconButton edge="start" aria-label="delete" onClick={()=>window.open(item.info.naver_bds_url)}>
             <Tooltip title='네이버 부동산으로 이동' placement="top">
-              <OpenInNewIcon style={{ cursor: "pointer" }} color="success" ></OpenInNewIcon>
+              <MyOpenInNewIcon/>
             </Tooltip> 
           </IconButton>
           <IconButton edge="end" aria-label="delete" onClick={()=>handleOpenDialog(item.id)}>
             <Tooltip title='삭제' placement="top">
-              <DeleteIcon style={{ cursor: "pointer" }} ></DeleteIcon>
+              <DeleteIcon/>
             </Tooltip>
           </IconButton>
         </>
       }
-      style={{ border: "1px outset", borderRadius: "20px", height: "10vh" }}
     >
       <ListItemButton onClick={selectItem}>
         <ListItemAvatar>
           <HomeIcon />
         </ListItemAvatar>
-        <ListItemText primary={item.title} secondary={item.time} />
+        <ListItemText primary={item.title} secondary={item.time} secondaryTypographyProps={{ style: test }}/>
       </ListItemButton>
-    </ListItem>
+    </MyListItem>
   );
 }
 

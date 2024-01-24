@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -36,6 +35,11 @@ import List from '../components/List';
 import Card from '../components/Card';
 import Skeleton from '../components/Skeleton';
 
+import { StylesProvider } from '@mui/material/styles';
+import { styled } from "styled-components";
+// MyButton CSS 안먹어서 변경
+// import { styled } from '@mui/material/styles';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -49,9 +53,23 @@ const style = {
   p: 4,
 };
 
-const Demo = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-}));
+// const MyButton = styled(Button)(
+//   ({ theme }) => ({
+//     backgroundColor: theme.backgroundColor,
+//     color: theme.buttonColor,
+//     borderRadius: "20px", 
+//   })
+// );
+
+const MyButton = styled(Button)`
+  background: "black";
+  border: 0;
+  border-radius: 20px;
+  box-shadow: 0 3px 5px 2px rgba(255, 105, 135, 0.3);
+  color: ${(theme) => theme.buttonColor};
+  height: 48px;
+  padding: 0 30px;
+`;
 
 Date.prototype.YYYYMMDDHHMMSS = function () {
   var yyyy = this.getFullYear().toString();
@@ -96,7 +114,7 @@ export default function Home() {
     if (title === "") {
       document.getElementById('title').focus();
       return;
-    }
+    };
 
     const nowDate = new Date();
     const time = nowDate.YYYYMMDDHHMMSS();
@@ -104,50 +122,24 @@ export default function Home() {
     const id = uid();
     dispatch(todoInsert(id, title, time));
     handleClose();
-  }
+  };
 
   const deleteItem = (delete_id) => {
     dispatch(todoRemove(delete_id));
     handleCloseDialog();
-  }
+  };
 
   const showMore = () => {
     setCount({
       ...count,
       total: count.total + maxCount,
     });
-  }
+  };
 
   const foldList = () => {
     setCount({
       ...count,
       total: maxCount,
-    });
-  }
-
-  const writeData = () => {
-    const id = uid();
-    console.log('id = ', id);
-    const title = "테스트3";
-    const time = "2024-01-17 07:47:13";
-    const info = {
-      "expected_price": "",
-      "expected_rent_price": "",
-      "address": "",
-      "year_of_construction": "",
-      "number_of_households": "",
-      "subway": "",
-      "bus": "",
-      "school": "",
-      "heating": "",
-      "management_status": "",
-      "naver_bds_url": ""
-    };
-    set(ref(db, "datas/" + id), {
-      id,
-      title,
-      time,
-      info
     });
   };
 
@@ -162,9 +154,11 @@ export default function Home() {
             <Grid item xs></Grid>
             {/* <Grid item xs={6}> */}
             <Grid item xs={10}>
-              <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<AddIcon />} onClick={handleOpen}>
+              <StylesProvider injectFirst>
+              <MyButton fullWidth={true} size="large" variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
                 추가하기
-              </Button>
+              </MyButton>
+              </StylesProvider>
               <br></br>
               <Paper
                 component="form"
@@ -201,7 +195,7 @@ export default function Home() {
                 </Tooltip>
               </Paper>
               <br></br>
-              <Demo className='abc' style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", overflow: "hidden" }}>
+              <Box style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", overflow: "hidden" }}>
                 { Object.keys(lists).length !== 0 ? (
                   Object.keys(lists).map((item)=>{
                     if (lists[item]['title'].includes(searchData)) {
@@ -221,7 +215,7 @@ export default function Home() {
                   // <h2>텅</h2>
                   <Skeleton></Skeleton>
                 )}
-              </Demo>
+              </Box>
               <br></br>
               { showCount > count.total ? (
                 <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>

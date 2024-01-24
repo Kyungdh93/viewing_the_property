@@ -10,7 +10,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
+    <div style={{ height: "100dvh" }}>
       <App />
+    </div>
     </BrowserRouter>
   </Provider>
 );
