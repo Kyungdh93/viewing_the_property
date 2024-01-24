@@ -35,10 +35,7 @@ import List from '../components/List';
 import Card from '../components/Card';
 import Skeleton from '../components/Skeleton';
 
-import { StylesProvider } from '@mui/material/styles';
 import { styled } from "styled-components";
-// MyButton CSS 안먹어서 변경
-// import { styled } from '@mui/material/styles';
 
 const style = {
   position: 'absolute',
@@ -53,23 +50,16 @@ const style = {
   p: 4,
 };
 
-// const MyButton = styled(Button)(
-//   ({ theme }) => ({
-//     backgroundColor: theme.backgroundColor,
-//     color: theme.buttonColor,
-//     borderRadius: "20px", 
-//   })
-// );
-
-const MyButton = styled(Button)`
-  background: "black";
-  border: 0;
-  border-radius: 20px;
-  box-shadow: 0 3px 5px 2px rgba(255, 105, 135, 0.3);
-  color: ${(theme) => theme.buttonColor};
-  height: 48px;
-  padding: 0 30px;
-`;
+const MyButton = styled(Button)(
+  ({ theme }) => ({
+    backgroundColor: theme.backgroundColor,
+    color: theme.buttonColor,
+    borderRadius: "20px", 
+    "&:hover": {
+      background: theme.buttonHoverColor,
+    }
+  })
+);
 
 Date.prototype.YYYYMMDDHHMMSS = function () {
   var yyyy = this.getFullYear().toString();
@@ -154,11 +144,9 @@ export default function Home() {
             <Grid item xs></Grid>
             {/* <Grid item xs={6}> */}
             <Grid item xs={10}>
-              <StylesProvider injectFirst>
               <MyButton fullWidth={true} size="large" variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>
                 추가하기
               </MyButton>
-              </StylesProvider>
               <br></br>
               <Paper
                 component="form"
