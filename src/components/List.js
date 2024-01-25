@@ -12,22 +12,23 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useNavigate } from 'react-router-dom';
 
 import { styled } from "styled-components";
+import { isMobile } from 'react-device-detect';
 
 const MyListItem = styled(ListItem)(
   ({ theme }) => ({
     backgroundColor: theme.colors.colorMain,
     color: theme.colors.colorGray,
-    border: "1px outset",
+    border: "1px groove",
     borderRadius: "20px", 
     borderColor: theme.colors.colorDarkGray, 
-    height: "10%",
-    // height: "10vh",
+    marginBottom: "5px",
+    height: isMobile === true ? '10vh' : '10%', 
   })
 );
 
 const MyOpenInNewIcon = styled(OpenInNewIcon)(
   ({ theme }) => ({
-    color: theme.colors.colorGreen
+    color: theme.colors.colorGray
   })
 );
 
@@ -52,7 +53,7 @@ const List = ({ item, handleOpenDialog }) => {
       secondaryAction={
         <>
           <IconButton edge="start" aria-label="delete" onClick={()=>window.open(item.info.naver_bds_url)}>
-            <Tooltip title='네이버 부동산으로 이동' placement="top">
+            <Tooltip title='링크 이동' placement="top">
               <MyOpenInNewIcon/>
             </Tooltip> 
           </IconButton>
@@ -68,7 +69,7 @@ const List = ({ item, handleOpenDialog }) => {
         <ListItemAvatar>
           <HomeIcon />
         </ListItemAvatar>
-        <ListItemText primary={item.title} secondary={item.time} secondaryTypographyProps={{ style: test }}/>
+        <ListItemText primary={item.title} secondary={item.time.split(' ')[0]} secondaryTypographyProps={{ style: test }}/>
         {/* <MyListItemText primary={item.title} secondary={item.time} /> */}
       </ListItemButton>
     </MyListItem>

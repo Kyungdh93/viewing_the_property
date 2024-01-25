@@ -18,14 +18,101 @@ import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { todoUpdate } from '../store';
 import Box from '@mui/material/Box';
 
+import { isMobile } from 'react-device-detect';
+
 // import Table1 from '../components/Table';
+import { styled } from "styled-components";
+
+const MyList = styled(List)(
+  () => ({
+    width: isMobile === true ? '100vw' : '40%', 
+    maxWidth: isMobile === true ? 320 : 1000, 
+  })
+);
+
+const MyOutlinedInput = styled(OutlinedInput)(
+  ({ theme }) => ({
+    borderRadius: "20px",
+    width: isMobile === true ? '60vw' : '300px', 
+    color: theme.colors.colorMainFont,
+    "& .MuiOutlinedInput-notchedOutline" : {
+      borderColor : theme.colors.colorMainFont
+    },
+    "&:hover > .MuiOutlinedInput-notchedOutline" : {
+      borderColor : theme.colors.colorMainFont,
+      color: "white"
+    },
+    "&.Mui-focused > .MuiOutlinedInput-notchedOutline" : {
+      borderColor : theme.colors.colorMainFont,
+      color: "white"
+    }
+  })
+);
+
+const MyInputAdornment = styled('div')(
+  ({ theme }) => ({
+    color: theme.colors.colorMainFont,
+    fontSize: "13px",
+  })
+);
+
+const StartInputAdornment = styled(MyInputAdornment)(
+  () => ({
+    width: "65px",
+    textAlign: "left",
+  })
+);
+
+const StartInputAdornmentForParking = styled(StartInputAdornment)(
+  () => ({
+    width: "200px"
+  })
+);
+
+const EndInputAdornment = styled(MyInputAdornment)(
+  () => ({
+    width: "35px",
+    marginLeft: "3px",
+    textAlign: "right",
+  })
+);
+
+const MyCheckbox = styled(Checkbox)(
+  ({ theme }) => ({
+    color: theme.colors.colorMainFont,
+    '&.Mui-checked': {
+      color: theme.colors.colorDiRed
+    }
+  })
+);
+
+const MyRadio = styled(Radio)(
+  ({ theme }) => ({
+    color: theme.colors.colorMainFont,
+    '&.Mui-checked': {
+      color: theme.colors.colorDiRed
+    }
+  })
+);
+
+const MyButton = styled(Button)(
+  ({ theme }) => ({
+    backgroundColor: theme.colors.colorMain,
+    color: theme.colors.colorWhite,
+    borderColor: theme.colors.colorGray,
+    borderRadius: "20px", 
+    "&:hover": {
+      background: theme.colors.colorDarkShadow,
+      borderColor: theme.colors.colorWhite,
+    }
+  })
+);
 
 function Details() {
   const dispatch = useDispatch();
@@ -75,19 +162,17 @@ function Details() {
             {itemData.title}
           </Typography>
           
-          {/* <List sx={{ width: '100%', maxWidth: 1000 }}> */}
-          <List sx={{ width: '100vw', maxWidth: 320 }}>
+          <MyList sx={{ width: '100vw', maxWidth: 320 }}>
             <ListItem
               key={8}
               disableGutters
               secondaryAction={
-                <OutlinedInput
+                <MyOutlinedInput
                   value={expectedPrice.toLocaleString('ko-KR')}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "230px" }}
-                  // style={{ borderRadius: "20px", width: "20vw" }}
                   size='small'
-                  endAdornment={<InputAdornment position="end">원</InputAdornment>}
+                  // endAdornment={<InputAdornment position="end">원</InputAdornment>}
+                  endAdornment={<EndInputAdornment>원</EndInputAdornment>}
                   onChange={(e)=>{
                     const result = Number((e.target.value).replaceAll(',','')).toLocaleString('ko-KR');
                     setExpectedPrice(result);
@@ -98,7 +183,7 @@ function Details() {
                     // updateValue(e, info);
                   }}
                 />              
-                }
+              }
             >
               <ListItemText primary={`예상 매매가`} />
               {/* <ListItemText primary={`예상 매매가`} primaryTypographyProps={{fontSize: '13px'}} /> */}
@@ -107,13 +192,12 @@ function Details() {
               key={9}
               disableGutters
               secondaryAction={
-                <OutlinedInput
+                <MyOutlinedInput
                   value={expectedRentPrice.toLocaleString('ko-KR')}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
-                  startAdornment={<InputAdornment position="start">{(Number((expectedRentPrice).toString().replaceAll(',',''))/Number((expectedPrice).toString().replaceAll(',','')))*100}%</InputAdornment>}
-                  endAdornment={<InputAdornment position="end">원</InputAdornment>}
+                  startAdornment={<StartInputAdornment>{(Number((expectedRentPrice).toString().replaceAll(',',''))/Number((expectedPrice).toString().replaceAll(',','')))*100}%</StartInputAdornment>}
+                  endAdornment={<EndInputAdornment>원</EndInputAdornment>}
                   onChange={(e)=>{
                     const result = Number((e.target.value).replaceAll(',','')).toLocaleString('ko-KR');
                     setExpectedRentPrice(result);
@@ -133,9 +217,8 @@ function Details() {
               disableGutters
               secondaryAction={
                   <Tooltip title={itemData.info['address']} placement="top">
-                    <OutlinedInput
+                    <MyOutlinedInput
                       defaultValue={itemData.info['address']}
-                      style={{ borderRadius: "20px", width: "230px" }}
                       size='small'
                       onBlur={(e)=>{
                         const info = {...itemData.info, ['address']:e.target.value};
@@ -151,13 +234,12 @@ function Details() {
               key={10}
               disableGutters
               secondaryAction={
-                <OutlinedInput
+                <MyOutlinedInput
                   defaultValue={itemData.info['year_of_construction']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
-                  startAdornment={<InputAdornment position="start">{itemData.info['year_of_construction'] === '' ? 0 : (nowYear-itemData.info['year_of_construction'])+1}년차</InputAdornment>}
-                  endAdornment={<InputAdornment position="end">년</InputAdornment>}
+                  startAdornment={<StartInputAdornment>{itemData.info['year_of_construction'] === '' ? 0 : (nowYear-itemData.info['year_of_construction'])+1}년차</StartInputAdornment>}
+                  endAdornment={<EndInputAdornment>년</EndInputAdornment>}
                   onBlur={(e)=>{
                     const info = {...itemData.info, ['year_of_construction']:e.target.value};
                     updateValue(e, info);
@@ -171,12 +253,11 @@ function Details() {
               key={1}
               disableGutters
               secondaryAction={
-                <OutlinedInput
+                <MyOutlinedInput
                   defaultValue={itemData.info['number_of_households']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
-                  endAdornment={<InputAdornment position="end">세대</InputAdornment>}
+                  endAdornment={<EndInputAdornment>세대</EndInputAdornment>}
                   onBlur={(e)=>{
                     const info = {...itemData.info, ['number_of_households']:e.target.value};
                     updateValue(e, info);
@@ -190,13 +271,12 @@ function Details() {
               key={11}
               disableGutters
               secondaryAction={
-                <OutlinedInput
+                <MyOutlinedInput
                   defaultValue={itemData.info['parking']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
-                  startAdornment={<InputAdornment position="start">세대당 {isFinite(itemData.info['parking']/itemData.info['number_of_households']) ? (Math.round((itemData.info['parking']/itemData.info['number_of_households'])*100)/100):0}대</InputAdornment>}
-                  endAdornment={<InputAdornment position="end">대</InputAdornment>}
+                  startAdornment={<StartInputAdornmentForParking>세대당 {isFinite(itemData.info['parking']/itemData.info['number_of_households']) ? (Math.round((itemData.info['parking']/itemData.info['number_of_households'])*100)/100):0}대</StartInputAdornmentForParking>}
+                  endAdornment={<EndInputAdornment>대</EndInputAdornment>}
                   onBlur={(e)=>{
                     const info = {...itemData.info, ['parking']:e.target.value};
                     updateValue(e, info);
@@ -210,13 +290,12 @@ function Details() {
               key={3}
               disableGutters
               secondaryAction={
-                <OutlinedInput
+                <MyOutlinedInput
                   defaultValue={itemData.info['subway']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
                   placeholder='4호선 사당역 도보 5분'
-                  startAdornment={<InputAdornment position="start">지하철</InputAdornment>}
+                  startAdornment={<StartInputAdornment>지하철</StartInputAdornment>}
                   endAdornment={
                     <Tooltip title='지하철 추가' placement="top">
                       <AddCircleOutlineIcon style={{ cursor: "pointer" }} onClick={()=>window.open('https://land.naver.com/')}></AddCircleOutlineIcon>
@@ -236,13 +315,12 @@ function Details() {
               key={4}
               disableGutters
               secondaryAction={
-                <OutlinedInput
+                <MyOutlinedInput
                   defaultValue={itemData.info['bus']}
                   inputProps={{ style: { textAlign: "right" } }}
-                  style={{ borderRadius: "20px", width: "230px" }}
                   size='small'
                   placeholder='도보 5분'
-                  startAdornment={<InputAdornment position="start">버스</InputAdornment>}
+                  startAdornment={<StartInputAdornment>버스</StartInputAdornment>}
                 />            
               }
               onBlur={(e)=>{
@@ -267,19 +345,19 @@ function Details() {
                 }>
                   <FormControlLabel
                     value="0"
-                    control={<Checkbox defaultChecked={itemData.info['school'].includes('0') ? true : false}/>}
+                    control={<MyCheckbox defaultChecked={itemData.info['school'].includes('0') ? true : false}/>}
                     label="초등"
                     labelPlacement="bottom"
                   />
                   <FormControlLabel
                     value="1"
-                    control={<Checkbox defaultChecked={itemData.info['school'].includes('1') ? true : false}/>}
+                    control={<MyCheckbox defaultChecked={itemData.info['school'].includes('1') ? true : false}/>}
                     label="중"
                     labelPlacement="bottom"
                   />
                   <FormControlLabel
                     value="2"
-                    control={<Checkbox defaultChecked={itemData.info['school'].includes('2') ? true : false}/>}
+                    control={<MyCheckbox defaultChecked={itemData.info['school'].includes('2') ? true : false}/>}
                     label="고등"
                     labelPlacement="bottom"
                   />
@@ -306,19 +384,19 @@ function Details() {
                 }>
                   <FormControlLabel
                     value="0"
-                    control={<Checkbox defaultChecked={itemData.info['entrance_structure'].includes('0') ? true : false}/>}
+                    control={<MyCheckbox defaultChecked={itemData.info['entrance_structure'].includes('0') ? true : false}/>}
                     label="계단"
                     labelPlacement="bottom"
                   />
                   <FormControlLabel
                     value="1"
-                    control={<Checkbox defaultChecked={itemData.info['entrance_structure'].includes('1') ? true : false}/>}
+                    control={<MyCheckbox defaultChecked={itemData.info['entrance_structure'].includes('1') ? true : false}/>}
                     label="복도"
                     labelPlacement="bottom"
                     />
                   <FormControlLabel
                     value="2"
-                    control={<Checkbox defaultChecked={itemData.info['entrance_structure'].includes('2') ? true : false}/>}
+                    control={<MyCheckbox defaultChecked={itemData.info['entrance_structure'].includes('2') ? true : false}/>}
                     label="복합"
                     labelPlacement="bottom"
                   />
@@ -344,19 +422,19 @@ function Details() {
                 >
                   <FormControlLabel
                     value="0"
-                    control={<Radio/>}
+                    control={<MyRadio/>}
                     label="지역"
                     labelPlacement="bottom"
                   />
                   <FormControlLabel
                     value="1"
-                    control={<Radio size="medium"/>}
+                    control={<MyRadio size="medium"/>}
                     label="개별"
                     labelPlacement="bottom"
                   />
                   <FormControlLabel
                     value="2"
-                    control={<Radio size="medium"/>}
+                    control={<MyRadio size="medium"/>}
                     label="중앙"
                     labelPlacement="bottom"
                   />
@@ -382,19 +460,19 @@ function Details() {
                 >
                   <FormControlLabel
                     value="0"
-                    control={<Radio/>}
+                    control={<MyRadio/>}
                     label="나쁨"
                     labelPlacement="bottom"
                   />
                   <FormControlLabel
                     value="1"
-                    control={<Radio size="medium"/>}
+                    control={<MyRadio size="medium"/>}
                     label="보통"
                     labelPlacement="bottom"
                   />
                   <FormControlLabel
                     value="2"
-                    control={<Radio size="medium"/>}
+                    control={<MyRadio size="medium"/>}
                     label="좋음"
                     labelPlacement="bottom"
                   />
@@ -408,11 +486,10 @@ function Details() {
               key={81}
               disableGutters
               secondaryAction={
-                  <OutlinedInput
+                  <MyOutlinedInput
                     defaultValue={itemData.info['naver_bds_url']}
                     placeholder={naverLandUrl}
                     inputProps={{ style: { textAlign: "left" } }}
-                    style={{ borderRadius: "20px", width: "230px" }}
                     size='small'
                     onBlur={(e)=>{
                       let result;
@@ -427,11 +504,11 @@ function Details() {
             </ListItem>
             <br></br>
             <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
-              <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" >
+              <MyButton fullWidth={true} size="large" variant="outlined" >
                 뒤로가기
-              </Button>
+              </MyButton>
             </Link>
-          </List>
+          </MyList>
         </Grid>
           <Grid item xs></Grid>
       </Grid>

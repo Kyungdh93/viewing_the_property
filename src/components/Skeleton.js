@@ -1,16 +1,43 @@
 import * as React from 'react';
 import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
+import { styled } from "styled-components";
+
+const MySkeleton = styled(Skeleton)(
+  ({ theme }) => ({
+    // backgroundColor: theme.colors.colorMain,
+    margin: "auto", 
+    width: 210, 
+    marginBottom: "5px"
+  })
+);
+
+const AddSkeleton = styled(MySkeleton)(
+  () => ({
+    height: 30,
+    marginTop: "5px"
+  })
+);
+
+const SearchSkeleton = styled(MySkeleton)(
+  () => ({
+    height: 40,
+    marginBottom: "10px"
+  })
+);
+
+const ListSkeleton = styled(MySkeleton)(
+  () => ({
+    height: 60,
+  })
+);
 
 export default function Variants() {
   return (
-    <Stack spacing={1}>
-      {/* For variant="text", adjust the height via font-size */}
-      <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-      {/* For other variants, adjust the size with `width` and `height` */}
-      <Skeleton variant="circular" width={40} height={40} />
-      <Skeleton variant="rectangular" width={210} height={60} />
-      <Skeleton variant="rounded" width={210} height={60} />
-    </Stack>
+    <>
+      <AddSkeleton variant="rounded"></AddSkeleton>
+      <SearchSkeleton variant="rounded"></SearchSkeleton>
+      <ListSkeleton variant="rounded"></ListSkeleton>
+      <ListSkeleton variant="rounded"></ListSkeleton>
+    </>
   );
 }

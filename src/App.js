@@ -10,11 +10,11 @@ import { auth } from "./firebase-config";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 
-import { login, getAllData } from './store';
+import { login, setAllData } from './store';
 import { useDispatch, useSelector } from 'react-redux';
 import { ref, child, get } from "firebase/database";
 import { db } from "./firebase-config";
-import { isBrowser, isMobile } from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 
 import { GlobalStyle } from "./theme/global";
 import { darkTheme, lightTheme } from "./theme/theme";
@@ -32,44 +32,17 @@ function App() {
   function handleGoogleLogin() {
     if (isMobile) {
       dispatch(login('dahyun'));
-      const dbRef = ref(db);
-      get(child(dbRef, "/datas"))
-        .then(snapshot => {
-        if (snapshot.exists()) {
-          dispatch(getAllData(snapshot.val()));
-          console.log(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
     } else {
       const provider = new GoogleAuthProvider(); // provider 구글 설정
       signInWithPopup(auth, provider) // 팝업창 띄워서 로그인
         .then((data) => {
           dispatch(login(data.user));
           console.log(data); // console에 UserCredentialImpl 출력
-          const dbRef = ref(db);
-            get(child(dbRef, "/datas"))
-              .then(snapshot => {
-              if (snapshot.exists()) {
-                dispatch(getAllData(snapshot.val()));
-                console.log(snapshot.val());
-              } else {
-                console.log("No data available");
-              }
-            })
-              .catch(error => {
-              console.error(error);
-            });
         })
         .catch((err) => {
           console.log(err);
         });
     };
-
   }
 
   return (
@@ -93,12 +66,6 @@ function App() {
         <>
           <h3>구글 로그인 테스트</h3>
           <Button onClick={handleGoogleLogin}>로그인</Button>
-          <h4>로그인하면 아래쪽에 이름이 나타납니다.</h4>
-          <div>
-            {user_data
-              ? "당신의 이름은 : " + user_data.displayName
-              : "로그인 버튼을 눌러주세요 :)"}
-          </div>
         </>
       )}
     </>

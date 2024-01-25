@@ -15,7 +15,6 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 
 import Dialog from '@mui/material/Dialog';
@@ -24,10 +23,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import { todoInsert, todoRemove } from '../store';
+import { todoInsert, todoRemove, setAllData } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ref, set } from "firebase/database";
+import { isMobile } from 'react-device-detect';
+
+import { ref, child, get } from "firebase/database";
 import { db } from '../firebase-config';
 import { uid } from "uid";
 
@@ -36,19 +37,6 @@ import Card from '../components/Card';
 import Skeleton from '../components/Skeleton';
 
 import { styled } from "styled-components";
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  // width: 400,
-  width: '50vw',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 const MyButton = styled(Button)(
   ({ theme }) => ({
@@ -84,7 +72,7 @@ const SearchPaper = styled(Paper)(
     color: theme.colors.colorWhite,
     borderColor: theme.colors.colorGray,
     borderRadius: "20px",
-    height: "7vh",
+    height: isMobile === true ? '8vh' : '60px', 
     p: '2px 4px', 
     display: 'flex', 
     alignItems: 'center', 
@@ -101,6 +89,14 @@ const MyBorderAllIcon = styled(BorderAllIcon)(
 const MyListAltIcon = styled(ListAltIcon)(
   ({ theme }) => ({
     color: theme.colors.colorGray,
+  })
+);
+
+const MyClearIcon = styled(ClearIcon)(
+  ({ theme }) => ({
+    color: theme.colors.colorGray,
+    cursor: "pointer", 
+    marginRight: "7px", 
   })
 );
 
@@ -130,7 +126,8 @@ export default function Home() {
   let totalCount = 0;
 
   const inputRef = React.useRef(null);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  // const loading = useSelector((state) => state.loading);
   const lists = useSelector((state) => state.datas);
   const maxCount = useSelector((state) => state.maxCount);
   const [title, setTitle] = React.useState("");
@@ -176,11 +173,37 @@ export default function Home() {
     });
   };
 
+  const getDataFromDatabase = () => {
+    const dbRef = ref(db);
+      get(child(dbRef, "/datas"))
+        .then(snapshot => {
+        if (snapshot.exists()) {
+          dispatch(setAllData(snapshot.val()));
+          console.log(snapshot.val());
+          setLoading(false);
+        } else {
+          console.log("No data available");
+          // 에러 화면
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        // 에러 화면
+      });
+    
+  };
+
+  React.useEffect(() => {
+    const runFunction = Object.keys(lists).length === 0 ? getDataFromDatabase() : setLoading(false);
+  },[]);
+
   return (
     <>
     {
       loading ? (
-        <div>Loading...</div>
+        <>
+          <Skeleton></Skeleton>
+        </>
       ) : (
         <Box sx={{ flexGrow: 1, maxWidth: 1000, marginTop: "10px" }}>
           <Grid container spacing={3}>
@@ -206,7 +229,7 @@ export default function Home() {
                     ) : (
                     <>
                       <Tooltip title="지우기" placement="bottom">
-                        <ClearIcon style={{ cursor: "pointer" }} onClick={() => setSearchData("")}></ClearIcon>
+                        <MyClearIcon onClick={() => setSearchData("")}></MyClearIcon>
                       </Tooltip>
                       <MyDivider orientation="vertical" />
                     </>
@@ -242,49 +265,49 @@ export default function Home() {
                     }
                   })
                 ) : (
-                  // <h2>텅</h2>
-                  <Skeleton></Skeleton>
+                  <h2>텅</h2>
                 )}
               </Box>
               <br></br>
               { showCount > count.total ? (
-                <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>
+                <MyButton fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>
                   더보기 ({totalCount}/{showCount})
-                </Button>
+                </MyButton>
               ) : Object.keys(lists).length > maxCount ? (
-                <Button fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandLessIcon />} onClick={foldList}>
+                <MyButton fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandLessIcon />} onClick={foldList}>
                   접기 ({totalCount}/{totalCount})
-                </Button>
+                </MyButton>
               ) : (
                 <></>
               )}
             </Grid>
             <Grid item xs></Grid>
           </Grid>
-          <Modal
+
+          <Dialog
             open={open_modal}
             onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
           >
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                제목!
-              </Typography>
-              <br></br>
+          <DialogTitle id="alert-dialog-title">
+            {"Add item"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
               <TextField autoFocus required ref={inputRef} fullWidth={true} id="title" label="title" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
-              <br></br>
-              <br></br>
-              {/* <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="contained" onClick={Test}> */}
-              <Button size="large" style={{ width: "25vw", borderRadius: "20px" }} variant="contained" onClick={Test}>
-                확인
-              </Button>
-              {/* <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="outlined" onClick={handleClose}> */}
-              <Button size="large" style={{ width: "25vw", borderRadius: "20px" }} variant="outlined" onClick={handleClose}>
-                취소
-              </Button>
-            </Box>
-          </Modal>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="error" variant="contained" onClick={()=>Test()}>
+              확인
+            </Button>
+            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="error" variant="outlined" onClick={handleClose}>
+              취소
+            </Button>
+          </DialogActions>
+          </Dialog>
+
           <Dialog
             open={open_dialog[0]}
             onClose={handleCloseDialog}

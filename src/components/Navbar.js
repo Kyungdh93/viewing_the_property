@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled, alpha, rgbToHex } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -27,6 +26,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import BarChartIcon from '@mui/icons-material/BarChart';
 
+import { styled } from "styled-components";
+
 import { Link } from 'react-router-dom';
 
 import {  login } from '../store';
@@ -35,77 +36,42 @@ import { getAuth, signOut } from 'firebase/auth';
 import { auth } from '../firebase-config';
 import { useNavigate } from 'react-router-dom';
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
-
 const drawerWidth = 240;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
-  }),
-);
+// const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+//   ({ theme, open }) => ({
+//     flexGrow: 1,
+//     padding: theme.spacing(3),
+//     transition: theme.transitions.create('margin', {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.leavingScreen,
+//     }),
+//     marginLeft: `-${drawerWidth}px`,
+//     ...(open && {
+//       transition: theme.transitions.create('margin', {
+//         easing: theme.transitions.easing.easeOut,
+//         duration: theme.transitions.duration.enteringScreen,
+//       }),
+//       marginLeft: 0,
+//     }),
+//   }),
+// );
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
+// const DrawerHeader = styled('div')(({ theme }) => ({
+//   display: 'flex',
+//   alignItems: 'center',
+//   padding: theme.spacing(0, 1),
+//   // necessary for content to be below app bar
+//   ...theme.mixins.toolbar,
+//   justifyContent: 'flex-end',
+// }));
+
+const MyAppBar = styled(AppBar)(
+  ({ theme }) => ({
+    backgroundColor: theme.colors.colorBg,
+    color: theme.colors.colorMainFont
+  })
+);
 
 export default function SearchAppBar() {
   let navigate = useNavigate();
@@ -130,7 +96,7 @@ export default function SearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="primary">
+      <MyAppBar position="static">
         <Toolbar>
           <IconButton
             size="large"
@@ -142,18 +108,28 @@ export default function SearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-            >
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            // style={{ margin: "auto" }}
+          >
             <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
               BDS
             </Link>
-            </Typography>
+          </Typography>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            onClick={handleDrawerOpen}
+          >
+            <MenuIcon />
+          </IconButton>
         </Toolbar>
-      </AppBar>
+      </MyAppBar>
       <Drawer
         sx={{
           width: drawerWidth,
@@ -167,13 +143,13 @@ export default function SearchAppBar() {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
+        <div>
           <Avatar></Avatar>
           <Typography>Hello {user_data.displayName}! </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
-        </DrawerHeader>
+        </div>
         <Divider />
         <Link to='/' style={{ textDecoration: "none", color: "black" }} onClick={handleDrawerClose}>
           <List>
@@ -227,10 +203,6 @@ export default function SearchAppBar() {
           ))}
         </List>
       </Drawer>
-      <Main hidden={!open}>
-        {/* <div style={{ width: "100%", height: "100vh", backgroundColor: "black" }} onClick={()=>setOpen(false)}></div> */}
-        <div style={{ width: "100%", height: "100vh" }} onClick={()=>setOpen(false)}></div>
-      </Main>
     </Box>
   );
 }

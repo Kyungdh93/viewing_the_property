@@ -2,6 +2,7 @@ import { legacy_createStore as createStore } from 'redux';
 // import jsonData from './data.json';
 import { ref, child, get ,set, remove, update } from "firebase/database";
 import { db } from "./firebase-config";
+import { FlareSharp } from '@mui/icons-material';
 
 const FIREBASE_DB_PATH = "datas/";
 const LOGIN = "LOGIN/ACCOUNT";
@@ -40,7 +41,7 @@ export const login = (user_data) => {
   };
 };
 
-export const getAllData = (datas) => {
+export const setAllData = (datas) => {
   return {
     type: DATA_GET,
     payload: {
