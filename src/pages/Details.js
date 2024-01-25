@@ -23,6 +23,7 @@ import { Link } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { todoUpdate } from '../store';
 import Box from '@mui/material/Box';
+import Textarea from '@mui/joy/Textarea';
 
 import { isMobile } from 'react-device-detect';
 
@@ -153,7 +154,7 @@ function Details() {
     //   <Table1></Table1>
     //   <Table1></Table1>
     // </>
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, width: 1500, minWidth: 320 }}>
       <Grid container spacing={3}>
         <Grid item xs></Grid>
         {/* <Grid item xs={6}> */}
@@ -502,6 +503,26 @@ function Details() {
             >
               <ListItemText primary={`URL`} />
             </ListItem>
+            <ListItem
+              key={82}
+              disableGutters
+              secondaryAction={
+                <Textarea
+                  placeholder="메모"
+                  // defaultValue="Try to put text longer than 4 lines."
+                  minRows={2}
+                  maxRows={4}
+                  style={{ width: "300px", height: "120px", marginTop: "100px", borderRadius: "20px", color: "white", backgroundColor: "black" }}
+                />
+              }
+            >
+              <ListItemText primary={`메모`} />
+            </ListItem>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
             <br></br>
             <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
               <MyButton fullWidth={true} size="large" variant="outlined" >
