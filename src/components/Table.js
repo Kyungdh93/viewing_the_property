@@ -7,6 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from "react-router-dom";
+import { todoUpdate } from '../store';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,15 +32,26 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-];
-
 export default function CustomizedTables() {
+  const dispatch = useDispatch();
+
+  const { item } = useParams();
+  const lists = useSelector((state) => state.datas);
+  const itemData = lists[item];
+  console.log('itemData in Table.js = ', itemData);
+
+  const [editable, setEditable] = React.useState('');
+
+  // console.log('rows = ', rows);
+
+  const testClick = (keyName) => {
+    setEditable(keyName);
+  }
+
+  const updateValue = (e, info) => {
+    dispatch(todoUpdate(itemData.id, info));
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -50,13 +65,43 @@ export default function CustomizedTables() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell>{row.name}</StyledTableCell>
+          {Object.keys(itemData.info).map((keyName, index) => (
+            <StyledTableRow key={keyName}>
+              <StyledTableCell onClick={()=>{testClick(keyName)}} sx={{width: '150px', height: '40px' }}>
+                {
+                  editable === keyName ? (
+                    // <TextField defaultValue={itemData.info[keyName]} autoFocus size='small' sx={{width: '150px', height: '40px' }} onBlur={(e) => testBlur(keyName, index, e)}/>
+                    <TextField 
+                      defaultValue={itemData.info[keyName]} 
+                      autoFocus 
+                      size='small' 
+                      sx={{width: '150px', height: '40px' }}
+                      onBlur={(e)=>{
+                        const info = {...itemData.info, [keyName]:e.target.value};
+                        setEditable('');
+                        updateValue(e, info);
+                      }}
+                    />
+                    ) : (
+                    itemData.info[keyName]
+                  )
+                }
+              </StyledTableCell>
+
+              {/* <StyledTableCell onClick={()=>{testClick(index, 0)}} sx={{width: '150px', height: '40px' }}>
+                {
+                  row.editable === true ? (
+                    <TextField defaultValue={row.name} autoFocus size='small' sx={{width: '150px', height: '40px' }} onBlur={(e) => testBlur(row, index, e)}/>
+                    ) : (
+                    row.name
+                  )
+                }
+              </StyledTableCell>
+
               <StyledTableCell>{row.calories}</StyledTableCell>
               <StyledTableCell>{row.fat}</StyledTableCell>
               <StyledTableCell>{row.carbs}</StyledTableCell>
-              <StyledTableCell>{row.protein}</StyledTableCell>
+              <StyledTableCell>{row.protein}</StyledTableCell> */}
             </StyledTableRow>
           ))}
         </TableBody>
