@@ -6,6 +6,7 @@ import { FlareSharp } from '@mui/icons-material';
 
 const FIREBASE_DB_PATH = "datas/";
 const LOGIN = "LOGIN/ACCOUNT";
+const THEME_CHANGE = "THEME/CHANGE";
 const DATA_GET = "DATA/GET";
 const MAX_COUNT = "SET/MAXCOUNT";
 const TODO_INSERT = "TODO/INSERT";
@@ -50,6 +51,15 @@ export const setAllData = (datas) => {
   };
 };
 
+export const changeTheme = (theme) => {
+  return {
+    type: THEME_CHANGE,
+    payload: {
+      theme: theme
+    }
+  };
+};
+
 export const setMaxCount = (maxCount) => {
   return {
     type: MAX_COUNT,
@@ -73,7 +83,8 @@ export const todoInsert = (id, title, time) => {
     "entrance_structure": "",
     "heating": "",
     "management_status": "",
-    "naver_bds_url": ""
+    "naver_bds_url": "",
+    "memo": ""
   };
   firebaseCreate(id, title, time, info);
   return {
@@ -114,7 +125,7 @@ export const todoToggle = (id) => {
 
 // jsonData.maxCount = 5;
 // const initState = jsonData;
-const initState = {"user_data":"", "datas":{}, "maxCount":5};
+const initState = {"user_data":"", "datas":{}, "maxCount":5, "theme":"dark"};
 
 export default createStore(function(state = initState, { type, payload }){
   // console.log('state = ', state);
@@ -136,6 +147,11 @@ export default createStore(function(state = initState, { type, payload }){
       return {
         ...state,
         maxCount:payload.maxCount
+      };
+    case THEME_CHANGE:
+      return {
+        ...state,
+        theme:payload.theme
       };
     case TODO_INSERT:
       let data = {};

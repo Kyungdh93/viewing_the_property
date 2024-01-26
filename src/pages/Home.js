@@ -40,20 +40,20 @@ import { styled } from "styled-components";
 
 const MyButton = styled(Button)(
   ({ theme }) => ({
-    backgroundColor: theme.colors.colorMain,
+    backgroundColor: theme.colors.colorDiGreen,
     color: theme.colors.colorWhite,
-    borderColor: theme.colors.colorGray,
+    borderColor: theme.colors.colorDarkGray,
     borderRadius: "20px", 
     "&:hover": {
-      background: theme.colors.colorDarkShadow,
-      borderColor: theme.colors.colorWhite,
+      background: theme.colors.colorGreen,
+      borderColor: theme.colors.colorMainFont,
     }
   })
 );
 
 const MyDivider = styled(Divider)(
   ({ theme }) => ({
-    backgroundColor: theme.colors.colorWhite,
+    backgroundColor: theme.colors.colorMainFont,
     height: 28, 
     margin: 0.5, 
   })
@@ -61,7 +61,7 @@ const MyDivider = styled(Divider)(
 
 const SearchBar = styled(InputBase)(
   ({ theme }) => ({
-    color: theme.colors.colorWhite,
+    color: theme.colors.colorMainFont,
     borderRadius: "20px", 
   })
 );
@@ -69,8 +69,8 @@ const SearchBar = styled(InputBase)(
 const SearchPaper = styled(Paper)(
   ({ theme }) => ({
     backgroundColor: theme.colors.colorMain,
-    color: theme.colors.colorWhite,
-    borderColor: theme.colors.colorGray,
+    color: theme.colors.colorMainFont,
+    borderColor: theme.colors.colorDarkGray,
     borderRadius: "20px",
     height: isMobile === true ? '8vh' : '60px', 
     p: '2px 4px', 
@@ -82,19 +82,19 @@ const SearchPaper = styled(Paper)(
 
 const MyBorderAllIcon = styled(BorderAllIcon)(
   ({ theme }) => ({
-    color: theme.colors.colorGray,
+    color: theme.colors.colorDarkGray,
   })
 );
 
 const MyListAltIcon = styled(ListAltIcon)(
   ({ theme }) => ({
-    color: theme.colors.colorGray,
+    color: theme.colors.colorDarkGray,
   })
 );
 
 const MyClearIcon = styled(ClearIcon)(
   ({ theme }) => ({
-    color: theme.colors.colorGray,
+    color: theme.colors.colorDarkGray,
     cursor: "pointer", 
     marginRight: "7px", 
   })

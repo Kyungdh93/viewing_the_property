@@ -17,7 +17,7 @@ import { isMobile } from 'react-device-detect';
 const MyListItem = styled(ListItem)(
   ({ theme }) => ({
     backgroundColor: theme.colors.colorMain,
-    color: theme.colors.colorGray,
+    color: theme.colors.colorMainFont,
     border: "1px groove",
     borderRadius: "20px", 
     borderColor: theme.colors.colorDarkGray, 
@@ -28,18 +28,18 @@ const MyListItem = styled(ListItem)(
 
 const MyOpenInNewIcon = styled(OpenInNewIcon)(
   ({ theme }) => ({
-    color: theme.colors.colorGray
+    color: theme.colors.colorDarkGray
   })
 );
 
 const MyDeleteIcon = styled(DeleteIcon)(
   ({ theme }) => ({
-    color: theme.colors.colorGray
+    color: theme.colors.colorDarkGray
   })
 );
 
 const test = {
-  color: "white"
+  color: "gray"
 }
 
 const List = ({ item, handleOpenDialog }) => {

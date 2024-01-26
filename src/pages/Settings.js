@@ -7,8 +7,11 @@ import Select from '@mui/material/Select';
 import { setMaxCount } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Switch from '../components/Switch';
+
 function Settings() {
   const max_count = useSelector((state) => state.maxCount);
+
   const dispatch = useDispatch();
   
   const handleChange = (e) => {
@@ -31,6 +34,7 @@ function Settings() {
           <MenuItem value={10}>10</MenuItem>
           <MenuItem value={20}>20</MenuItem>
         </Select>
+        <Switch></Switch>
       </FormControl>
     </Box>
     );

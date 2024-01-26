@@ -11,10 +11,13 @@ export const lightTheme = {
         colorWhite: "#FFFFFF",
         colorRed: "#FC585A",
         colorDiRed: "#FE9090",
-        colorGreen: "green",
+        colorGreen: "#6F9B3C",
+        colorDiGreen: "#558257",
         colorShadow: "0 3px 6px rgba(0, 0, 0, .16)",
         colorDarkShadow: "0 3px 6px rgba(0, 0, 0, .5)",
+        colorOpposite: "#585D6E4d",
     },
+    mode: 'light',
 };
 
 export const darkTheme = {
@@ -30,10 +33,13 @@ export const darkTheme = {
         colorWhite: "#FFFFFF",
         colorRed: "#FC585A",
         colorDiRed: "#FE9090",
-        colorGreen: "green",
+        colorGreen: "#6F9B3C",
+        colorDiGreen: "#558257",
         colorShadow: "0 4px 7px rgb(68 68 68 / .8)",
         colorDarkShadow: "0 3px 6px rgba(255, 255, 255, .5)",
-    }
+        colorOpposite: "#ffffff4d",
+    },
+    mode: 'dark',
 };
 
 export const theme = {
