@@ -13,6 +13,8 @@ import { useParams } from "react-router-dom";
 import { todoUpdate } from '../store';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  width: '150px', 
+  height: '40px',
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -55,7 +57,7 @@ export default function CustomizedTables() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
+        {/* <TableHead>
           <TableRow>
             <StyledTableCell>주소</StyledTableCell>
             <StyledTableCell>시공년도</StyledTableCell>
@@ -63,14 +65,14 @@ export default function CustomizedTables() {
             <StyledTableCell>대중교통</StyledTableCell>
             <StyledTableCell>학교</StyledTableCell>
           </TableRow>
-        </TableHead>
+        </TableHead> */}
         <TableBody>
           {Object.keys(itemData.info).map((keyName, index) => (
             <StyledTableRow key={keyName}>
-              <StyledTableCell onClick={()=>{testClick(keyName)}} sx={{width: '150px', height: '40px' }}>
+              <StyledTableCell sx={{ backgroundColor: "green" }}> {keyName} </StyledTableCell>
+              <StyledTableCell onClick={()=>{testClick(keyName)}}>
                 {
                   editable === keyName ? (
-                    // <TextField defaultValue={itemData.info[keyName]} autoFocus size='small' sx={{width: '150px', height: '40px' }} onBlur={(e) => testBlur(keyName, index, e)}/>
                     <TextField 
                       defaultValue={itemData.info[keyName]} 
                       autoFocus 
@@ -87,21 +89,6 @@ export default function CustomizedTables() {
                   )
                 }
               </StyledTableCell>
-
-              {/* <StyledTableCell onClick={()=>{testClick(index, 0)}} sx={{width: '150px', height: '40px' }}>
-                {
-                  row.editable === true ? (
-                    <TextField defaultValue={row.name} autoFocus size='small' sx={{width: '150px', height: '40px' }} onBlur={(e) => testBlur(row, index, e)}/>
-                    ) : (
-                    row.name
-                  )
-                }
-              </StyledTableCell>
-
-              <StyledTableCell>{row.calories}</StyledTableCell>
-              <StyledTableCell>{row.fat}</StyledTableCell>
-              <StyledTableCell>{row.carbs}</StyledTableCell>
-              <StyledTableCell>{row.protein}</StyledTableCell> */}
             </StyledTableRow>
           ))}
         </TableBody>

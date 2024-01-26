@@ -161,10 +161,33 @@ function Details() {
     dispatch(todoUpdate(itemData.id, info));
   };
 
+  const migrateData = {
+    "expected_price": "",
+    "expected_rent_price": "",
+    "address": "",
+    "year_of_construction": "",
+    "number_of_households": "",
+    "parking": "",
+    "subway": "",
+    "bus": "",
+    "school": "학교",
+    "entrance_structure": "현관구조",
+    "heating": "난방",
+    "management_status": "",
+    "naver_bds_url": "",
+    "memo": ""
+  };
+
   return (
-    <>
-      <Table1></Table1>
-    </>
+    <MyBox>
+      <Grid container spacing={3}>
+       <Grid item xs></Grid>
+        <Grid item xs={8}>
+          <Table1></Table1>
+        </Grid>
+        <Grid item xs></Grid>
+      </Grid>
+    </MyBox>
 
     // <MyBox>
     //   <Grid container spacing={3}>
