@@ -12,19 +12,18 @@ import { useState } from "react";
 
 import { login, setAllData } from './store';
 import { useDispatch, useSelector } from 'react-redux';
-import { ref, child, get } from "firebase/database";
-import { db } from "./firebase-config";
 import { isMobile } from 'react-device-detect';
 
 import { GlobalStyle } from "./theme/global";
 import { darkTheme, lightTheme } from "./theme/theme";
-import {ThemeProvider as StyledThemeProvider} from "styled-components";
+import { ThemeProvider as StyledThemeProvider} from "styled-components";
 import { ThemeProvider as MuiThemeProvider} from "@material-ui/core";
 
 import { StylesProvider } from "@material-ui/core/styles";
 
+
 function App() {
-  const [theme, setTheme] = useState("dark");
+  const theme = useSelector((state) => state.theme);
 
   const user_data = useSelector((state) => state.user_data);
   const dispatch = useDispatch();
@@ -64,8 +63,7 @@ function App() {
         </StylesProvider>
       ) : (
         <>
-          <h3>구글 로그인 테스트</h3>
-          <Button onClick={handleGoogleLogin}>로그인</Button>
+          <Button onClick={handleGoogleLogin} sx={{ borderRadius: "20px", width: "500px", height: "50px", color: "white", backgroundColor: "green" }}>로그인</Button>
         </>
       )}
     </>
