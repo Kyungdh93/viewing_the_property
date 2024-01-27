@@ -5,7 +5,6 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { isMobile } from 'react-device-detect';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -23,6 +22,7 @@ const MyButton = styled(Button)(
   ({ theme }) => ({
     backgroundColor: theme.colors.colorMain,
     color: theme.colors.colorMainFont,
+    border: "1px groove",
     borderColor: theme.colors.colorDarkGray,
     borderRadius: "20px", 
     "&:hover": {
@@ -34,9 +34,10 @@ const MyButton = styled(Button)(
 
 const MyImageList = styled(ImageList)(
   ({ theme }) => ({
-    width: isMobile === true ? '80vw' : 500, 
+    width: "100%", 
     height: 350,
     border: "1px dotted",
+    borderRadius: "20px",
     borderColor: theme.colors.colorDarkGray,
   })
 );
@@ -79,7 +80,7 @@ export default function ImageUpload() {
         {
           itemData.length === 0 ? (
             <div style={{ margin: "auto" }} fullWidth={true}>
-              <ImageNotSupportedIcon></ImageNotSupportedIcon>
+              <ImageNotSupportedIcon></ImageNotSupportedIcon> NO IMAGE AVAILABLE
             </div>
           ) : (
             itemData.map((item) => (
