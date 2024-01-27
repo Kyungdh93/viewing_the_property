@@ -1,13 +1,27 @@
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Grid from '@mui/material/Grid';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import { styled } from "styled-components";
+import { isMobile } from 'react-device-detect';
 
 import { setMaxCount } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 
+import MaxCount from '../components/SettingsMaxCount';
 import Switch from '../components/Switch';
+
+const MyList = styled(List)(
+  () => ({
+    width: isMobile === true ? '100vw' : '50%', 
+    maxWidth: isMobile === true ? 320 : 1000,
+    margin: "auto",
+  })
+);
 
 function Settings() {
   const max_count = useSelector((state) => state.maxCount);
@@ -19,23 +33,33 @@ function Settings() {
   }
 
   return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label">Max Count</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={max_count}
-          label="Max Count"
-          onChange={handleChange}
-        >
-          <MenuItem value={5}>5</MenuItem>
-          <MenuItem value={7}>7</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
-          <MenuItem value={20}>20</MenuItem>
-        </Select>
-        <Switch></Switch>
-      </FormControl>
+    <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "10px" }}>
+      <Grid container spacing={3}>
+       <Grid item xs></Grid>
+        <Grid item xs={10}>
+          <MyList>
+            <ListItem
+            key={0}
+            disableGutters
+            secondaryAction={
+              <MaxCount></MaxCount>           
+            }
+            >
+              <ListItemText primary={`최대값`} />
+            </ListItem>
+            <ListItem
+            key={1}
+            disableGutters
+            secondaryAction={
+              <Switch></Switch>
+            }
+            >
+              <ListItemText primary={`테마`} />
+            </ListItem>
+          </MyList>
+        </Grid>
+        <Grid item xs></Grid>
+      </Grid>
     </Box>
     );
   }

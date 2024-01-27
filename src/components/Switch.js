@@ -68,7 +68,6 @@ export default function CustomizedSwitches() {
     <FormGroup>
       <FormControlLabel
         control={<MaterialUISwitch sx={{ m: 1 }} value={theme} checked={theme === 'dark' ? true : false }/>}
-        label="MUI switch"
         onChange={test}
       />
     </FormGroup>
