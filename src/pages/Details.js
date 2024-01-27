@@ -161,29 +161,31 @@ function Details() {
     dispatch(todoUpdate(itemData.id, info));
   };
 
-  const migrateData = {
-    "expected_price": "",
-    "expected_rent_price": "",
-    "address": "",
-    "year_of_construction": "",
-    "number_of_households": "",
-    "parking": "",
-    "subway": "",
-    "bus": "",
-    "school": "학교",
-    "entrance_structure": "현관구조",
-    "heating": "난방",
-    "management_status": "",
-    "naver_bds_url": "",
-    "memo": ""
+  const mappingData = {
+    "expected_price": ["예상 매매가", "input"],
+    "expected_rent_price": ["예상 전세가", "input"],
+    "address": ["주소", "input"],
+    "year_of_construction": ["시공년도", "input"],
+    "number_of_households": ["세대수", "input"],
+    "parking": ["주차", "input"],
+    "subway": ["지하철", "input"],
+    "bus": ["버스", "input"],
+    "school": ["학교", "checkbox"],
+    "entrance_structure": ["현관구조", "radio"],
+    "heating": ["난방", "radio"],
+    "management_status": ["관리상태", "radio"],
+    "naver_bds_url": ["URL", "input"],
+    "memo": ["메모", "textarea"]
   };
 
+  const orderArray = ["expected_price",  "expected_rent_price",  "address",  "year_of_construction",  "number_of_households",  "parking",  "subway",  "bus",  "school",  "entrance_structure",  "heating",  "management_status",  "naver_bds_url",  "memo"];
+  
   return (
     <MyBox>
       <Grid container spacing={3}>
        <Grid item xs></Grid>
         <Grid item xs={8}>
-          <Table1></Table1>
+          <Table1 mappingData={mappingData} orderArray={orderArray} nowYear={nowYear} naverLandUrl={naverLandUrl}></Table1>
         </Grid>
         <Grid item xs></Grid>
       </Grid>
