@@ -28,6 +28,7 @@ import Textarea from '@mui/joy/Textarea';
 import { isMobile } from 'react-device-detect';
 
 import Table1 from '../components/Table';
+import DetailsList from '../components/DetailsList';
 import { styled } from "styled-components";
 import ImageUpload from "../components/ImageUpload";
 
@@ -35,7 +36,7 @@ const MyBox = styled(Box)(
   () => ({
     flexGrow: 1, 
     // width: 1500,
-    width: isMobile === true ? '100vw' : '1500',
+    width: isMobile === true ? '100vw' : '1000px',
     maxWidth: isMobile === true ? 320 : 1000, 
     minWidth: 320, 
   })
@@ -181,15 +182,16 @@ function Details() {
   const orderArray = ["expected_price",  "expected_rent_price",  "address",  "year_of_construction",  "number_of_households",  "parking",  "subway",  "bus",  "school",  "entrance_structure",  "heating",  "management_status",  "naver_bds_url",  "memo"];
   
   return (
-    <MyBox>
+    <>
       <Grid container spacing={3}>
        <Grid item xs></Grid>
-        <Grid item xs={8}>
-          <Table1 mappingData={mappingData} orderArray={orderArray} nowYear={nowYear} naverLandUrl={naverLandUrl}></Table1>
+        <Grid item xs={10}>
+          {/* <Table1 mappingData={mappingData} orderArray={orderArray} nowYear={nowYear} naverLandUrl={naverLandUrl}></Table1> */}
+          <DetailsList mappingData={mappingData} orderArray={orderArray} nowYear={nowYear} naverLandUrl={naverLandUrl}></DetailsList>
         </Grid>
         <Grid item xs></Grid>
       </Grid>
-    </MyBox>
+    </>
 
     // <MyBox>
     //   <Grid container spacing={3}>
