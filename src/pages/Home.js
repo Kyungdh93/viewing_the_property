@@ -32,7 +32,7 @@ import { ref, child, get } from "firebase/database";
 import { db } from '../firebase-config';
 import { uid } from "uid";
 
-import List from '../components/List';
+import List from '../components/HomeList';
 import Card from '../components/Card';
 import Skeleton from '../components/Skeleton';
 
@@ -46,6 +46,18 @@ const MyButton = styled(Button)(
     borderRadius: "20px", 
     "&:hover": {
       background: theme.colors.colorGreen,
+      borderColor: theme.colors.colorMainFont,
+    }
+  })
+);
+
+const MyButton2 = styled(Button)(
+  ({ theme }) => ({
+    color: theme.colors.colorMainFont,
+    borderColor: theme.colors.colorDarkGray,
+    borderRadius: "20px", 
+    "&:hover": {
+      background: theme.colors.colorMain,
       borderColor: theme.colors.colorMainFont,
     }
   })
@@ -205,7 +217,7 @@ export default function Home() {
           <Skeleton></Skeleton>
         </>
       ) : (
-        <Box sx={{ flexGrow: 1, maxWidth: 1000, marginTop: "10px" }}>
+        <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "10px" }}>
           <Grid container spacing={3}>
             <Grid item xs></Grid>
             {/* <Grid item xs={6}> */}
@@ -270,13 +282,13 @@ export default function Home() {
               </Box>
               <br></br>
               { showCount > count.total ? (
-                <MyButton fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>
+                <MyButton2 fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>
                   더보기 ({totalCount}/{showCount})
-                </MyButton>
+                </MyButton2>
               ) : Object.keys(lists).length > maxCount ? (
-                <MyButton fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandLessIcon />} onClick={foldList}>
+                <MyButton2 fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandLessIcon />} onClick={foldList}>
                   접기 ({totalCount}/{totalCount})
-                </MyButton>
+                </MyButton2>
               ) : (
                 <></>
               )}
@@ -295,14 +307,14 @@ export default function Home() {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <TextField autoFocus required ref={inputRef} fullWidth={true} id="title" label="title" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
+              <TextField autoFocus required ref={inputRef} fullWidth={true} id="title" label="title" color="success" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="error" variant="contained" onClick={()=>Test()}>
+            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="success" variant="contained" onClick={()=>Test()}>
               확인
             </Button>
-            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="error" variant="outlined" onClick={handleClose}>
+            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="success" variant="outlined" onClick={handleClose}>
               취소
             </Button>
           </DialogActions>
