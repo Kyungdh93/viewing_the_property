@@ -33,7 +33,7 @@ import { db } from '../firebase-config';
 import { uid } from "uid";
 
 import List from '../components/HomeList';
-import Card from '../components/Card';
+import Card from '../components/HomeCard';
 import Skeleton from '../components/Skeleton';
 
 import { styled } from "styled-components";
