@@ -74,6 +74,7 @@ export const todoInsert = (id, title, time) => {
     "expected_price": "",
     "expected_rent_price": "",
     "address": "",
+    "detail_address": "",
     "year_of_construction": "",
     "number_of_households": "",
     "parking": "",
@@ -125,6 +126,10 @@ export const todoToggle = (id) => {
 
 // jsonData.maxCount = 5;
 // const initState = jsonData;
+export const greaterSeoul = ["서울특별시", "경기도", "인천광역시"];
+export const seoulCities = ["강남구", "강동구", "강서구", "강북구", "관악구", "광진구", "구로구", "금천구", "노원구", "동대문구", "도봉구", "동작구", "마포구", "서대문구", "성동구", "성북구", "서초구", "송파구", "영등포구", "용산구", "양천구", "은평구", "종로구", "중구", "중랑구"];
+export const gyeonggidoCities = ["가평군", "고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시", "남양주시", "동두천시", "부천시", "성남시", "수원시", "시흥시", "안산시", "안성시", "안양시", "양주시", "양평군", "여주시", "연천군", "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시", "평택시", "포천시", "하남시", "화성시"];
+
 const initState = {"user_data":"", "datas":{}, "maxCount":5, "theme":"dark"};
 
 export default createStore(function(state = initState, { type, payload }){
