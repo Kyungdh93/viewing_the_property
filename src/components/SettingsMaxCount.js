@@ -34,7 +34,7 @@ function Settings() {
         >
           {
             countList.map((count)=>{
-              return <MenuItem value={count}>{count}</MenuItem>
+              return <MenuItem key={count} value={count}>{count}</MenuItem>
             })
           }
         </MySelect>
