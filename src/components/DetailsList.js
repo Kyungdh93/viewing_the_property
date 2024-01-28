@@ -21,10 +21,16 @@ import ListItemText from '@mui/material/ListItemText';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { todoUpdate } from '../store';
+import { todoUpdate, greaterSeoul, seoulCities, gyeonggidoCities } from '../store';
+import ListSubheader from '@mui/material/ListSubheader';
+
 import Box from '@mui/material/Box';
 import Textarea from '@mui/joy/Textarea';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Modal from '@mui/material/Modal';
 import { isMobile } from 'react-device-detect';
 
 import { styled } from "styled-components";
@@ -41,7 +47,7 @@ const MyList = styled(List)(
 const MyOutlinedInput = styled(OutlinedInput)(
   ({ theme }) => ({
     borderRadius: "20px",
-    width: isMobile === true ? '60vw' : '300px', 
+    width: isMobile === true ? '63vw' : '300px', 
     color: theme.colors.colorMainFont,
     "& .MuiOutlinedInput-notchedOutline" : {
       borderColor : theme.colors.colorDarkGray
@@ -68,6 +74,14 @@ const StartInputAdornment = styled(MyInputAdornment)(
   () => ({
     width: "65px",
     textAlign: "left",
+  })
+);
+
+const StartInputAdornmentForAddress = styled(StartInputAdornment)(
+  () => ({
+    width: "185px",
+    marginRight: "1px",
+    cursor: "pointer"
   })
 );
 
@@ -120,7 +134,7 @@ const MyButton = styled(Button)(
 
 const MyTextarea = styled(Textarea)(
   ({ theme }) => ({
-    width: isMobile === true ? '60vw' : '300px', 
+    width: isMobile === true ? '63vw' : '300px', 
     height: "120px", 
     borderRadius: "20px", 
     backgroundColor: theme.colors.colorBg,
@@ -133,7 +147,32 @@ const MyTextarea = styled(Textarea)(
   })
 );
 
+const MyImage = styled('img')(
+  ({ theme }) => ({
+    width: isMobile === true ? '400px' : '1000px', 
+    height: isMobile === true ? '500px' : '700px', 
+  })
+);
+
+const useImageLoaded = () => {
+  const [loaded, setLoaded] = React.useState(false);
+  const ref = React.useRef();
+  const onLoad = () => {
+    setLoaded(true);
+  }
+
+  React.useEffect(() => {
+    if (ref.current && ref.current.complete) {
+      onLoad()
+    }
+  })
+
+  return [ref, loaded, onLoad]
+}
+
 function DetailsList(props) {
+  const [ref, loaded, onLoad] = useImageLoaded()
+
   const dispatch = useDispatch();
   const { item } = useParams();
 
@@ -144,6 +183,7 @@ function DetailsList(props) {
   const [expectedPrice, setExpectedPrice] = React.useState(Number(itemData.info['expected_price']));
   const [expectedRentPrice, setExpectedRentPrice] = React.useState(Number(itemData.info['expected_rent_price']));
   const [calculated, setCalculated] = React.useState(0);
+  const [openModal, setOpenModal] = React.useState(false);
   const mappingData = props.mappingData;
   const orderArray = props.orderArray;
   const nowYear = props.nowYear;
@@ -153,6 +193,17 @@ function DetailsList(props) {
     let result = (Number((expectedRentPrice).toString().replaceAll(',',''))/Number((expectedPrice).toString().replaceAll(',','')))*100;
     result = result === NaN ? 0 : isFinite(result) ? Math.round(result) : 0;
     setCalculated(result);
+  };
+
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => {
+    console.log('handleClose');
+    setOpenModal(false);
+  };
+  const test = (e) => {
+    const info = {...itemData.info, ['address']:e.target.value};
+    updateValue(e, info);
+    handleClose();
   };
 
   React.useEffect(() => {
@@ -165,6 +216,7 @@ function DetailsList(props) {
 
   return (
     <MyList>
+        <Typography sx={{textAlign: "center", marginBottom: "10px" }} variant="h6" component="h2">{itemData.title}</Typography>
         <ListItem
         key={8}
         disableGutters
@@ -219,19 +271,46 @@ function DetailsList(props) {
             <ListItemText primary={`예상 전세가`} />
         </ListItem>
         <ListItem
-            key={110}
+            key={111}
             disableGutters
             secondaryAction={
-                <Tooltip title={itemData.info['address']} placement="top">
+              <>
+                <Tooltip title={itemData.info['detail_address']} placement="top">
                 <MyOutlinedInput
-                    defaultValue={itemData.info['address']}
+                    defaultValue={itemData.info['detail_address']}
+                    inputProps={{ style: { textAlign: "left", cursor: "pointer" } }}
                     size='small'
+                    startAdornment={<StartInputAdornmentForAddress>{itemData.info['address']}</StartInputAdornmentForAddress>}
                     onBlur={(e)=>{
-                    const info = {...itemData.info, ['address']:e.target.value};
-                    updateValue(e, info);
+                      const info = {...itemData.info, ['detail_address']:e.target.value};
+                      updateValue(e, info);
                     }}
-                />              
+                    onDoubleClick={(e)=>{
+                      setOpenModal(true);
+                    }}
+                    />              
                 </Tooltip>
+                <Modal
+                  open={openModal}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <div id="testImg" sx={{ position: "relative", top: "700px", left: "350px" }}>
+                    <img ref={ref} onLoad={onLoad} src={require("../images/seoul_map.jpg")} width={isMobile ? "400" : "1000"} height={isMobile ? "500" : "700"} alt="테스트이미지" onClick={(e)=>console.log(e.clientX, e.clientY)} />
+                    {
+                      loaded === true ? (
+                        <>
+                          <Button value='서울시 강서구' sx={{ position: "absolute", top: "305px", left: "205px" }} onClick={(e)=>test(e)}>강서구</Button>
+                          <Button value='서울시 양천구' sx={{ position: "absolute", top: "375px", left: "215px" }} onClick={(e)=>test(e)}>양천구</Button>
+                        </>
+                      ) : (
+                        <div stlye={{ width: "1000px", height: "10000px", backgroundColor: "red"}}>로딩중...</div>
+                      ) 
+                    }
+                  </div>
+                </Modal>
+              </>
             }
         >
             <ListItemText primary={`주소`} />
