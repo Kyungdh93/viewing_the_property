@@ -5,6 +5,7 @@ import Details from './pages/Details';
 import Settings from './pages/Settings';
 import Statics from './pages/Statics';
 import Navbar from './components/Navbar';
+import BottomNavbar from './components/BottomNavbar';
 import { styled } from '@mui/material/styles';
 
 import { useSelector } from 'react-redux';
@@ -25,7 +26,7 @@ const MyDiv = styled('div')(
   })
 );
 
-function App() {
+const App = () => {
   const theme = useSelector((state) => state.theme);
   const user_data = useSelector((state) => state.user_data);
 
@@ -36,14 +37,26 @@ function App() {
           <StyledThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
           <MuiThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
           <GlobalStyle />
-            <Navbar>
-            </Navbar>
+            {
+              isMobile ? (
+                <></>
+                ) : (
+                <><Navbar></Navbar></>
+              )
+            }
             <Routes>
               <Route exact path="/" element={<Home></Home>} />
               <Route path="/details/:item" element={<Details></Details>} />
               <Route path="/statics" element={<Statics></Statics>} />
               <Route path="/settings" element={<Settings></Settings>} />
             </Routes>
+            {
+              isMobile ? (
+                <><BottomNavbar></BottomNavbar></>
+              ) : (
+                <></>
+              )
+            }
           </MuiThemeProvider>
           </StyledThemeProvider>
         </StylesProvider>
