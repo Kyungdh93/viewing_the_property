@@ -5,6 +5,19 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import Box from '@mui/material/Box';
+
+const MyBox = styled(Box)(
+  ({ theme }) => ({
+    // width: isMobile === true ? '100vw' : '50%', 
+    // maxWidth: isMobile === true ? 320 : 1000,
+    flexGrow: 1, 
+    margin: "auto", 
+    marginLeft: "50%", 
+    width: "100%", 
+    color: theme.colors.colorDarkGray
+  })
+);
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -79,9 +92,12 @@ export default function ImageUpload() {
       <MyImageList cols={2} rowHeight={164}>
         {
           itemData.length === 0 ? (
-            <div style={{ margin: "auto" }} fullWidth={true}>
-              <ImageNotSupportedIcon></ImageNotSupportedIcon> NO IMAGE AVAILABLE
-            </div>
+            <Box sx={{ flexGrow: 1, margin: "auto", marginLeft: "50%", width: "100%", color: 'gray' }}>
+              사진을 등록해주세요!
+            </Box>
+            // <div style={{ margin: "auto" }} fullWidth={true}>
+            //   <ImageNotSupportedIcon></ImageNotSupportedIcon> 사진을 등록해주세요!
+            // </div>
           ) : (
             itemData.map((item) => (
               <ImageListItem key={item.img} sx={{ overflow: "auto" }}>

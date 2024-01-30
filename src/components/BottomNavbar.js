@@ -17,13 +17,16 @@ const MyBottomNavigation = styled(BottomNavigation)(
 
 const MyBottomNavigationAction = styled(BottomNavigationAction)(
   ({ theme }) => ({
-    color: theme.colors.colorMainFont,
+    color: theme.colors.colorDarkGray,
+    "&.Mui-selected" : {
+      color: theme.colors.colorMainFont,
+    }
   })
 );
 
 const BottomNavbar = () => {
   const navigate = useNavigate();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
   
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
@@ -32,7 +35,7 @@ const BottomNavbar = () => {
         value={value}
         onChange={(event, newValue) => {
           let target;
-          target = newValue === 0 ? 'Statics' : newValue === 1 ? 'Home' : 'Settings';
+          target = newValue === 0 ? 'Statics' : newValue === 2 ? 'Settings' : '';
           setValue(newValue);
           navigate('/'+target);
         }}

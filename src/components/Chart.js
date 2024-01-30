@@ -4,43 +4,22 @@ import Grid from '@mui/material/Grid';
 import { styled } from "styled-components";
 import { isMobile } from 'react-device-detect';
 
-const MyLineChart = styled(LineChart)(
-  ({ theme }) => ({
-    width: 600,
-    height: 300
-  })
-);
-
 const colors = ['black', 'red', 'purple', 'orange', 'green', 'yellow', 'blue', 'gray']
 
 const RechartsExample = () => {
   return (      
-      <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "10px" }}>
+      <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000 }}>
         <Grid container spacing={3}>
           <Grid item xs></Grid>
           <Grid item xs={12}>
-            {/* <h1>2024년</h1>
-            <LineChart width={isMobile ? 300 : 600} height={isMobile ? 400 : 300} data={sampleData1}>
-              <Line type="linear" dataKey="서울" stroke="#0CD3FF" strokeWidth={3} />
-              <Line type="monotone" dataKey="경기" stroke="#a6120d" strokeWidth={3} />
-              <Line type="natural" dataKey="인천" stroke="#FFCA29" strokeWidth={3} />
-              <CartesianGrid stroke="#ccc" />
-              <YAxis />
-              <XAxis dataKey="name" />
-              <Tooltip />
-              <Legend />
-            </LineChart>
-            <br></br> */}
-
-            <h2>1월 22일 ~ 1월 28일</h2>
+            <h4>2024.01.22 ~ 2024.01.28</h4>
             <BarChart width={isMobile ? 300 : 600} height={isMobile ? 200 : 250} data={sampleData3} >
               <XAxis dataKey="name" fontSize="10px" />
               <YAxis width={15}/>
               {/* <Tooltip /> */}
-              <Bar dataKey="value" barSize={10} fill="#8884d8" />
+              <Bar dataKey="value" barSize={10} fill="white"/>
             </BarChart>
 
-            {/* <h1>2024년 4월</h1> */}
             <PieChart width={340} height={250}>
               <Pie data={sampleData2} cx="50%" cy="50%" outerRadius={80} label>
                 {
@@ -49,7 +28,6 @@ const RechartsExample = () => {
                   ))
                 }
               </Pie>
-              {/* <Tooltip /> */}
               <Legend width={100} verticalAlign="middle" align="right" layout="vertical" iconType="circle" />
             </PieChart>
           </Grid>
@@ -197,6 +175,49 @@ const sampleData3 = [
   {
     name: "1/28",
     value: 5,
+  },
+];
+
+const sampleData4 = [
+  {
+    id: 0,
+    label: "은평구",
+    value: 3,
+  },
+  {
+    id: 1,
+    label: "동작구",
+    value: 4,
+  },
+  {
+    id: 2,
+    label: "용산구",
+    value: 7,
+  },
+  {
+    id: 4,
+    label: "강남구",
+    value: 1,
+  },
+  {
+    id: 3,
+    label: "강서구",
+    value: 3,
+  },
+  {
+    id: 5,
+    label: "동대문구",
+    value: 2,
+  },
+  {
+    id: 6,
+    label: "성북구",
+    value: 5,
+  },
+  {
+    id: 7,
+    label: "구로구",
+    value: 4,
   },
 ];
 

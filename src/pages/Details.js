@@ -182,7 +182,7 @@ function Details() {
   const orderArray = ["expected_price",  "expected_rent_price",  "address",  "year_of_construction",  "number_of_households",  "parking",  "subway",  "bus",  "school",  "entrance_structure",  "heating",  "management_status",  "naver_bds_url",  "memo"];
   
   return (
-    <>
+    <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "70px" }}>
       <Grid container spacing={3}>
        <Grid item xs></Grid>
         <Grid item xs={10}>
@@ -191,7 +191,7 @@ function Details() {
         </Grid>
         <Grid item xs></Grid>
       </Grid>
-    </>
+    </Box>
 
     // <MyBox>
     //   <Grid container spacing={3}>

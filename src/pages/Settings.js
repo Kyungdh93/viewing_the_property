@@ -33,7 +33,7 @@ function Settings() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "10px" }}>
+    <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "70px" }}>
       <Grid container spacing={3}>
        <Grid item xs></Grid>
         <Grid item xs={10}>

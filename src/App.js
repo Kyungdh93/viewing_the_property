@@ -19,9 +19,13 @@ import { StylesProvider } from "@material-ui/core/styles";
 import Auth from "./components/Auth";
 import { isMobile } from 'react-device-detect';
 
+import Test from "./Test";
+import CheckBox from "./components/CheckBox";
+import CheckBox2 from "./components/CheckBox2";
+
 const MyDiv = styled('div')(
   ({ theme }) => ({
-    marginTop: isMobile === true ? '300px' : '20px', 
+    marginTop: isMobile === true ? '20px' : '20px', 
     textAlign: "center"
   })
 );
@@ -32,6 +36,7 @@ const App = () => {
 
   return (
     <>
+      {/* <Test></Test> */}
       { user_data ? (
         <StylesProvider injectFirst>
           <StyledThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
@@ -39,17 +44,22 @@ const App = () => {
           <GlobalStyle />
             {
               isMobile ? (
-                <></>
+                <><Navbar></Navbar></>
                 ) : (
                 <><Navbar></Navbar></>
               )
             }
-            <Routes>
-              <Route exact path="/" element={<Home></Home>} />
-              <Route path="/details/:item" element={<Details></Details>} />
-              <Route path="/statics" element={<Statics></Statics>} />
-              <Route path="/settings" element={<Settings></Settings>} />
-            </Routes>
+            <MyDiv>
+              <Routes>
+                <Route exact path="/" element={<Home></Home>} />
+                <Route path="/details/:item" element={<Details></Details>} />
+                <Route path="/statics" element={<Statics></Statics>} />
+                <Route path="/settings" element={<Settings></Settings>} />
+              </Routes>
+            </MyDiv>
+            <CheckBox></CheckBox>
+            <CheckBox2></CheckBox2>
+
             {
               isMobile ? (
                 <><BottomNavbar></BottomNavbar></>

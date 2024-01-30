@@ -41,7 +41,7 @@ const MyMenuItem = styled(MenuItem)(
 const pages = ['Home', 'Statics', 'Settings'];
 const settings = ['Profile', 'Logout'];
 
-function ResponsiveAppBar() {
+const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -61,7 +61,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <MyAppBar position="static">
+    <MyAppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -204,4 +204,4 @@ function ResponsiveAppBar() {
     </MyAppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Navbar;

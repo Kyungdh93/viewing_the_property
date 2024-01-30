@@ -40,19 +40,6 @@ import { styled } from "styled-components";
 
 const MyButton = styled(Button)(
   ({ theme }) => ({
-    backgroundColor: theme.colors.colorDiGreen,
-    color: theme.colors.colorWhite,
-    borderColor: theme.colors.colorDarkGray,
-    borderRadius: "20px", 
-    "&:hover": {
-      background: theme.colors.colorGreen,
-      borderColor: theme.colors.colorMainFont,
-    }
-  })
-);
-
-const MyButton2 = styled(Button)(
-  ({ theme }) => ({
     color: theme.colors.colorMainFont,
     borderColor: theme.colors.colorDarkGray,
     borderRadius: "20px", 
@@ -217,7 +204,7 @@ export default function Home() {
           <Skeleton></Skeleton>
         </>
       ) : (
-        <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "10px" }}>
+        <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "70px" }}>
           <Grid container spacing={3}>
             <Grid item xs></Grid>
             {/* <Grid item xs={6}> */}
@@ -282,13 +269,13 @@ export default function Home() {
               </Box>
               <br></br>
               { showCount > count.total ? (
-                <MyButton2 fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>
+                <MyButton fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandMoreIcon />} onClick={showMore}>
                   더보기 ({totalCount}/{showCount})
-                </MyButton2>
+                </MyButton>
               ) : Object.keys(lists).length > maxCount ? (
-                <MyButton2 fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandLessIcon />} onClick={foldList}>
+                <MyButton fullWidth={true} size="large" style={{ borderRadius: "20px" }} variant="outlined" startIcon={<ExpandLessIcon />} onClick={foldList}>
                   접기 ({totalCount}/{totalCount})
-                </MyButton2>
+                </MyButton>
               ) : (
                 <></>
               )}
