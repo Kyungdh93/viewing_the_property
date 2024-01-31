@@ -1,7 +1,47 @@
-import CheckBoxCnt from './checkBox.styles';
-import './CheckBox.css';
 import { useDispatch } from 'react-redux';
 import { todoUpdate } from '../store';
+import { styled } from "styled-components";
+import { isMobile } from 'react-device-detect';
+
+const CheckBoxCnt = styled.div`
+    input[type=checkbox] {
+      display: none;
+    }
+
+    input[type=checkbox] + label {
+      color: theme.colors.colorMainFont;
+      flex:1;
+      display: inline-block;
+      margin: 1px;
+      font: 0.8rem 'Noto Sans KR';
+      text-align: center;
+      background: theme.colors.colorBg;
+      border: 1px solid #ddd;
+      padding: 10px 13px;
+      box-sizing: border-box;
+      cursor: pointer;
+      border-radius: 20px;
+    }
+
+    input[type=checkbox]:checked + label {
+      color: theme.colors.colorMainFont;
+      background-image: none;
+      background: theme.colors.colorBg;
+      border: 1px solid #FE9090;
+      padding: 10px 13px;
+      box-sizing: border-box;
+      cursor: pointer;
+      z-index: 1;
+    }
+`
+
+const MyDiv = styled('div')(
+  () => ({
+    display: "flex",
+    width: isMobile === true ? '230px' : '270px', 
+    justifyContent: "space-between"
+  })
+);
 
 const CheckBoxTest = (props) => {
   const dispatch = useDispatch();
@@ -60,7 +100,7 @@ const CheckBoxTest = (props) => {
   };
   
   return (
-    <div class="flex-container space-between">
+    <MyDiv>
       {list.map((data, index) => (
         <CheckBoxCnt>
           <input 
@@ -74,7 +114,7 @@ const CheckBoxTest = (props) => {
           <label htmlFor={"btn"+data}>{data}</label>
         </CheckBoxCnt>
       ))}
-    </div>
+    </MyDiv>
   )
 }
 
