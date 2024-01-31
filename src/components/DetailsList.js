@@ -5,14 +5,7 @@ import Typography from '@mui/material/Typography';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Grid';
 import Tooltip from '@mui/material/Tooltip';
-
-import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
 
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
@@ -23,6 +16,7 @@ import { Link } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { todoUpdate, greaterSeoul, seoulCities, gyeonggidoCities } from '../store';
 import ListSubheader from '@mui/material/ListSubheader';
+import Divider from '@mui/material/Divider';
 
 import Box from '@mui/material/Box';
 import Textarea from '@mui/joy/Textarea';
@@ -48,7 +42,7 @@ const MyList = styled(List)(
 
 const MyOutlinedInput = styled(OutlinedInput)(
   ({ theme }) => ({
-    borderRadius: "20px",
+    borderRadius: "10px",
     width: isMobile === true ? '63vw' : '300px', 
     color: theme.colors.colorMainFont,
     "& .MuiOutlinedInput-notchedOutline" : {
@@ -60,7 +54,7 @@ const MyOutlinedInput = styled(OutlinedInput)(
     },
     "&.Mui-focused > .MuiOutlinedInput-notchedOutline" : {
       // borderColor : theme.colors.colorMainFont,
-      borderColor : theme.colors.colorDarkGold,
+      borderColor : theme.colors.colorBlue,
       color: "white"
     }
   })
@@ -102,16 +96,6 @@ const EndInputAdornment = styled(MyInputAdornment)(
   })
 );
 
-const MyRadio = styled(Radio)(
-  ({ theme }) => ({
-    color: theme.colors.colorDarkGray,
-    '&.Mui-checked': {
-        color: theme.colors.colorMainFont,
-        backgroundColor: theme.colors.colorDarkShadow
-    }
-  })
-);
-
 const MyButton = styled(Button)(
   ({ theme }) => ({
     backgroundColor: theme.colors.colorMain,
@@ -129,7 +113,7 @@ const MyTextarea = styled(Textarea)(
   ({ theme }) => ({
     width: isMobile === true ? '63vw' : '300px', 
     height: "120px", 
-    borderRadius: "20px", 
+    borderRadius: "10px", 
     backgroundColor: theme.colors.colorBg,
     color: theme.colors.colorMainFont,
     borderColor: theme.colors.colorDarkGray,
@@ -144,6 +128,14 @@ const MyImage = styled('img')(
   ({ theme }) => ({
     width: isMobile === true ? '400px' : '1000px', 
     height: isMobile === true ? '500px' : '700px', 
+  })
+);
+
+const MyDivider = styled(Divider)(
+  ({ theme }) => ({
+    backgroundColor: theme.colors.colorGray,
+    height: 1, 
+    margin: 1,
   })
 );
 
@@ -235,7 +227,6 @@ function DetailsList(props) {
             }
         >
             <ListItemText primary={`예상 매매가`} />
-            {/* <ListItemText primary={`예상 매매가`} primaryTypographyProps={{fontSize: '13px'}} /> */}
         </ListItem>
         <ListItem
             key={9}
@@ -262,6 +253,27 @@ function DetailsList(props) {
             }
         >
             <ListItemText primary={`예상 전세가`} />
+        </ListItem>
+        <ListItem
+            key={91}
+            disableGutters
+            secondaryAction={
+            <MyOutlinedInput
+                value={expectedRentPrice.toLocaleString('ko-KR')}
+                inputProps={{ style: { textAlign: "right" } }}
+                size='small'
+                startAdornment={<StartInputAdornment></StartInputAdornment>}
+                endAdornment={<EndInputAdornment>원</EndInputAdornment>}
+                onBlur={(e)=>{
+                  // const result = (e.target.value).replaceAll(',','');
+                  // const info = {...itemData.info, ['expected_rent_price']:result};
+                  // calculate();
+                  // updateValue(e, info);
+                }}
+            />              
+            }
+        >
+            <ListItemText primary={`예상 월세`} />
         </ListItem>
         <ListItem
             key={111}
@@ -294,8 +306,13 @@ function DetailsList(props) {
                     {
                       loaded === true ? (
                         <>
-                          <Button value='서울시 강서구' sx={{ position: "absolute", top: "305px", left: "205px" }} onClick={(e)=>test(e)}>강서구</Button>
-                          <Button value='서울시 양천구' sx={{ position: "absolute", top: "375px", left: "215px" }} onClick={(e)=>test(e)}>양천구</Button>
+                          <Button value='서울시 강서구' sx={{ position: "absolute", top: "305px", left: "150px" }} onClick={(e)=>test(e)}>강서구</Button>
+                          <Button value='서울시 양천구' sx={{ position: "absolute", top: "410px", left: "200px" }} onClick={(e)=>test(e)}>양천구</Button>
+                          <Button value='서울시 구로구' sx={{ position: "absolute", top: "460px", left: "200px" }} onClick={(e)=>test(e)}>구로구</Button>
+                          <Button value='서울시 영등포구' sx={{ position: "absolute", top: "430px", left: "300px" }} onClick={(e)=>test(e)}>영등포구</Button>
+                          <Button value='서울시 금천구' sx={{ position: "absolute", top: "550px", left: "270px" }} onClick={(e)=>test(e)}>금천구</Button>
+                          <Button value='서울시 동작구' sx={{ position: "absolute", top: "460px", left: "400px" }} onClick={(e)=>test(e)}>동작구</Button>
+                          <Button value='서울시 관악구' sx={{ position: "absolute", top: "550px", left: "380px" }} onClick={(e)=>test(e)}>관악구</Button>
                         </>
                       ) : (
                         <div stlye={{ width: "1000px", height: "10000px", backgroundColor: "red"}}>로딩중...</div>
@@ -410,19 +427,6 @@ function DetailsList(props) {
         </ListItem>
         <br></br>
         <ListItem
-            key={5}
-            disableGutters
-            secondaryAction={
-            <CheckBox 
-              type="school" 
-              data={itemData.info['school']}
-              itemData={itemData}
-            />
-            }
-        >
-            <ListItemText primary={`학교`} />
-        </ListItem>
-        <ListItem
             key={6}
             disableGutters
             secondaryAction={
@@ -449,6 +453,19 @@ function DetailsList(props) {
             <ListItemText primary={`난방`} />
         </ListItem>
         <ListItem
+            key={233}
+            disableGutters
+            secondaryAction={
+            <CheckBox 
+              type="underground_parking" 
+              data={itemData.info['management_status']} 
+              itemData={itemData}
+            />          
+            }
+        >
+            <ListItemText primary={`지하주차장`} />
+        </ListItem>
+        <ListItem
             key={2}
             disableGutters
             secondaryAction={
@@ -460,6 +477,19 @@ function DetailsList(props) {
             }
         >
             <ListItemText primary={`관리상태`} />
+        </ListItem>
+        <ListItem
+            key={5}
+            disableGutters
+            secondaryAction={
+            <CheckBox 
+              type="school" 
+              data={itemData.info['school']}
+              itemData={itemData}
+            />
+            }
+        >
+            <ListItemText primary={`학교`} />
         </ListItem>
         <ListItem
             key={81}
@@ -482,7 +512,7 @@ function DetailsList(props) {
             <ListItemText primary={`URL`} />
         </ListItem>
         <ListItem
-            style={{ marginTop: "50px" }}
+            style={{ marginTop: "40px", marginBottom: "50px" }}
             key={82}
             disableGutters
             secondaryAction={
@@ -500,9 +530,6 @@ function DetailsList(props) {
         >
             <ListItemText primary={`메모`} />
         </ListItem>
-        <br></br>
-        <br></br>
-        <br></br>
         <ImageUpload></ImageUpload>
         <br></br>
         <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
