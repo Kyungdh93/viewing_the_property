@@ -1,11 +1,14 @@
-import React, {useState, useEffect} from 'react';
 import CheckBoxCnt from './checkBox.styles';
-import './Test.css';
+import './CheckBox.css';
+import { useDispatch } from 'react-redux';
+import { todoUpdate } from '../store';
 
 const CheckBoxTest = (props) => {
-  // console.log('props.type = ', props.type);
-  // console.log('props.data = ', props.data);
-  const [checkValue, setCheckValue ] = useState('0');
+  const dispatch = useDispatch();
+
+  const updateValue = (e, info) => {
+    dispatch(todoUpdate(props.itemData.id, info));
+  };
 
   let list;
   let _type = 'radio';
@@ -30,26 +33,32 @@ const CheckBoxTest = (props) => {
       list = undergroundParkingData;
       break;
     default:
+      list = [];
       break;
   };
 
   const checkOnlyOne = (e) => {
     if (_type === 'radio') {
+      // radio
       let checkPick = document.getElementsByName('checkWrap'+props.type);
       Array.prototype.forEach.call(checkPick, function (el) {
         el.checked = false;
       });
       e.target.checked = true;
+      
+      const info = {...props.itemData.info, [props.type]:e.target.value};
+      updateValue(e, info);
     } else {
-      e.target.checked = e.target.checked === true ? true : false; 
-    }
-    setCheckValue(e.target.defaultValue);
+      // checkbox
+      e.target.checked = e.target.checked === true ? true : false;
+
+      let result;
+      e.target.checked === true ? result = props.itemData.info[props.type] + e.target.value : result = props.itemData.info[props.type].replaceAll(e.target.value, '');
+      const info = {...props.itemData.info, [props.type]:result};
+      updateValue(e, info);
+    };
   };
   
-  useEffect(() => {
-    console.log("체크박스 value", checkValue);
-  }, [checkValue]);
-
   return (
     <div class="flex-container space-between">
       {list.map((data, index) => (

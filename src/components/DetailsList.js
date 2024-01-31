@@ -36,6 +36,8 @@ import { isMobile } from 'react-device-detect';
 import { styled } from "styled-components";
 import ImageUpload from "./ImageUpload";
 
+import CheckBox from "./CheckBox";
+
 const MyList = styled(List)(
   () => ({
     width: isMobile === true ? '100vw' : '50%', 
@@ -57,7 +59,8 @@ const MyOutlinedInput = styled(OutlinedInput)(
       color: "white"
     },
     "&.Mui-focused > .MuiOutlinedInput-notchedOutline" : {
-      borderColor : theme.colors.colorMainFont,
+      // borderColor : theme.colors.colorMainFont,
+      borderColor : theme.colors.colorDarkGold,
       color: "white"
     }
   })
@@ -96,16 +99,6 @@ const EndInputAdornment = styled(MyInputAdornment)(
     width: "35px",
     marginLeft: "3px",
     textAlign: "right",
-  })
-);
-
-const MyCheckbox = styled(Checkbox)(
-  ({ theme }) => ({
-    color: theme.colors.colorDarkGray,
-    '&.Mui-checked': {
-        color: theme.colors.colorMainFont,
-        backgroundColor: theme.colors.colorDarkShadow
-    }
   })
 );
 
@@ -420,157 +413,54 @@ function DetailsList(props) {
             key={5}
             disableGutters
             secondaryAction={
-            <FormGroup aria-label="position" row 
-                onClick={(e)=>{
-                let result;
-                e.target.checked === true ? result = itemData.info['school'] + e.target.value : result = itemData.info['school'].replaceAll(e.target.value, '');
-                const info = {...itemData.info, ['school']:result};
-                updateValue(e, info);
-                }
-            }>
-                <FormControlLabel
-                value="0"
-                control={<MyCheckbox defaultChecked={itemData.info['school'].includes('0') ? true : false}/>}
-                label="초등"
-                labelPlacement="bottom"
-                />
-                <FormControlLabel
-                value="1"
-                control={<MyCheckbox defaultChecked={itemData.info['school'].includes('1') ? true : false}/>}
-                label="중"
-                labelPlacement="bottom"
-                />
-                <FormControlLabel
-                value="2"
-                control={<MyCheckbox defaultChecked={itemData.info['school'].includes('2') ? true : false}/>}
-                label="고등"
-                labelPlacement="bottom"
-                />
-            </FormGroup>
+            <CheckBox 
+              type="school" 
+              data={itemData.info['school']}
+              itemData={itemData}
+            />
             }
         >
-            {/* <ListItemIcon style={{ cursor: 'pointer' }} onClick={()=>console.log('CLICK!!')}>
-            <CommentIcon />
-            </ListItemIcon> */}
             <ListItemText primary={`학교`} />
         </ListItem>
-        <br></br>
         <ListItem
             key={6}
             disableGutters
             secondaryAction={
-            <FormGroup aria-label="position" row 
-                onClick={(e)=>{
-                let result;
-                e.target.checked === true ? result = itemData.info['entrance_structure'] + e.target.value : result = itemData.info['entrance_structure'].replaceAll(e.target.value, '');
-                const info = {...itemData.info, ['entrance_structure']:result};
-                updateValue(e, info);
-                }
-            }>
-                <FormControlLabel
-                value="0"
-                control={<MyCheckbox defaultChecked={itemData.info['entrance_structure'].includes('0') ? true : false}/>}
-                label="계단"
-                labelPlacement="bottom"
-                />
-                <FormControlLabel
-                value="1"
-                control={<MyCheckbox defaultChecked={itemData.info['entrance_structure'].includes('1') ? true : false}/>}
-                label="복도"
-                labelPlacement="bottom"
-                />
-                <FormControlLabel
-                value="2"
-                control={<MyCheckbox defaultChecked={itemData.info['entrance_structure'].includes('2') ? true : false}/>}
-                label="복합"
-                labelPlacement="bottom"
-                />
-                {/* <CheckBoxInput type="checkbox" id={"qq"} name="skills" />
-                <CheckboxLabel htmlFor={"qq"}>
-                    {"11"}
-                </CheckboxLabel> */}
-            </FormGroup>
+            <CheckBox 
+              type="entrance_structure" 
+              data={itemData.info['entrance_structure']} 
+              itemData={itemData}
+            />
             }
         >
             <ListItemText primary={`현관구조`} onClick={()=>console.log("rr")}/>
         </ListItem>
-        <br></br>
         <ListItem
             key={7}
             disableGutters
             secondaryAction={
-            <RadioGroup
-                row
-                aria-labelledby="demo-form-control-label-placement"
-                name="position"
-                defaultValue={itemData.info['heating']}
-                onClick={(e)=>{
-                const info = {...itemData.info, ['heating']:e.target.value};
-                updateValue(e, info);
-                }}
-            >
-                <FormControlLabel
-                value="0"
-                control={<MyRadio/>}
-                label="지역"
-                labelPlacement="bottom"
-                />
-                <FormControlLabel
-                value="1"
-                control={<MyRadio size="medium"/>}
-                label="개별"
-                labelPlacement="bottom"
-                />
-                <FormControlLabel
-                value="2"
-                control={<MyRadio size="medium"/>}
-                label="중앙"
-                labelPlacement="bottom"
-                />
-            </RadioGroup>           
+            <CheckBox 
+              type="heating" 
+              data={itemData.info['heating']} 
+              itemData={itemData}
+            />        
             }
         >
             <ListItemText primary={`난방`} />
         </ListItem>
-        <br></br>
         <ListItem
             key={2}
             disableGutters
             secondaryAction={
-            <RadioGroup
-                row
-                aria-labelledby="demo-form-control-label-placement"
-                name="position"
-                defaultValue={itemData.info['management_status']}
-                onClick={(e)=>{
-                const info = {...itemData.info, ['management_status']:e.target.value};
-                updateValue(e, info);
-                }}
-            >
-                <FormControlLabel
-                value="0"
-                control={<MyRadio/>}
-                label="나쁨"
-                labelPlacement="bottom"
-                />
-                <FormControlLabel
-                value="1"
-                control={<MyRadio size="medium"/>}
-                label="보통"
-                labelPlacement="bottom"
-                />
-                <FormControlLabel
-                value="2"
-                control={<MyRadio size="medium"/>}
-                label="좋음"
-                labelPlacement="bottom"
-                />
-            </RadioGroup>           
+            <CheckBox 
+              type="management_status" 
+              data={itemData.info['management_status']} 
+              itemData={itemData}
+            />          
             }
         >
             <ListItemText primary={`관리상태`} />
         </ListItem>
-        <br></br>
         <ListItem
             key={81}
             disableGutters

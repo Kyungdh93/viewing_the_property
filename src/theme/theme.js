@@ -17,6 +17,8 @@ export const lightTheme = {
         colorShadow: "0 3px 6px rgba(0, 0, 0, .16)",
         colorDarkShadow: "0 3px 6px rgba(0, 0, 0, .5)",
         colorOpposite: "#585D6E4d",
+        colorGold: "#E1C564",
+        colorDarkGold: "#BD9816",
     },
     mode: 'light',
 };
@@ -39,7 +41,8 @@ export const darkTheme = {
         colorDiGreen: "#558257",
         colorShadow: "0 4px 7px rgb(68 68 68 / .8)",
         colorDarkShadow: "0 3px 6px rgba(255, 255, 255, .5)",
-        colorOpposite: "#ffffff4d",
+        colorGold: "#E1C564",
+        colorDarkGold: "#BD9816",
     },
     mode: 'dark',
 };

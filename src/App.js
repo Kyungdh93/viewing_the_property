@@ -20,7 +20,6 @@ import Auth from "./components/Auth";
 import { isMobile } from 'react-device-detect';
 
 import Test from "./Test";
-import CheckBox from "./components/CheckBox";
 
 const MyDiv = styled('div')(
   ({ theme }) => ({
@@ -36,8 +35,7 @@ const App = () => {
   return (
     <>
       {/* <Test></Test> */}
-      {/* { user_data ? ( */}
-      { true ? (
+      { user_data ? (
         <StylesProvider injectFirst>
           <StyledThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
           <MuiThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
@@ -57,12 +55,6 @@ const App = () => {
                 <Route path="/settings" element={<Settings></Settings>} />
               </Routes>
             </MyDiv>
-            <CheckBox type="school" data="01"></CheckBox>
-            <CheckBox type="housing_type" data="1"></CheckBox>
-            <CheckBox type="heating" data="2"></CheckBox>
-            <CheckBox type="entrance_structure" data="12"></CheckBox>
-            <CheckBox type="management_status" data="02"></CheckBox>
-            <CheckBox type="underground_parking" data="0"></CheckBox>
 
             {
               isMobile ? (
