@@ -17,7 +17,7 @@ const RechartsExample = () => {
               <XAxis dataKey="name" fontSize="10px" />
               <YAxis width={15}/>
               {/* <Tooltip /> */}
-              <Bar dataKey="value" barSize={10} fill="white"/>
+              <Bar dataKey="value" barSize={10} fill="#BD9816"/>
             </BarChart>
 
             <PieChart width={340} height={250}>
