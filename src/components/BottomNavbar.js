@@ -40,9 +40,9 @@ const BottomNavbar = () => {
           navigate('/'+target);
         }}
       > 
-        <MyBottomNavigationAction label="Statics" icon={<EqualizerIcon />} />
-        <MyBottomNavigationAction label="Home" icon={<HomeIcon />} />
-        <MyBottomNavigationAction label="Settings" icon={<SettingsIcon />} />
+        <MyBottomNavigationAction label="통계" icon={<EqualizerIcon />} />
+        <MyBottomNavigationAction label="홈" icon={<HomeIcon />} />
+        <MyBottomNavigationAction label="설정" icon={<SettingsIcon />} />
       </MyBottomNavigation>
     </Paper>
   );
