@@ -10,6 +10,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { login } from '../store';
 import { useDispatch } from 'react-redux';
 import { isMobile } from 'react-device-detect';
+import { useNavigate } from 'react-router-dom';
 
 const MyButton = styled(Button)(
   ({ theme }) => ({
@@ -36,16 +37,19 @@ const MyDivider = styled(Divider)(
 
 const Auth = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   function handleGoogleLogin() {
     if (isMobile) {
       dispatch(login('dahyun'));
+      navigate('/');
     } else {
       const provider = new GoogleAuthProvider(); // provider 구글 설정
       signInWithPopup(auth, provider) // 팝업창 띄워서 로그인
         .then((data) => {
           dispatch(login(data.user));
           console.log(data); // console에 UserCredentialImpl 출력
+          navigate('/');
         })
         .catch((err) => {
           console.log(err);
