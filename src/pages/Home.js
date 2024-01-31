@@ -16,12 +16,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-
+import SearchIcon from '@mui/icons-material/Search';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import TuneIcon from '@mui/icons-material/Tune';
+import Badge from '@mui/material/Badge';
 
 import { todoInsert, todoRemove, setAllData } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,6 +37,7 @@ import { uid } from "uid";
 import List from '../components/HomeList';
 import Card from '../components/HomeCard';
 import Skeleton from '../components/Skeleton';
+import Select from '../components/Select';
 
 import { styled } from "styled-components";
 
@@ -61,7 +64,7 @@ const MyDivider = styled(Divider)(
 const SearchBar = styled(InputBase)(
   ({ theme }) => ({
     color: theme.colors.colorMainFont,
-    borderRadius: "20px", 
+    borderRadius: "10px", 
   })
 );
 
@@ -91,11 +94,25 @@ const MyListAltIcon = styled(ListAltIcon)(
   })
 );
 
+const MySearchIcon = styled(SearchIcon)(
+  ({ theme }) => ({
+    color: theme.colors.colorDarkGray,
+    marginRight: "7px", 
+  })
+);
+
 const MyClearIcon = styled(ClearIcon)(
   ({ theme }) => ({
     color: theme.colors.colorDarkGray,
     cursor: "pointer", 
     marginRight: "7px", 
+  })
+);
+
+const MyTuneIcon = styled(TuneIcon)(
+  ({ theme }) => ({
+    color: theme.colors.colorDarkGray,
+    cursor: "pointer", 
   })
 );
 
@@ -135,10 +152,15 @@ export default function Home() {
   const [dataType, setType] = React.useState("list");
   const [open_modal, setOpenModal] = React.useState(false);
   const [open_dialog, setOpenDialog] = React.useState([false, ""]);
+  const [openFilter, setOpenFilter] = React.useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);  
+
   const handleOpenDialog = (id) => setOpenDialog([true, id]);
   const handleCloseDialog = () => setOpenDialog([false, ""]);  
+
+  const handleOpenFilter = () => setOpenFilter(true);  
+  const handleCloseFilter = () => setOpenFilter(false);  
   const Test = () => {
     if (title === "") {
       document.getElementById('title').focus();
@@ -219,6 +241,7 @@ export default function Home() {
                 <SearchBar
                   sx={{ ml: 1, flex: 1 }}
                   value={searchData}
+                  startAdornment={<MySearchIcon/>}
                   placeholder="검색어를 입력해 주세요."
                   onChange={(e) => setSearchData(e.target.value)}
                 />
@@ -234,6 +257,9 @@ export default function Home() {
                     </>
                   )
                 }
+                <Badge badgeContent={4} color="secondary">
+                  <MyTuneIcon onClick={handleOpenFilter}></MyTuneIcon>
+                </Badge>
                 <Tooltip title={dataType === "list" ? "카드형 목록 보기" : "리스트형 목록 보기" } placement="bottom">
                   <IconButton sx={{ p: '10px' }} aria-label="menu">
                     {
@@ -246,6 +272,9 @@ export default function Home() {
                   </IconButton>
                 </Tooltip>
               </SearchPaper>
+              <div style={{ textAlign: "right" }}>
+                필터링 내용
+              </div>
               <br></br>
               <Box style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", overflow: "hidden" }}>
                 { Object.keys(lists).length !== 0 ? (
@@ -290,11 +319,11 @@ export default function Home() {
             aria-describedby="alert-dialog-description"
           >
           <DialogTitle id="alert-dialog-title">
-            {"Add item"}
+            {"제목을 입력해주세요"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <TextField autoFocus required ref={inputRef} fullWidth={true} id="title" label="title" color="success" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
+              <TextField autoFocus required ref={inputRef} fullWidth={true} id="title" color="success" variant="standard" onBlur={(e) => setTitle(e.target.value)} />
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -313,12 +342,9 @@ export default function Home() {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-          <DialogTitle id="alert-dialog-title">
-            {"Delete item"}
-          </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Really??
+              정말로 삭제하시겠습니까?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -326,6 +352,31 @@ export default function Home() {
               삭제
             </Button>
             <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="error" variant="outlined" onClick={handleCloseDialog}>
+              취소
+            </Button>
+          </DialogActions>
+          </Dialog>
+
+          <Dialog
+            open={openFilter}
+            onClose={handleCloseFilter}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+          <DialogTitle id="alert-dialog-title">
+            {"필터링"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <Select></Select>
+              <div>d</div>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="contained" onClick={()=>Test()}>
+              확인
+            </Button>
+            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="outlined" onClick={handleCloseFilter}>
               취소
             </Button>
           </DialogActions>
