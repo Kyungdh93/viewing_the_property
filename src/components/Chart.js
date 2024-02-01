@@ -3,16 +3,27 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { styled } from "styled-components";
 import { isMobile } from 'react-device-detect';
+import * as React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Calendar from './Calendar';
 
 const colors = ['black', 'red', 'purple', 'orange', 'green', 'yellow', 'blue', 'gray']
 
 const RechartsExample = () => {
+  const [openModal, setOpenModal] = React.useState(false);
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);  
+
   return (      
       <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000 }}>
         <Grid container spacing={3}>
           <Grid item xs></Grid>
           <Grid item xs={12}>
-            <h4>2024.01.22 ~ 2024.01.28</h4>
+            <h4 onClick={handleOpen}>2024.01.22 ~ 2024.01.28</h4>
             <BarChart width={isMobile ? 300 : 600} height={isMobile ? 200 : 250} data={sampleData3} >
               <XAxis dataKey="name" fontSize="10px" />
               <YAxis width={15}/>
@@ -33,6 +44,19 @@ const RechartsExample = () => {
           </Grid>
           <Grid item xs></Grid>
         </Grid>
+
+        <Dialog
+            open={openModal}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            sx={{ width: "420px", border: "1px, groove", borderRadius: "20px" }}
+          >
+          <DialogContent>
+              <Calendar handleClose={handleClose}></Calendar>
+          </DialogContent>
+        </Dialog>
+
       </Box>
   );
 };
