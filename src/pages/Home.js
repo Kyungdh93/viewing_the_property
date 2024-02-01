@@ -37,7 +37,7 @@ import { uid } from "uid";
 import List from '../components/HomeList';
 import Card from '../components/HomeCard';
 import Skeleton from '../components/Skeleton';
-import Select from '../components/Select';
+import Filter from '../components/Filter';
 
 import { styled } from "styled-components";
 
@@ -368,8 +368,7 @@ export default function Home() {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <Select></Select>
-              <div>d</div>
+              <Filter></Filter>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
