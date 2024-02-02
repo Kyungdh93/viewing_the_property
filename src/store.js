@@ -14,6 +14,8 @@ const TODO_REMOVE = "TODO/REMOVE";
 const TODO_UPDATE = "TODO/UPDATE";
 const TODO_TOGGLE = "TODO/TOGGLE";
 
+const FILTER_UPDATE = "FILTER/UPDATE";
+
 const firebaseCreate = (id, title, time, info) => {
   set(ref(db, (FIREBASE_DB_PATH + id)), {
     id,
@@ -56,6 +58,15 @@ export const changeTheme = (theme) => {
     type: THEME_CHANGE,
     payload: {
       theme: theme
+    }
+  };
+};
+
+export const filterUpdate = (filterArray) => {
+  return {
+    type: FILTER_UPDATE,
+    payload: { 
+      filterArray: filterArray 
     }
   };
 };
@@ -126,11 +137,11 @@ export const todoToggle = (id) => {
 
 // jsonData.maxCount = 5;
 // const initState = jsonData;
-export const greaterSeoul = ["서울특별시", "경기도", "인천광역시"];
+export const greaterSeoul = ["서울시", "경기도", "인천광역시"];
 export const seoulCities = ["강남구", "강동구", "강서구", "강북구", "관악구", "광진구", "구로구", "금천구", "노원구", "동대문구", "도봉구", "동작구", "마포구", "서대문구", "성동구", "성북구", "서초구", "송파구", "영등포구", "용산구", "양천구", "은평구", "종로구", "중구", "중랑구"];
 export const gyeonggidoCities = ["가평군", "고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시", "남양주시", "동두천시", "부천시", "성남시", "수원시", "시흥시", "안산시", "안성시", "안양시", "양주시", "양평군", "여주시", "연천군", "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시", "평택시", "포천시", "하남시", "화성시"];
 
-const initState = {"user_data":"", "datas":{}, "maxCount":5, "theme":"dark"};
+const initState = {"user_data":"", "datas":{}, "maxCount":5, "theme":"dark", "filterArray":[]};
 
 export default createStore(function(state = initState, { type, payload }){
   // console.log('state = ', state);
@@ -157,6 +168,11 @@ export default createStore(function(state = initState, { type, payload }){
       return {
         ...state,
         theme:payload.theme
+      };
+    case FILTER_UPDATE:
+      return {
+        ...state,
+        filterArray:payload.filterArray
       };
     case TODO_INSERT:
       let data = {};
