@@ -46,7 +46,7 @@ const isInSameWeek = (dayA, dayB) => {
 
 function Day(props) {
   const { day, selectedDay, hoveredDay, ...other } = props;
-
+  
   return (
     <CustomPickersDay
       {...other}
@@ -60,16 +60,21 @@ function Day(props) {
   );
 }
 
-export default function WeekPicker(props) {
+const WeekPicker = (props) => {
   const [hoveredDay, setHoveredDay] = React.useState(null);
-  const [value, setValue] = React.useState(dayjs('2022-04-17'));
+  // const [value, setValue] = React.useState(dayjs('2022-04-17'));
+  const [value, setValue] = React.useState(dayjs(props.weekData));
+  const handleChange = (newValue) => {
+    setValue(newValue);
+    props.setWeekData(newValue.$d);
+    props.handleClose(newValue);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
         value={value}
-        // onChange={(newValue) => setValue(newValue)}
-        onChange={(newValue) => alert(newValue)}
+        onChange={(newValue) => handleChange(newValue)}
         showDaysOutsideCurrentMonth
         slots={{ day: Day }}
         slotProps={{
@@ -83,4 +88,6 @@ export default function WeekPicker(props) {
       />
     </LocalizationProvider>
   );
-}
+};
+
+export default WeekPicker;

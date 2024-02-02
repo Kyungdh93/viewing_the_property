@@ -24,8 +24,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TuneIcon from '@mui/icons-material/Tune';
 import Badge from '@mui/material/Badge';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
-import { todoInsert, todoRemove, setAllData } from '../store';
+import { todoInsert, todoRemove, setAllData, filterUpdate } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { isMobile } from 'react-device-detect';
@@ -58,6 +59,7 @@ const MyDivider = styled(Divider)(
     backgroundColor: theme.colors.colorMainFont,
     height: 28, 
     margin: 0.5, 
+    marginRight: 10,
   })
 );
 
@@ -72,7 +74,7 @@ const SearchPaper = styled(Paper)(
   ({ theme }) => ({
     backgroundColor: theme.colors.colorMain,
     color: theme.colors.colorMainFont,
-    borderColor: theme.colors.colorDarkGray,
+    // borderColor: theme.colors.colorDarkGray,
     borderRadius: "20px",
     height: isMobile === true ? '8vh' : '60px', 
     p: '2px 4px', 
@@ -116,6 +118,18 @@ const MyTuneIcon = styled(TuneIcon)(
   })
 );
 
+const MyFilter = styled(Button)(
+  ({ theme }) => ({
+    color: theme.colors.colorMainFont,
+    borderColor: theme.colors.colorDarkGray,
+    borderRadius: "20px", 
+    "&:hover": {
+      background: theme.colors.colorMain,
+      borderColor: theme.colors.colorMainFont,
+    }
+  })
+);
+
 Date.prototype.YYYYMMDDHHMMSS = function () {
   var yyyy = this.getFullYear().toString();
   var MM = pad(this.getMonth() + 1,2);
@@ -146,6 +160,7 @@ export default function Home() {
   // const loading = useSelector((state) => state.loading);
   const lists = useSelector((state) => state.datas);
   const maxCount = useSelector((state) => state.maxCount);
+  const filterArray = useSelector((state) => state.filterArray);
   const [title, setTitle] = React.useState("");
   const [searchData, setSearchData] = React.useState("");
   const [count, setCount] = React.useState({current: 1, total: maxCount});
@@ -211,7 +226,10 @@ export default function Home() {
         console.error(error);
         // 에러 화면
       });
-    
+  };
+
+  const initFilter = () => {
+    dispatch(filterUpdate([]));
   };
 
   React.useEffect(() => {
@@ -257,7 +275,7 @@ export default function Home() {
                     </>
                   )
                 }
-                <Badge badgeContent={4} color="secondary">
+                <Badge badgeContent={filterArray.length} color="secondary">
                   <MyTuneIcon onClick={handleOpenFilter}></MyTuneIcon>
                 </Badge>
                 <Tooltip title={dataType === "list" ? "카드형 목록 보기" : "리스트형 목록 보기" } placement="bottom">
@@ -272,24 +290,21 @@ export default function Home() {
                   </IconButton>
                 </Tooltip>
               </SearchPaper>
-              <div style={{ textAlign: "right" }}>
-                필터링 내용
-              </div>
               <br></br>
               <Box style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", overflow: "hidden" }}>
                 { Object.keys(lists).length !== 0 ? (
                   Object.keys(lists).map((item)=>{
-                    if (lists[item]['title'].includes(searchData)) {
-                      showCount += 1;
-                      if (showCount > count.total) return;
-                      totalCount += 1;
-                      if (dataType === "list") {
-                        return <List item={lists[item]} handleOpenDialog={handleOpenDialog} key={`${lists[item]["id"]}`}></List>
-                      } else {
-                        return <Card item={lists[item]} handleOpenDialog={handleOpenDialog} key={`${lists[item]["id"]}`}></Card>
+                    if (filterArray.length === 0 || filterArray.includes(lists[item]['info']['address'])) {
+                      if (lists[item]['title'].includes(searchData)) {
+                        showCount += 1;
+                        if (showCount > count.total) return;
+                        totalCount += 1;
+                        if (dataType === "list") {
+                          return <List item={lists[item]} handleOpenDialog={handleOpenDialog} key={`${lists[item]["id"]}`}></List>
+                        } else {
+                          return <Card item={lists[item]} handleOpenDialog={handleOpenDialog} key={`${lists[item]["id"]}`}></Card>
+                        }
                       }
-                    } else {
-                      console.log("ELSE");
                     }
                   })
                 ) : (
@@ -362,23 +377,21 @@ export default function Home() {
             onClose={handleCloseFilter}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            // fullWidth={true}
+            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 800, backgroundColor: "white" } }}
+
           >
           <DialogTitle id="alert-dialog-title">
-            {"필터링"}
+            <div style={{ textAlign: "right" }}>
+              <Button startIcon={<RestartAltIcon></RestartAltIcon>} onClick={initFilter}>초기화
+              </Button>
+            </div>
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               <Filter></Filter>
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
-            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="contained" onClick={()=>Test()}>
-              확인
-            </Button>
-            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="outlined" onClick={handleCloseFilter}>
-              취소
-            </Button>
-          </DialogActions>
           </Dialog>
         </Box>
       )

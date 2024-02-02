@@ -1,4 +1,4 @@
-import { Line, LineChart, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from "recharts";
+import { Line, LineChart, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Cell } from "recharts";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { styled } from "styled-components";
@@ -9,38 +9,111 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { PieChart } from '@mui/x-charts/PieChart';
 import Calendar from './Calendar';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import InputBase from '@mui/material/InputBase';
+import Button from '@mui/material/Button';
 
 const colors = ['black', 'red', 'purple', 'orange', 'green', 'yellow', 'blue', 'gray']
 
+const MyButton = styled(Button)(
+  ({ theme }) => ({
+    height: "40px",
+    fontSize: "20px",
+    color: theme.colors.colorDarkGold,
+    border: "1px groove",
+    borderColor: theme.colors.colorDarkGold,
+    borderRadius: "20px",
+    marginBottom: "10px",
+    flex: 1,
+    "&:hover": {
+      background: theme.colors.colorDarkGold,
+      color: theme.colors.colorWhite,
+      borderColor: theme.colors.colorDarkGold,
+    }
+  })
+);
+
 const RechartsExample = () => {
   const [openModal, setOpenModal] = React.useState(false);
+  // const [weekData, setWeekData] = React.useState('2024.01.22 ~ 2024.01.28');
+  const [weekData, setWeekData] = React.useState(new Date());
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);  
+
+  const getCurrentWeek = (day, gubun) => {
+    // let day = new Date();
+    
+    // 일요일부터 시작
+    // const _startDay = day.getTime() - 86400000 * day.getDay();
+
+    // 월요일부터 시작
+    const _getDay = day.getDay() === 0 ? 6 : day.getDay() - 1;
+    const _startDay = day.getTime() - 86400000 * _getDay;
+  
+    day.setTime(_startDay);
+  
+    const result = [day.toISOString().slice(0, 10)];
+  
+    for (let i = 1; i < 7; i++) {
+      day.setTime(day.getTime() + 86400000);
+      result.push(day.toISOString().slice(0, 10));
+    }
+  
+    // return result;
+    return gubun === "start" ? result[0] : gubun === "end" ? result[6] : result;
+    // return result[0] + ' ~ ' + result[6];
+  };
+
+  const startDay = getCurrentWeek(weekData, "start");
+  const endDay = getCurrentWeek(weekData, "end");
+  
+  const getData = () => {
+    const week = getCurrentWeek(weekData, "total");
+    // ['2024-01-09', '2024-01-10', '2024-01-11', '2024-01-12', '2024-01-13', '2024-01-14', '2024-01-15']
+    
+    const sampleData = week.map(day => ({ name: day, value: 3 }));
+    return sampleData;
+  };
 
   return (      
       <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000 }}>
         <Grid container spacing={3}>
           <Grid item xs></Grid>
           <Grid item xs={12}>
-            <h4 onClick={handleOpen}>2024.01.22 ~ 2024.01.28</h4>
-            <BarChart width={isMobile ? 300 : 600} height={isMobile ? 200 : 250} data={sampleData3} >
+            <MyButton endIcon={<CalendarMonthIcon/>} onClick={handleOpen}>{startDay+" ~ "+endDay}</MyButton>
+            <BarChart width={isMobile ? 300 : 600} height={isMobile ? 200 : 250} data={getData()} >
               <XAxis dataKey="name" fontSize="10px" />
-              <YAxis width={15}/>
-              {/* <Tooltip /> */}
-              <Bar dataKey="value" barSize={10} fill="#BD9816"/>
+              <YAxis width={30}/>
+              <Tooltip />
+              <Bar dataKey="value" barSize={15} fill="#BD9816"/>
             </BarChart>
-
-            <PieChart width={340} height={250}>
-              <Pie data={sampleData2} cx="50%" cy="50%" outerRadius={80} label>
+            <PieChart
+              series={[
                 {
-                  sampleData2.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={colors[index]}/>
-                  ))
-                }
-              </Pie>
-              <Legend width={100} verticalAlign="middle" align="right" layout="vertical" iconType="circle" />
-            </PieChart>
+                  data: [
+                    { id: 0, value: 10, label: '동대문구' },
+                    { id: 1, value: 15, label: '영등포구' },
+                    { id: 2, value: 20, label: '은평구' },
+                    { id: 3, value: 20, label: '구로구' },
+                    { id: 4, value: 2, label: '금천구' },
+                    { id: 5, value: 12, label: '강남구' },
+                    { id: 6, value: 13, label: '서대문구' },
+                    { id: 7, value: 20, label: '기타' },
+                  ],
+                  innerRadius: 30,
+                  outerRadius: 100,
+                  paddingAngle: 3,
+                  cornerRadius: 5,
+                  startAngle: 0,
+                  endAngle: 360,
+                  cy: 150,
+                },
+              ]}
+              width={330}
+              height={280}
+            />
           </Grid>
           <Grid item xs></Grid>
         </Grid>
@@ -53,7 +126,7 @@ const RechartsExample = () => {
             sx={{ width: "420px", border: "1px, groove", borderRadius: "20px" }}
           >
           <DialogContent>
-              <Calendar handleClose={handleClose}></Calendar>
+            <Calendar handleClose={handleClose} setWeekData={setWeekData} weekData={startDay}></Calendar>
           </DialogContent>
         </Dialog>
 
@@ -194,7 +267,7 @@ const sampleData3 = [
   },
   {
     name: "1/27",
-    value: 2,
+    value: 20,
   },
   {
     name: "1/28",

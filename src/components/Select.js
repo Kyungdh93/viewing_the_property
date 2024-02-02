@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 
 const MySelect = styled(Select)(
   () => ({
-    width: isMobile === true ? '30vw' : '50%', 
+    width: isMobile === true ? '30vw' : '100%', 
     borderRadius: "20px",
     height: '55px'
   })
@@ -42,30 +42,25 @@ const MyDiv = styled('div')(
   })
 );
 
-const BasicSelect = () => {
+const BasicSelect = (props) => {
   const [city, setCity] = React.useState('');
   const [country, setCountry] = React.useState('');
-  const [selectedArray, setSelectedArray] = React.useState([]);
 
   const handleChangeCity = (e) => {
     setCity(e.target.value);
   };
 
   const handleChangeCountry = (e) => {
-    setSelectedArray([...selectedArray, (city + ' ' + e.target.value)]);
     setCountry(e.target.value);
+    const cityFullName = city + ' ' + e.target.value;
+    props.handleChangeCountry(cityFullName);
   };
 
-  const removeSelectedCity = (selected) => {
-    selectedArray.pop(selected);
-    setSelectedArray([...selectedArray]);
-  };
-
-  const cityArray = city === '서울특별시' ? seoulCities : city === '경기도' ? gyeonggidoCities : [];
+  const cityArray = city === '서울시' ? seoulCities : city === '경기도' ? gyeonggidoCities : [];
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <FormControl sx={{ m:1, minWidth: 50 }}>
+      <FormControl sx={{ m:1, minWidth: 100 }}>
         <InputLabel id="demo-simple-select-label">시/도</InputLabel>
         <MySelect
           labelId="demo-simple-select-label"
@@ -80,7 +75,7 @@ const BasicSelect = () => {
           }
         </MySelect>
       </FormControl>
-      <FormControl sx={{ m:1, minWidth: 50 }}>
+      <FormControl sx={{ m:1, minWidth: 100 }}>
         <InputLabel id="demo-simple-select-label1">구/시</InputLabel>
         <MySelect
           labelId="demo-simple-select-label1"
@@ -95,13 +90,6 @@ const BasicSelect = () => {
           }
         </MySelect>
       </FormControl>
-      <MyDiv>
-        {
-          selectedArray.map((selected, index) => (
-            <MyButton endIcon={<ClearIcon/>} onClick={() => removeSelectedCity(selected)}>{selected}</MyButton>
-          ))
-        }
-      </MyDiv>
     </Box>
   );
 };

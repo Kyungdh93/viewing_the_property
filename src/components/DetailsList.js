@@ -42,6 +42,7 @@ const MyList = styled(List)(
 
 const MyOutlinedInput = styled(OutlinedInput)(
   ({ theme }) => ({
+    fontSize: "14px",
     borderRadius: "10px",
     width: isMobile === true ? '63vw' : '300px', 
     color: theme.colors.colorMainFont,

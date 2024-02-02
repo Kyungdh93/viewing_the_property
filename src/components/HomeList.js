@@ -21,8 +21,8 @@ const MyListItem = styled(ListItem)(
     border: "1px groove",
     borderRadius: "20px", 
     borderColor: theme.colors.colorDarkGray, 
-    marginBottom: "5px",
-    height: isMobile === true ? '10vh' : '10%', 
+    marginBottom: "8px",
+    height: isMobile === true ? '8vh' : '10%', 
   })
 );
 
@@ -39,7 +39,8 @@ const MyDeleteIcon = styled(DeleteIcon)(
 );
 
 const test = {
-  color: "gray"
+  color: "gray",
+  fontSize: "12px"
 }
 
 const List = ({ item, handleOpenDialog }) => {
@@ -65,11 +66,9 @@ const List = ({ item, handleOpenDialog }) => {
         </>
       }
     >
-      <ListItemButton onClick={selectItem}>
-        <ListItemAvatar>
-          <HomeIcon />
-        </ListItemAvatar>
-        <ListItemText primary={item.title} secondary={item.time.split(' ')[0]} secondaryTypographyProps={{ style: test }}/>
+      <ListItemButton onClick={selectItem} style={{ padding: "1px" }}>
+        <div style={{ fontSize: "10px", marginRight: "15px" }}>서울 동대문</div>
+        <ListItemText primary={item.title} primaryTypographyProps={{ style: {fontSize: "15px"}}} secondary={item.time.split(' ')[0]} secondaryTypographyProps={{ style: test }}/>
         {/* <MyListItemText primary={item.title} secondary={item.time} /> */}
       </ListItemButton>
     </MyListItem>
