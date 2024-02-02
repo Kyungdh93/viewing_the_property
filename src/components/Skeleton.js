@@ -6,38 +6,41 @@ const MySkeleton = styled(Skeleton)(
   ({ theme }) => ({
     // backgroundColor: theme.colors.colorMain,
     margin: "auto", 
-    width: 210, 
+    width: 290, 
     marginBottom: "5px"
   })
 );
 
 const AddSkeleton = styled(MySkeleton)(
   () => ({
-    height: 30,
-    marginTop: "5px"
+    height: 50,
+    marginTop: "5px",
+    borderRadius: "20px"
   })
 );
 
 const SearchSkeleton = styled(MySkeleton)(
   () => ({
-    height: 40,
-    marginBottom: "10px"
+    height: 50,
+    marginBottom: "20px"
   })
 );
 
 const ListSkeleton = styled(MySkeleton)(
   () => ({
-    height: 60,
+    height: 70,
   })
 );
 
 export default function Variants() {
   return (
-    <>
+    <div style={{ marginTop: "70px" }}>
       <AddSkeleton variant="rounded"></AddSkeleton>
       <SearchSkeleton variant="rounded"></SearchSkeleton>
       <ListSkeleton variant="rounded"></ListSkeleton>
       <ListSkeleton variant="rounded"></ListSkeleton>
-    </>
+      <ListSkeleton variant="rounded"></ListSkeleton>
+      <ListSkeleton variant="rounded"></ListSkeleton>
+    </div>
   );
 }
