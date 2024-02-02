@@ -42,7 +42,7 @@ const App = () => {
           <GlobalStyle />
             {
               isMobile ? (
-                <><Navbar></Navbar></>
+                <></>
                 ) : (
                 <><Navbar></Navbar></>
               )
