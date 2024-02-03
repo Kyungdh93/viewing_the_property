@@ -39,6 +39,7 @@ import List from '../components/HomeList';
 import Card from '../components/HomeCard';
 import Skeleton from '../components/Skeleton';
 import Filter from '../components/Filter';
+import Dial from '../components/Dial';
 
 import { styled } from "styled-components";
 
@@ -323,6 +324,8 @@ export default function Home() {
               ) : (
                 <></>
               )}
+
+              <Dial></Dial>
             </Grid>
             <Grid item xs></Grid>
           </Grid>
