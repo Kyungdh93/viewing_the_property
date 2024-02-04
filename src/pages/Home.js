@@ -39,9 +39,17 @@ import List from '../components/HomeList';
 import Card from '../components/HomeCard';
 import Skeleton from '../components/Skeleton';
 import Filter from '../components/Filter';
-import Dial from '../components/Dial';
-
+import Title from '../components/Title';
 import { styled } from "styled-components";
+
+const MyBox = styled(Box)(
+  () => ({
+    flexGrow: 1, 
+    margin: "auto", 
+    maxWidth: 1000, 
+    marginTop: isMobile ? "10px" : "70px"
+  })
+);
 
 const MyButton = styled(Button)(
   ({ theme }) => ({
@@ -245,15 +253,11 @@ export default function Home() {
           <Skeleton></Skeleton>
         </>
       ) : (
-        <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "70px" }}>
+        <MyBox>
           <Grid container spacing={3}>
             <Grid item xs></Grid>
-            {/* <Grid item xs={6}> */}
-            <Grid item xs={10}>
-              <MyButton fullWidth={true} size="large" variant="outlined" startIcon={<AddIcon />} onClick={handleOpen}>
-                추가하기
-              </MyButton>
-              <br></br>
+            <Grid item xs={isMobile ? 12 : 11}>
+              <Title title='홈'></Title>
               <SearchPaper
                 component="form"
               >
@@ -324,8 +328,6 @@ export default function Home() {
               ) : (
                 <></>
               )}
-
-              <Dial></Dial>
             </Grid>
             <Grid item xs></Grid>
           </Grid>
@@ -369,7 +371,7 @@ export default function Home() {
             <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="error" variant="contained" onClick={()=>deleteItem(open_dialog[1])}>
               삭제
             </Button>
-            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} color="error" variant="outlined" onClick={handleCloseDialog}>
+            <Button size="large" style={{ width: "200px", borderRadius: "20px" }} variant="outlined" onClick={handleCloseDialog}>
               취소
             </Button>
           </DialogActions>
@@ -396,7 +398,13 @@ export default function Home() {
             </DialogContentText>
           </DialogContent>
           </Dialog>
-        </Box>
+
+          <div style={{position: "fixed", right: "5%", top: "80%", zIndex: "1000" }}>
+            <MyButton variant="outlined" startIcon={<AddIcon />} onClick={handleOpen}>
+              추가하기
+            </MyButton>
+          </div>
+        </MyBox>
       )
     }
     </>

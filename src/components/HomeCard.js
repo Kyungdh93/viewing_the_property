@@ -32,7 +32,7 @@ const MyOpenInNewIcon = styled(OpenInNewIcon)(
 
 const MyDeleteIcon = styled(DeleteIcon)(
   ({ theme }) => ({
-    color: theme.colors.colorDiRed,
+    color: theme.colors.colorDarkGold,
     cursor: "pointer",
   })
 );

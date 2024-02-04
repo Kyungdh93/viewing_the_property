@@ -1,21 +1,13 @@
 import * as React from 'react';
 
 import Box from '@mui/material/Box';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import { styled } from "styled-components";
 import { isMobile } from 'react-device-detect';
 import Paper from '@mui/material/Paper';
 
-import { setMaxCount } from '../store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import MaxCount from '../components/SettingsMaxCount';
 import BarChart from '../components/BarChart';
 import PieChart from '../components/PieChart';
 
@@ -23,8 +15,18 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Calendar from '../components/Calendar';
+import Title from '../components/Title';
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+
+const MyBox = styled(Box)(
+  () => ({
+    flexGrow: 1, 
+    margin: "auto", 
+    maxWidth: 1000, 
+    marginTop: isMobile ? "10px" : "70px"
+  })
+)
 
 const MyButton = styled(Button)(
   ({ theme }) => ({
@@ -47,15 +49,15 @@ const MyButton = styled(Button)(
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.colors.colorMainFont,
-  backgroundColor: theme.colors.colorBg,
+  backgroundColor: theme.colors.colorMain,
   height: 500,
   lineHeight: '60px',
-  margin: "10px"
+  margin: "10px",
+  borderRadius: "20px"
 }));
 
-function Statics() {
+const Statics = () => {
   const lists = useSelector((state) => state.datas);
-  console.log(lists);
   const [openModal, setOpenModal] = React.useState(false);
   const [weekData, setWeekData] = React.useState(new Date());
   const handleOpen = () => setOpenModal(true);
@@ -106,14 +108,15 @@ function Statics() {
   const endDay = getCurrentWeek(weekData, "end");
 
   return (
-    <Box sx={{ flexGrow: 1, margin: "auto", maxWidth: 1000, marginTop: "70px" }}>
+    <MyBox>
       <Grid container spacing={3}>
        <Grid item xs></Grid>
-        <Grid item xs={10}>
+        <Grid item xs={isMobile ? 12 : 11}>
+          <Title title="통계"></Title>
           <MyButton endIcon={<CalendarMonthIcon/>} onClick={handleOpen}>{startDay+" ~ "+endDay}</MyButton>
           <div style={{ display: isMobile ? '' : 'flex'}}>
             <Item key={0} elevation={5}>
-              <BarChart dayData={getData()}></BarChart>
+              <BarChart dayData={dayData}></BarChart>
             </Item>
             <Item key={1} elevation={5}>
               <PieChart dayData={dayData}></PieChart>
@@ -134,7 +137,7 @@ function Statics() {
           <Calendar handleClose={handleClose} setWeekData={setWeekData} weekData={startDay}></Calendar>
         </DialogContent>
       </Dialog>
-    </Box>
+    </MyBox>
     );
   }
   

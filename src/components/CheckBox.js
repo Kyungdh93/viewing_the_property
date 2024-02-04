@@ -26,8 +26,9 @@ const CheckBoxCnt = styled.div`
     input[type=checkbox]:checked + label {
       color: theme.colors.colorMainFont;
       background-image: none;
-      background: theme.colors.colorBg;
-      border: 1px solid #FE9090;
+      /* background: theme.colors.colorBg; */
+      border: 1px solid #BD9816;
+      border-color: theme.colors.colorDarkGold;
       padding: 10px 13px;
       box-sizing: border-box;
       cursor: pointer;
@@ -39,7 +40,8 @@ const MyDiv = styled('div')(
   () => ({
     display: "flex",
     width: isMobile === true ? '230px' : '270px', 
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginRight: isMobile === true ? '' : '10px', 
   })
 );
 

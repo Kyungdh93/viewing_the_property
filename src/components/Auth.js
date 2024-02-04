@@ -59,6 +59,7 @@ const Auth = () => {
 
   return (
     <div>
+      원터치 임장
       <MyButton startIcon={<GoogleIcon/>} onClick={handleGoogleLogin}> <MyDivider orientation="vertical" /> 구글 계정 로그인</MyButton>
       <MyButton startIcon={<AccessibilityIcon/>} onClick={handleLocalLogin}> <MyDivider orientation="vertical" /> 비회원 로그인</MyButton>
     </div>

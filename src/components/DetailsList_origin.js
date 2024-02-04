@@ -32,42 +32,22 @@ import { styled } from "styled-components";
 import ImageUpload from "./ImageUpload";
 
 import CheckBox from "./CheckBox";
-import { TextField } from '@material-ui/core';
 
 const MyList = styled(List)(
   () => ({
-    width: isMobile === true ? '100vw' : '100%', 
+    width: isMobile === true ? '100vw' : '50%', 
     maxWidth: isMobile === true ? 320 : 1000,
-    // margin: "auto",
+    margin: "auto",
   })
 );
-
-const MyListItem = styled(ListItem)(
-  () => ({
-    padding: "10px",
-  })
-)
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.colors.colorMainFont,
-  backgroundColor: theme.colors.colorMain,
-  borderRadius: "20px",
+  backgroundColor: theme.colors.colorBg,
+  height: 500,
   lineHeight: '60px',
-  margin: "10px",
-  width: isMobile ? "95vw" : "500px"
-}));
-
-const Item1 = styled(Item)(({ theme }) => ({
-  height: 655
-}));
-
-const Item2 = styled(Item)(({ theme }) => ({
-  height: 265,
-}));
-
-const Item3 = styled(Item)(({ theme }) => ({
-  height: 380,
+  margin: "10px"
 }));
 
 const MyOutlinedInput = styled(OutlinedInput)(
@@ -76,7 +56,6 @@ const MyOutlinedInput = styled(OutlinedInput)(
     borderRadius: "10px",
     width: isMobile === true ? '63vw' : '300px', 
     color: theme.colors.colorMainFont,
-    marginRight: "10px",
     "& .MuiOutlinedInput-notchedOutline" : {
       borderColor : theme.colors.colorDarkGray
     },
@@ -149,7 +128,6 @@ const MyTextarea = styled(Textarea)(
     backgroundColor: theme.colors.colorBg,
     color: theme.colors.colorMainFont,
     borderColor: theme.colors.colorDarkGray,
-    marginRight: "10px",
     // "&.Mui-focused" : {
     //   borderColor : theme.colors.colorMainFont,
     //   color: "white"
@@ -188,7 +166,7 @@ const useImageLoaded = () => {
   return [ref, loaded, onLoad]
 }
 
-const DetailsList = (props) => {
+function DetailsList(props) {
   const [ref, loaded, onLoad] = useImageLoaded()
 
   const dispatch = useDispatch();
@@ -234,10 +212,17 @@ const DetailsList = (props) => {
 
   return (
     <MyList>
-      {/* <Typography sx={{textAlign: "center", marginBottom: "10px" }} variant="h6" component="h2">{itemData.title}</Typography> */}
-      <div style={{ display: isMobile ? '' : 'flex', width: isMobile ? "" : "1000px"}}>
-        <Item1 key={0} elevation={5}>
-        <MyListItem
+      <Typography sx={{textAlign: "center", marginBottom: "10px" }} variant="h6" component="h2">{itemData.title}</Typography>
+
+      <div style={{ display: isMobile ? '' : 'flex'}}>
+        <Item key={0} elevation={5}>
+
+        </Item>
+        <Item key={1} elevation={5}>
+
+        </Item>
+      </div>
+        <ListItem
         key={8}
         disableGutters
         secondaryAction={
@@ -262,8 +247,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`예상 매매가`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={9}
             disableGutters
             secondaryAction={
@@ -288,8 +273,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`예상 전세가`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={91}
             disableGutters
             secondaryAction={
@@ -309,8 +294,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`예상 월세`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={111}
             disableGutters
             secondaryAction={
@@ -350,7 +335,7 @@ const DetailsList = (props) => {
                           <Button value='서울시 관악구' sx={{ position: "absolute", top: "550px", left: "380px" }} onClick={(e)=>test(e)}>관악구</Button>
                         </>
                       ) : (
-                        <div style={{ width: "1000px", height: "10000px", backgroundColor: "red"}}>로딩중...</div>
+                        <div stlye={{ width: "1000px", height: "10000px", backgroundColor: "red"}}>로딩중...</div>
                       ) 
                     }
                   </div>
@@ -359,8 +344,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`주소`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={10}
             disableGutters
             secondaryAction={
@@ -378,8 +363,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`시공년도`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={1}
             disableGutters
             secondaryAction={
@@ -396,8 +381,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`세대수`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={11}
             disableGutters
             secondaryAction={
@@ -415,8 +400,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`주차`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={3}
             disableGutters
             secondaryAction={
@@ -439,8 +424,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`대중교통`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             style={{ marginTop: '12px'}}
             key={4}
             disableGutters
@@ -459,53 +444,9 @@ const DetailsList = (props) => {
             }}
         >
             <ListItemText primary={''} />
-        </MyListItem>
-        <MyListItem
-              style={{ marginTop: "10px" }}
-              key={81}
-              disableGutters
-              secondaryAction={
-              <MyOutlinedInput
-                  defaultValue={itemData.info['naver_bds_url']}
-                  placeholder={naverLandUrl}
-                  inputProps={{ style: { textAlign: "left" } }}
-                  size='small'
-                  onBlur={(e)=>{
-                  let result;
-                  e.target.value === '' ? result = naverLandUrl : e.target.value.includes('land.naver.com') ? result = e.target.value : result = naverLandUrl;
-                  const info = {...itemData.info, ['naver_bds_url']:result};
-                  updateValue(e, info);
-                  }}
-              />
-              }
-          >
-              <ListItemText primary={`URL`} />
-          </MyListItem>
-          <MyListItem
-              style={{ marginTop: "40px", marginBottom: "50px" }}
-              key={82}
-              disableGutters
-              secondaryAction={
-              <MyTextarea
-                  placeholder="메모를 입력하세요."
-                  defaultValue={itemData.info['memo']}
-                  minRows={2}
-                  maxRows={4}
-                  onBlur={(e)=>{
-                  const info = {...itemData.info, ['memo']:e.target.value};
-                  updateValue(e, info);
-                  }}
-                  />
-              }
-          >
-              <ListItemText primary={`메모`} />
-          </MyListItem>
-        </Item1>
-        <div>
-          <Item2 key={1} elevation={5}>
-          
-          <MyListItem
-            style={{ marginTop: '12px'}}
+        </ListItem>
+        <br></br>
+        <ListItem
             key={6}
             disableGutters
             secondaryAction={
@@ -517,8 +458,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`현관구조`} onClick={()=>console.log("rr")}/>
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={7}
             disableGutters
             secondaryAction={
@@ -530,8 +471,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`난방`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={233}
             disableGutters
             secondaryAction={
@@ -543,8 +484,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`지하주차장`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={2}
             disableGutters
             secondaryAction={
@@ -556,8 +497,8 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`관리상태`} />
-        </MyListItem>
-        <MyListItem
+        </ListItem>
+        <ListItem
             key={5}
             disableGutters
             secondaryAction={
@@ -569,13 +510,53 @@ const DetailsList = (props) => {
             }
         >
             <ListItemText primary={`학교`} />
-        </MyListItem>
-          </Item2>
-          <Item3 key={2} elevation={5}>
-          <ImageUpload></ImageUpload>
-          </Item3>
-        </div>
-      </div>
+        </ListItem>
+        <ListItem
+            key={81}
+            disableGutters
+            secondaryAction={
+            <MyOutlinedInput
+                defaultValue={itemData.info['naver_bds_url']}
+                placeholder={naverLandUrl}
+                inputProps={{ style: { textAlign: "left" } }}
+                size='small'
+                onBlur={(e)=>{
+                let result;
+                e.target.value === '' ? result = naverLandUrl : e.target.value.includes('land.naver.com') ? result = e.target.value : result = naverLandUrl;
+                const info = {...itemData.info, ['naver_bds_url']:result};
+                updateValue(e, info);
+                }}
+            />
+            }
+        >
+            <ListItemText primary={`URL`} />
+        </ListItem>
+        <ListItem
+            style={{ marginTop: "40px", marginBottom: "50px" }}
+            key={82}
+            disableGutters
+            secondaryAction={
+            <MyTextarea
+                placeholder="메모를 입력하세요."
+                defaultValue={itemData.info['memo']}
+                minRows={2}
+                maxRows={4}
+                onBlur={(e)=>{
+                const info = {...itemData.info, ['memo']:e.target.value};
+                updateValue(e, info);
+                }}
+                />
+            }
+        >
+            <ListItemText primary={`메모`} />
+        </ListItem>
+        <ImageUpload></ImageUpload>
+        <br></br>
+        <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
+            <MyButton fullWidth={true} size="large" variant="outlined" >
+            뒤로가기
+            </MyButton>
+        </Link>
     </MyList>
   );
 }

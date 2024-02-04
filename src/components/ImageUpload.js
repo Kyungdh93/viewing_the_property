@@ -37,7 +37,7 @@ const MyButton = styled(Button)(
     color: theme.colors.colorMainFont,
     border: "1px groove",
     borderColor: theme.colors.colorDarkGray,
-    borderRadius: "20px", 
+    borderRadius: "20px",
     "&:hover": {
       background: theme.colors.colorDarkShadow,
       borderColor: theme.colors.colorWhite,
@@ -48,7 +48,7 @@ const MyButton = styled(Button)(
 const MyImageList = styled(ImageList)(
   ({ theme }) => ({
     width: "100%", 
-    height: 350,
+    height: 325,
     border: "1px dotted",
     borderRadius: "20px",
     borderColor: theme.colors.colorDarkGray,

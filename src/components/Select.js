@@ -18,30 +18,6 @@ const MySelect = styled(Select)(
   })
 );
 
-const MyButton = styled(Button)(
-  ({ theme }) => ({
-    height: "30px",
-    // width: "10px",
-    // backgroundColor: theme.colors.colorMain,
-    // color: theme.colors.colorMainFont,
-    color: theme.colors.colorDiRed,
-    border: "1px groove",
-    borderColor: theme.colors.colorDiRed,
-    borderRadius: "20px", 
-    "&:hover": {
-      background: theme.colors.colorDarkShadow,
-      borderColor: theme.colors.colorDiRed,
-    }
-  })
-);
-
-const MyDiv = styled('div')(
-  () => ({
-    textAlign: "right", 
-    marginTop: "1px"
-  })
-);
-
 const BasicSelect = (props) => {
   const [city, setCity] = React.useState('');
   const [country, setCountry] = React.useState('');

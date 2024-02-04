@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { styled } from "styled-components";
 import { isMobile } from 'react-device-detect';
+import { LeakRemoveTwoTone } from '@mui/icons-material';
 
 const MyListItem = styled(ListItem)(
   ({ theme }) => ({
@@ -34,7 +35,7 @@ const MyOpenInNewIcon = styled(OpenInNewIcon)(
 
 const MyDeleteIcon = styled(DeleteIcon)(
   ({ theme }) => ({
-    color: theme.colors.colorDiRed
+    color: theme.colors.colorDarkGold
   })
 );
 
@@ -47,7 +48,17 @@ const List = ({ item, handleOpenDialog }) => {
   const navigate = useNavigate();
   const selectItem = () => {
     navigate('/details/'+item.id);
-  }
+  };
+  const convertCityName = (name) => {
+    try {
+      const nameArray = name.split(' ');
+      let first = nameArray[0].substr(0, nameArray[0].length-1);
+      let second = nameArray[1].substr(0, nameArray[1].length-1);
+      return first + ' ' + second;
+    } catch (error) {
+      return "";
+    }
+  };
 
   return (
     <MyListItem
@@ -67,7 +78,7 @@ const List = ({ item, handleOpenDialog }) => {
       }
     >
       <ListItemButton onClick={selectItem} style={{ padding: "1px" }}>
-        <div style={{ fontSize: "10px", marginRight: "15px" }}>서울 동대문</div>
+        <div style={{ fontSize: "10px", marginRight: "15px", width: "55px", textAlign: "center" }}>{convertCityName(item.info.address)}</div>
         <ListItemText primary={item.title} primaryTypographyProps={{ style: {fontSize: "15px"}}} secondary={item.time.split(' ')[0]} secondaryTypographyProps={{ style: test }}/>
         {/* <MyListItemText primary={item.title} secondary={item.time} /> */}
       </ListItemButton>

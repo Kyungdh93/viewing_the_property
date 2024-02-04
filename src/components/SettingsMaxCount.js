@@ -13,7 +13,7 @@ const MySelect = styled(Select)(
     color: theme.colors.colorMainFont,
     borderColor: theme.colors.colorDarkGray, 
     marginBottom: "5px",
-    width: isMobile === true ? '40vw' : '10vw', 
+    width: isMobile === true ? '20vw' : '10vw', 
     height: isMobile === true ? '7vh' : '50px', 
   })
 );

@@ -34,15 +34,15 @@ const MyDiv = styled('div')(
 const MyButton = styled(Button)(
   ({ theme }) => ({
     height: "30px",
-    color: theme.colors.colorDiRed,
+    color: theme.colors.colorDarkGold,
     border: "1px groove",
-    borderColor: theme.colors.colorDiRed,
+    borderColor: theme.colors.colorDarkGold,
     borderRadius: "20px",
     flex: 1,
     "&:hover": {
-      background: theme.colors.colorDiRed,
+      background: theme.colors.colorDarkGold,
       color: theme.colors.colorWhite,
-      borderColor: theme.colors.colorDiRed,
+      borderColor: theme.colors.colorDarkGold,
     }
   })
 );
