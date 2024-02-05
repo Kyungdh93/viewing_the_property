@@ -42,6 +42,13 @@ const MyList = styled(List)(
   })
 );
 
+const MyDiv = styled('div')(
+  () => ({
+    display: isMobile ? '' : 'flex', 
+    width: isMobile ? "" : "1000px"
+  })
+);
+
 const MyListItem = styled(ListItem)(
   () => ({
     padding: "10px",
@@ -76,6 +83,7 @@ const MyOutlinedInput = styled(OutlinedInput)(
     borderRadius: "10px",
     width: isMobile === true ? '63vw' : '300px', 
     color: theme.colors.colorMainFont,
+    backgroundColor: theme.colors.colorMain,
     marginRight: "10px",
     "& .MuiOutlinedInput-notchedOutline" : {
       borderColor : theme.colors.colorDarkGray
@@ -101,8 +109,15 @@ const MyInputAdornment = styled('div')(
 
 const StartInputAdornment = styled(MyInputAdornment)(
   () => ({
-    width: "65px",
+    // width: "65px",
+    width: "150px",
     textAlign: "left",
+  })
+);
+
+const StartInputAdornmentForMonthlyRent = styled(StartInputAdornment)(
+  () => ({
+    width: "150px",
   })
 );
 
@@ -146,14 +161,13 @@ const MyTextarea = styled(Textarea)(
     width: isMobile === true ? '63vw' : '300px', 
     height: "120px", 
     borderRadius: "10px", 
-    backgroundColor: theme.colors.colorBg,
+    backgroundColor: theme.colors.colorMain,
     color: theme.colors.colorMainFont,
     borderColor: theme.colors.colorDarkGray,
     marginRight: "10px",
-    // "&.Mui-focused" : {
-    //   borderColor : theme.colors.colorMainFont,
-    //   color: "white"
-    // },
+    "&.Mui-focused" : {
+      color: theme.colors.colorMainFont
+    },
   })
 );
 
@@ -200,6 +214,7 @@ const DetailsList = (props) => {
 
   const [expectedPrice, setExpectedPrice] = React.useState(Number(itemData.info['expected_price']));
   const [expectedRentPrice, setExpectedRentPrice] = React.useState(Number(itemData.info['expected_rent_price']));
+  const [expectedMonthlyRentPrice, setExpectedMonthlyRentPrice] = React.useState(Number(itemData.info['expected_monthly_rent_price']));
   const [calculated, setCalculated] = React.useState(0);
   const [openModal, setOpenModal] = React.useState(false);
   const mappingData = props.mappingData;
@@ -234,8 +249,7 @@ const DetailsList = (props) => {
 
   return (
     <MyList>
-      {/* <Typography sx={{textAlign: "center", marginBottom: "10px" }} variant="h6" component="h2">{itemData.title}</Typography> */}
-      <div style={{ display: isMobile ? '' : 'flex', width: isMobile ? "" : "1000px"}}>
+      <MyDiv style={{ display: isMobile ? '' : 'flex', width: isMobile ? "" : "1000px"}}>
         <Item1 key={0} elevation={5}>
         <MyListItem
         key={8}
@@ -275,14 +289,14 @@ const DetailsList = (props) => {
                 startAdornment={<StartInputAdornment>{calculated}%</StartInputAdornment>}
                 endAdornment={<EndInputAdornment>원</EndInputAdornment>}
                 onChange={(e)=>{
-                const result = Number((e.target.value).replaceAll(',','')).toLocaleString('ko-KR');
-                setExpectedRentPrice(result);
+                  const result = Number((e.target.value).replaceAll(',','')).toLocaleString('ko-KR');
+                  setExpectedRentPrice(result);
                 }}
                 onBlur={(e)=>{
-                const result = (e.target.value).replaceAll(',','');
-                const info = {...itemData.info, ['expected_rent_price']:result};
-                calculate();
-                updateValue(e, info);
+                  const result = (e.target.value).replaceAll(',','');
+                  const info = {...itemData.info, ['expected_rent_price']:result};
+                  calculate();
+                  updateValue(e, info);
                 }}
             />              
             }
@@ -297,8 +311,12 @@ const DetailsList = (props) => {
                 value={expectedRentPrice.toLocaleString('ko-KR')}
                 inputProps={{ style: { textAlign: "right" } }}
                 size='small'
-                startAdornment={<StartInputAdornment></StartInputAdornment>}
+                startAdornment={<StartInputAdornmentForMonthlyRent>100,000,000원</StartInputAdornmentForMonthlyRent>}
                 endAdornment={<EndInputAdornment>원</EndInputAdornment>}
+                onChange={(e)=>{
+                  const result = Number((e.target.value).replaceAll(',','')).toLocaleString('ko-KR');
+                  setExpectedRentPrice(result);
+                }}
                 onBlur={(e)=>{
                   // const result = (e.target.value).replaceAll(',','');
                   // const info = {...itemData.info, ['expected_rent_price']:result};
@@ -336,7 +354,7 @@ const DetailsList = (props) => {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
-                  <div id="testImg" sx={{ position: "relative", top: "700px", left: "350px" }}>
+                  <div sx={{ position: "relative", top: "700px", left: "350px" }}>
                     <img ref={ref} onLoad={onLoad} src={require("../images/seoul_map.jpg")} width={isMobile ? "400" : "1000"} height={isMobile ? "500" : "700"} alt="테스트이미지" onClick={(e)=>console.log(e.clientX, e.clientY)} />
                     {
                       loaded === true ? (
@@ -575,7 +593,7 @@ const DetailsList = (props) => {
           <ImageUpload></ImageUpload>
           </Item3>
         </div>
-      </div>
+      </MyDiv>
     </MyList>
   );
 }

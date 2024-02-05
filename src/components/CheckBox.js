@@ -24,11 +24,11 @@ const CheckBoxCnt = styled.div`
     }
 
     input[type=checkbox]:checked + label {
-      color: theme.colors.colorMainFont;
+      color: white;
       background-image: none;
-      /* background: theme.colors.colorBg; */
       border: 1px solid #BD9816;
-      border-color: theme.colors.colorDarkGold;
+      border-color: #BD9816;
+      background-color: #BD9816;
       padding: 10px 13px;
       box-sizing: border-box;
       cursor: pointer;
