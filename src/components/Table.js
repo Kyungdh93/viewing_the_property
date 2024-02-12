@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 // import { styled } from '@mui/material/styles';
 import { styled } from "styled-components";
 import Table from '@mui/material/Table';
@@ -85,14 +85,14 @@ export default function CustomizedTables(props) {
   const itemData = lists[item];
   // console.log('itemData in Table.js = ', itemData);
 
-  const [expectedPrice, setExpectedPrice] = React.useState(Number(itemData.info['expected_price']));
-  const [expectedRentPrice, setExpectedRentPrice] = React.useState(Number(itemData.info['expected_rent_price']));
+  const [expectedPrice, setExpectedPrice] = useState(Number(itemData.info['expected_price']));
+  const [expectedRentPrice, setExpectedRentPrice] = useState(Number(itemData.info['expected_rent_price']));
   const mappingData = props.mappingData;
   const orderArray = props.orderArray;
   const nowYear = props.nowYear;
   const naverLandUrl = props.naverLandUrl;
 
-  const [editable, setEditable] = React.useState('');
+  const [editable, setEditable] = useState('');
 
   // console.log('rows = ', rows);
 

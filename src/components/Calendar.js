@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import isBetweenPlugin from 'dayjs/plugin/isBetween';
 import { styled } from '@mui/material/styles';
@@ -61,9 +61,8 @@ function Day(props) {
 }
 
 const WeekPicker = (props) => {
-  const [hoveredDay, setHoveredDay] = React.useState(null);
-  // const [value, setValue] = React.useState(dayjs('2022-04-17'));
-  const [value, setValue] = React.useState(dayjs(props.weekData));
+  const [hoveredDay, setHoveredDay] = useState(null);
+  const [value, setValue] = useState(dayjs(props.weekData));
   const handleChange = (newValue) => {
     setValue(newValue);
     props.setWeekData(newValue.$d);

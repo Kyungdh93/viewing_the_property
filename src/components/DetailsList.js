@@ -1,38 +1,22 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useParams } from "react-router-dom";
-import Typography from '@mui/material/Typography';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
-
 import Tooltip from '@mui/material/Tooltip';
-
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { todoUpdate, greaterSeoul, seoulCities, gyeonggidoCities } from '../store';
-import ListSubheader from '@mui/material/ListSubheader';
-import Divider from '@mui/material/Divider';
+import { todoUpdate } from '../store';
 import Paper from '@mui/material/Paper';
-
-import Box from '@mui/material/Box';
 import Textarea from '@mui/joy/Textarea';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Modal from '@mui/material/Modal';
 import { isMobile } from 'react-device-detect';
-
 import { styled } from "styled-components";
 import ImageUpload from "./ImageUpload";
-
 import CheckBox from "./CheckBox";
-import { TextField } from '@material-ui/core';
 
 const MyList = styled(List)(
   () => ({
@@ -53,7 +37,7 @@ const MyListItem = styled(ListItem)(
   () => ({
     padding: "10px",
   })
-)
+);
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
@@ -65,17 +49,23 @@ const Item = styled(Paper)(({ theme }) => ({
   width: isMobile ? "95vw" : "500px"
 }));
 
-const Item1 = styled(Item)(({ theme }) => ({
-  height: 655
-}));
+const Item1 = styled(Item)(
+  () => ({
+    height: 655
+  })
+);
 
-const Item2 = styled(Item)(({ theme }) => ({
-  height: 265,
-}));
+const Item2 = styled(Item)(
+  () => ({
+    height: 265,
+  })
+);
 
-const Item3 = styled(Item)(({ theme }) => ({
-  height: 380,
-}));
+const Item3 = styled(Item)(
+  () => ({
+    height: 380,
+  })
+);
 
 const MyOutlinedInput = styled(OutlinedInput)(
   ({ theme }) => ({
@@ -143,19 +133,6 @@ const EndInputAdornment = styled(MyInputAdornment)(
   })
 );
 
-const MyButton = styled(Button)(
-  ({ theme }) => ({
-    backgroundColor: theme.colors.colorMain,
-    color: theme.colors.colorMainFont,
-    borderColor: theme.colors.colorDarkGray,
-    borderRadius: "20px", 
-    "&:hover": {
-      background: theme.colors.colorDarkShadow,
-      borderColor: theme.colors.colorWhite,
-    }
-  })
-);
-
 const MyTextarea = styled(Textarea)(
   ({ theme }) => ({
     width: isMobile === true ? '63vw' : '300px', 
@@ -171,29 +148,14 @@ const MyTextarea = styled(Textarea)(
   })
 );
 
-const MyImage = styled('img')(
-  ({ theme }) => ({
-    width: isMobile === true ? '400px' : '1000px', 
-    height: isMobile === true ? '500px' : '700px', 
-  })
-);
-
-const MyDivider = styled(Divider)(
-  ({ theme }) => ({
-    backgroundColor: theme.colors.colorGray,
-    height: 1, 
-    margin: 1,
-  })
-);
-
 const useImageLoaded = () => {
-  const [loaded, setLoaded] = React.useState(false);
+  const [loaded, setLoaded] = useState(false);
   const ref = React.useRef();
   const onLoad = () => {
     setLoaded(true);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (ref.current && ref.current.complete) {
       onLoad()
     }
@@ -210,15 +172,12 @@ const DetailsList = (props) => {
 
   const lists = useSelector((state) => state.datas);
   const itemData = lists[item];
-//   console.log('itemData = ', itemData);
 
-  const [expectedPrice, setExpectedPrice] = React.useState(Number(itemData.info['expected_price']));
-  const [expectedRentPrice, setExpectedRentPrice] = React.useState(Number(itemData.info['expected_rent_price']));
-  const [expectedMonthlyRentPrice, setExpectedMonthlyRentPrice] = React.useState(Number(itemData.info['expected_monthly_rent_price']));
-  const [calculated, setCalculated] = React.useState(0);
-  const [openModal, setOpenModal] = React.useState(false);
-  const mappingData = props.mappingData;
-  const orderArray = props.orderArray;
+  const [expectedPrice, setExpectedPrice] = useState(Number(itemData.info['expected_price']));
+  const [expectedRentPrice, setExpectedRentPrice] = useState(Number(itemData.info['expected_rent_price']));
+  const [expectedMonthlyRentPrice, setExpectedMonthlyRentPrice] = useState(Number(itemData.info['expected_monthly_rent_price']));
+  const [calculated, setCalculated] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
   const nowYear = props.nowYear;
   const naverLandUrl = props.naverLandUrl;
 
@@ -239,7 +198,7 @@ const DetailsList = (props) => {
     handleClose();
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     calculate();
   },[]);
 
@@ -260,7 +219,6 @@ const DetailsList = (props) => {
                 inputProps={{ style: { textAlign: "right" } }}
                 size='small'
                 startAdornment={<StartInputAdornment></StartInputAdornment>}
-                // endAdornment={<InputAdornment position="end">원</InputAdornment>}
                 endAdornment={<EndInputAdornment>원</EndInputAdornment>}
                 onChange={(e)=>{
                 const result = Number((e.target.value).replaceAll(',','')).toLocaleString('ko-KR');

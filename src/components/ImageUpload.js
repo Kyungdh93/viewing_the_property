@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from "styled-components";
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -71,7 +71,7 @@ const sampleData = [
 ];
 
 export default function ImageUpload() {
-  const [itemData, setItemData] = React.useState(sampleData);
+  const [itemData, setItemData] = useState(sampleData);
 
   const handleUpload = (e) => {
     const file = e.target.files[0];

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 // import { styled } from '@mui/material/styles';
 import { styled } from "styled-components";
 import FormGroup from '@mui/material/FormGroup';
@@ -54,7 +54,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedSwitches() {
+const CustomizedSwitches = () => {
   const theme = useSelector((state) => state.theme);
   const dispatch = useDispatch();
   
@@ -72,4 +72,6 @@ export default function CustomizedSwitches() {
       />
     </FormGroup>
   );
-}
+};
+
+export default CustomizedSwitches;

@@ -1,15 +1,15 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { PieChart } from '@mui/x-charts/PieChart';
 import { isMobile } from 'react-device-detect';
 
 const RechartsExample = (props) => {
-  const [tmpData, setTmpData] = React.useState(props.dayData);
-  const [tmpReport, setReport] = React.useState('');
+  const [tmpData, setTmpData] = useState(props.dayData);
+  const [tmpReport, setReport] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     let tmpArray = [];
     let cnt = 0;
     const sampleData = props.dayData.map(day => {

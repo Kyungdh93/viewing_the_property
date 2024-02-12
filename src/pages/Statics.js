@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -58,8 +58,8 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Statics = () => {
   const lists = useSelector((state) => state.datas);
-  const [openModal, setOpenModal] = React.useState(false);
-  const [weekData, setWeekData] = React.useState(new Date());
+  const [openModal, setOpenModal] = useState(false);
+  const [weekData, setWeekData] = useState(new Date());
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);  
 

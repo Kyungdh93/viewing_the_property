@@ -1,11 +1,9 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ClearIcon from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 import { filterUpdate } from '../store';
 import { useDispatch, useSelector } from 'react-redux';

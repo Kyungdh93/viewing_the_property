@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -165,18 +165,18 @@ export default function Home() {
   let totalCount = 0;
 
   const inputRef = React.useRef(null);
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = useState(true);
   // const loading = useSelector((state) => state.loading);
   const lists = useSelector((state) => state.datas);
   const maxCount = useSelector((state) => state.maxCount);
   const filterArray = useSelector((state) => state.filterArray);
-  const [title, setTitle] = React.useState("");
-  const [searchData, setSearchData] = React.useState("");
-  const [count, setCount] = React.useState({current: 1, total: maxCount});
-  const [dataType, setType] = React.useState("list");
-  const [open_modal, setOpenModal] = React.useState(false);
-  const [open_dialog, setOpenDialog] = React.useState([false, ""]);
-  const [openFilter, setOpenFilter] = React.useState(false);
+  const [title, setTitle] = useState("");
+  const [searchData, setSearchData] = useState("");
+  const [count, setCount] = useState({current: 1, total: maxCount});
+  const [dataType, setType] = useState("list");
+  const [open_modal, setOpenModal] = useState(false);
+  const [open_dialog, setOpenDialog] = useState([false, ""]);
+  const [openFilter, setOpenFilter] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);  
 
@@ -241,7 +241,7 @@ export default function Home() {
     dispatch(filterUpdate([]));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const runFunction = Object.keys(lists).length === 0 ? getDataFromDatabase() : setLoading(false);
   },[]);
 

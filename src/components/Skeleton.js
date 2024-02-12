@@ -1,10 +1,15 @@
-import * as React from 'react';
+import React from 'react';
 import Skeleton from '@mui/material/Skeleton';
 import { styled } from "styled-components";
 
+const MyDiv = styled('div')(
+  () => ({
+    marginTop: "70px"
+  })
+);
+
 const MySkeleton = styled(Skeleton)(
-  ({ theme }) => ({
-    // backgroundColor: theme.colors.colorMain,
+  () => ({
     margin: "auto", 
     width: 290, 
     marginBottom: "5px"
@@ -34,13 +39,13 @@ const ListSkeleton = styled(MySkeleton)(
 
 export default function Variants() {
   return (
-    <div style={{ marginTop: "70px" }}>
+    <MyDiv>
       <AddSkeleton variant="rounded"></AddSkeleton>
       <SearchSkeleton variant="rounded"></SearchSkeleton>
       <ListSkeleton variant="rounded"></ListSkeleton>
       <ListSkeleton variant="rounded"></ListSkeleton>
       <ListSkeleton variant="rounded"></ListSkeleton>
       <ListSkeleton variant="rounded"></ListSkeleton>
-    </div>
+    </MyDiv>
   );
 }

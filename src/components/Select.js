@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -19,8 +19,8 @@ const MySelect = styled(Select)(
 );
 
 const BasicSelect = (props) => {
-  const [city, setCity] = React.useState('');
-  const [country, setCountry] = React.useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
 
   const handleChangeCity = (e) => {
     setCity(e.target.value);
