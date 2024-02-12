@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-// import { styled } from '@mui/material/styles';
+import React from 'react';
 import { styled } from "styled-components";
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -58,7 +57,7 @@ const CustomizedSwitches = () => {
   const theme = useSelector((state) => state.theme);
   const dispatch = useDispatch();
   
-  const test = (e) => {
+  const handleChange = (e) => {
     let result;
     result = e.target.value === 'dark' ? 'light' : 'dark';
     dispatch(changeTheme(result));
@@ -68,7 +67,7 @@ const CustomizedSwitches = () => {
     <FormGroup>
       <FormControlLabel
         control={<MaterialUISwitch sx={{ m: 1 }} value={theme} checked={theme === 'dark' ? true : false }/>}
-        onChange={test}
+        onChange={handleChange}
       />
     </FormGroup>
   );
