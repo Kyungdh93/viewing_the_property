@@ -77,7 +77,7 @@ const Statics = () => {
   
     let result = [day.toISOString().slice(0, 10)];
   
-    for (let i = 1; i < 7; i++) {
+    for (let i=1; i<7; i++) {
       day.setTime(day.getTime() + 86400000);
       result.push(day.toISOString().slice(0, 10));
     }
@@ -88,7 +88,7 @@ const Statics = () => {
   const getData = () => {
     let weekPeriod = getCurrentWeek(weekData, "total");
     // let weekPeriod = ['2024.01.09', '2024.01.10', '2024.01.11', '2024.01.12', '2024.01.13', '2024.01.14', '2024.01.28'];
-    const sampleData = weekPeriod.map(day => {
+    const resultData = weekPeriod.map(day => {
       let addressArray = [];
       for(const key in lists){
         if (lists[key]['time'].replaceAll('-', '.').includes(day)) addressArray.push(lists[key]['info']['address']);
@@ -99,11 +99,10 @@ const Statics = () => {
       })
     });
 
-    return sampleData;
+    return resultData;
   };
 
   const dayData = getData();
-  console.log('dayData = ', dayData);
   const startDay = getCurrentWeek(weekData, "start");
   const endDay = getCurrentWeek(weekData, "end");
 
