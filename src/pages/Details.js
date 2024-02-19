@@ -18,7 +18,7 @@ const MyBox = styled(Box)(
     maxWidth: isMobile ? 320 : 1000, 
     minWidth: 320, 
     margin: isMobile? "" : "auto",
-    marginTop: isMobile ? "" : "70px",
+    marginTop: isMobile ? "" : "50px",
   })
 );
 
@@ -52,7 +52,7 @@ const Details = () => {
     <MyBox>
       <Grid container spacing={3}>
        <Grid item xs></Grid>
-        <Grid item xs={isMobile ? 12 : 11}>
+        <Grid item xs={isMobile ? 12 : 12}>
           <Title title={`상세 - ${itemData.title}`}></Title>
           <DetailsList mappingData={mappingData} orderArray={orderArray} nowYear={nowYear} naverLandUrl={naverLandUrl}></DetailsList>
         </Grid>

@@ -88,7 +88,7 @@ const RechartsExample = (props) => {
             cy: 150,
           },
         ]}
-        width={isMobile ? 330 : 410}
+        width={isMobile ? 330 : 440}
         height={280}
       />
       <Report>

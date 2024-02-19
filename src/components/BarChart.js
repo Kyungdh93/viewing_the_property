@@ -46,7 +46,7 @@ const Chart = (props) => {
 
   return (
     <MainDiv>
-      <BarChart width={isMobile ? 300 : 400} height={isMobile ? 200 : 250} data={cityData} >
+      <BarChart width={isMobile ? 300 : 440} height={isMobile ? 200 : 250} data={cityData} >
         <XAxis dataKey="date" fontSize={isMobile ? "8px" : "8px"} />
         <YAxis width={isMobile ? 30 : 40} fontSize={isMobile ? "10px" : "11px"}/>
         {/* <Tooltip /> */}
