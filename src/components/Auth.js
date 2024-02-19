@@ -10,6 +10,7 @@ import { login } from '../store';
 import { useDispatch } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import { useNavigate } from 'react-router-dom';
+import Grid from '@mui/material/Grid';
 
 const MyButton = styled(Button)(
   () => ({
@@ -57,10 +58,22 @@ const Auth = () => {
   }
 
   return (
-    <div>
-      원터치 임장
-      <MyButton startIcon={<GoogleIcon/>} onClick={handleGoogleLogin}> <MyDivider orientation="vertical" /> 구글 계정 로그인</MyButton>
-      <MyButton startIcon={<AccessibilityIcon/>} onClick={handleLocalLogin}> <MyDivider orientation="vertical" /> 비회원 로그인</MyButton>
+    <div style={{ backgroundColor: "black", height: "110vh" }}>
+      <Grid container spacing={2}>
+        <Grid item xs>
+          <img src={require("../images/building.jpg")} />
+        </Grid>
+        <Grid item xs>
+          <div style={{ color: 'white', fontSize: '50px' }}>원터치 임장</div>
+          <div>
+            <MyButton startIcon={<GoogleIcon/>} onClick={handleGoogleLogin}> <MyDivider orientation="vertical" /> 구글 계정 로그인</MyButton>
+          </div>
+          <div>
+            <MyButton startIcon={<AccessibilityIcon/>} onClick={handleLocalLogin}> <MyDivider orientation="vertical" /> 비회원 로그인</MyButton>
+          </div>
+        </Grid>
+      </Grid>
+      
     </div>
   );
 }

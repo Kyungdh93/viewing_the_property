@@ -23,8 +23,8 @@ import Test from "./Test";
 
 const MyDiv = styled('div')(
   ({ theme }) => ({
-    marginTop: isMobile === true ? '20px' : '20px', 
-    textAlign: "center"
+    // marginTop: isMobile === true ? '20px' : '20px', 
+    textAlign: "center",
   })
 );
 
